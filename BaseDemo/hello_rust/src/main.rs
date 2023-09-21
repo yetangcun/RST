@@ -2,10 +2,11 @@ use std::io;
 
 fn main() {
     // println!("Hello, rust!");
-    println!("welcome, rust!");
+    println!("welcome to rust!");
 
     println!("please input:");
-    let mut guess = String::new();
+
+    let mut guess = String::new(); // mut使变量是可变变量
 
     io::stdin()
     .read_line(&mut guess)
