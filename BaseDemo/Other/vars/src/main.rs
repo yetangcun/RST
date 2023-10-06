@@ -1,5 +1,5 @@
 fn main() {
-    let varia1 = 1;   // 不可变变量
+    let _varia1 = 1;   // 不可变变量
     let mut varia = 5;  // 可变变量
     println!("you define a varia : {varia}");
 
