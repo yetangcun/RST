@@ -21,7 +21,6 @@ fn main() {
 
     let x = 6;
     println!("current x val is : {}",x);
-
     {
         let x = x+1;
         println!("current x value is : {}",x);
