@@ -26,7 +26,7 @@ fn main() {
     let str_code = "lalala";
     println!("char is {char_code}, str is {str_code}");
 
-    // 复合类型
+    // 复合类型 元组
     let _tups = (16.88, 12, 9);
     let tup_1 = _tups.0;
     let tup_2 = _tups.1;
