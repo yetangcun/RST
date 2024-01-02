@@ -9,8 +9,9 @@ fn main() {
     // 所有权 字符串类型 移动 旧变量赋值给新变量后被后一个新变量覆盖 旧变量就失效了
     let str1 = return_str();
     let _str2 = str1;
-    str_fn(_str2);  // 所有权转移
-    // println!("{}", _str2);
+    let _restr = reference_str(&_str2);
+    println!("{_str2},{_restr}");
+    str_fn(_restr);  // 所有权转移
 
     // 标量类型 以及 由标量类型组成的复合类型都不一样 赋值给新变量之后旧变量依然有效可用
     let i1 = 9;
@@ -26,4 +27,10 @@ fn return_str() -> String {
 
 fn str_fn(str:String) {
     println!("recv val: {}", str);
+}
+
+fn reference_str(str:&String) -> String {
+    let mut str1 = String::from(str);
+    str1.push_str(", my friend");
+    str1
 }
