@@ -1,0 +1,4 @@
+<navigation-bar title="掌上爆品-添加关注" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+     <view>添加关注</view>
+</scroll-view>

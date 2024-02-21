@@ -1,7 +1,7 @@
 .weui-navigation-bar {
   --weui-FG-0:rgba(0,0,0,.9);
   --height: 44px;
-  --left: 16px;
+  --left: 11px;
 }
 .weui-navigation-bar .android {
   --height: 48px;
@@ -35,10 +35,11 @@
   align-items: flex-start;
   height: 100%;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .weui-navigation-bar__btn_goback_wrapper {
-  padding: 11px 18px 11px 16px;
+  padding: 11px 16px 11px 11px;
   margin: -11px -18px -11px -16px;
 }
 
@@ -58,14 +59,13 @@
 }
 
 .weui-navigation-bar__center {
-  font-size: 17px;
+  font-size: 16px;
   text-align: center;
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   flex: 1;
   height: 100%;
 }

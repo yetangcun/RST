@@ -1,8 +1,8 @@
 <navigation-bar title="掌上爆品-趋势榜" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <view class="page_top">
    <view style="display:flex;width:100%;background-color:#1890FF;">
-      <view style="display:flex;width:50%;justify-content:center;height:41px;align-items:center;color:white;">视频趋势榜</view>
-      <view style="display:flex;width:50%;justify-content:center;height:41px;align-items:center;color:white;">商品趋势榜</view>
+      <view class="tab_nav" style="color:{{mtype==0?'#1890ff':'white'}};background-color:{{mtype==0?'white':'#1890ff'}};" id="0" bind:tap="switchNav">视频趋势榜</view>
+      <view class="tab_nav" style="color:{{mtype==1?'#1890ff':'white'}};background-color:{{mtype==1?'white':'#1890ff'}};" id="1" bind:tap="switchNav">商品趋势榜</view>
    </view>
    <scroll-view class="scrollarea" scroll-y type="list">
      <view>

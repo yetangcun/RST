@@ -33,6 +33,18 @@ Component({
         url: '../logs/logs'
       })
     },
+    swtichPG(e) {
+      const id = e.target.dataset.optp
+      let url = ''
+      switch(id) {
+        case '1': url='../childs/zb/zb'; break;
+        case '2': url='../childs/vd/vd'; break;
+        case '3': url='../childs/zbopt/zbopt'; break;
+      }
+      wx.navigateTo({
+        url: url,
+      })
+    },
     onChooseAvatar(e) {
       const { avatarUrl } = e.detail
       const { nickName } = this.data.userInfo

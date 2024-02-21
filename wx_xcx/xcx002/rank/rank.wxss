@@ -5,3 +5,14 @@
   height: 100%;
   flex-direction: column;
 }
+
+.tab_nav {
+  display:flex;
+  width:50%;
+  height:39px;
+  color:white;
+  font-size:14px;
+  align-items:center;
+  justify-content:center;
+  border-top: 1px solid #1890FF;
+}

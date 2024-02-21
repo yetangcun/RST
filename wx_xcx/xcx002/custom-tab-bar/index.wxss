@@ -12,7 +12,8 @@
 }
 
 .tab-bar-border {
-  background-color: rgba(0, 0, 0, 0.33);
+  /*background-color: rgba(0, 0, 0, 0.33);*/
+  background-color: lightgray;
   position: absolute;
   left: 0;
   top: 0;

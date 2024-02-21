@@ -1,9 +1,19 @@
 <!--index.wxml-->
 <navigation-bar title="掌上爆品-首页" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <scroll-view class="scrollarea" scroll-y type="list">
-   <view style="display:flex;flex:1;flex-direction:column;height:100%;justify-content:flex-start;align-items:center;padding:20px;">
-      <view class="modulestl">我的关注</view>
-      <view class="modulestl">视频列表</view>
+   <view style="display:flex;flex:1;height:100%;justify-content:flex-start;align-items:flex-start;padding:20px;">
+      <view class="modulestl" catch:tap="swtichPG" data-optp="1">
+          <view style="width: 41px;" catch:tap="swtichPG" data-optp="1">达人</view>
+          <view style="width: 41px;" catch:tap="swtichPG" data-optp="1">列表</view>
+      </view>
+      <view class="modulestl" catch:tap="swtichPG" data-optp="2">
+          <view style="width: 41px;" catch:tap="swtichPG" data-optp="2">视频</view>
+          <view style="width: 41px;" catch:tap="swtichPG" data-optp="2">列表</view>
+      </view>
+      <view class="modulestl" catch:tap="swtichPG" data-optp="3">
+          <view style="width: 41px;" catch:tap="swtichPG" data-optp="3">添加</view>
+          <view style="width: 41px;" catch:tap="swtichPG" data-optp="3">关注</view>
+      </view>
       <!-- <view style="display:flex;">
           <button bind:tap="getSelfDatas"> API </button>
           <button bind:tap="getUserProfile" style="margin: 0px 1px;"> 获取 </button>

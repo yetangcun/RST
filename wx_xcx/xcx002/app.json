@@ -2,7 +2,10 @@
   "pages": [
     "index/index",
     "rank/rank",
-    "mine/mine"
+    "mine/mine",
+    "childs/zb/zb",
+    "childs/vd/vd",
+    "childs/zbopt/zbopt"
   ],
   "window": {
     "navigationBarTextStyle": "black",

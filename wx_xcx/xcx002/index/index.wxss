@@ -63,6 +63,9 @@ page {
 .modulestl {
   display:flex;
   padding:20px;
-  margin:6px;color:white;
+  font-size: 16px;
+  flex-direction: column;
+  justify-content:center;
+  margin-right:16px;color:white;
   background-color:#1890ff;
 }

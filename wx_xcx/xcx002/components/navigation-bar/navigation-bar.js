@@ -48,7 +48,7 @@ Component({
     // back为true的时候，返回的页面深度
     delta: {
       type: Number,
-      value: 1
+      value: 2
     },
   },
   /**
