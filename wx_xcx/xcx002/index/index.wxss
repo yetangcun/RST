@@ -60,3 +60,9 @@ page {
 .nickname-input {
   flex: 1;
 }
+.modulestl {
+  display:flex;
+  padding:20px;
+  margin:6px;color:white;
+  background-color:#1890ff;
+}

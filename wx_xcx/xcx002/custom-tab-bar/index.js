@@ -7,7 +7,7 @@ Component({
       {
         pagePath: "/index/index",
         iconPath: "/image/icon_component.png",
-        selectedIconPath: "../image/icon_component_HL.png",
+        selectedIconPath: "/image/icon_component_HL.png",
         text: "首页"
       }, 
       {
@@ -17,9 +17,9 @@ Component({
         text: "趋势榜"
       }, 
       {
-        pagePath: "/logs/logs",
+        pagePath: "/mine/mine",
         iconPath: "/image/icon_API.png",
-        selectedIconPath: "../image/icon_API_HL.png",
+        selectedIconPath: "/image/icon_API_HL.png",
         text: "我的"
       }
     ]
