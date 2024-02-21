@@ -1,0 +1,71 @@
+<!--index.wxml-->
+<navigation-bar title="爆品及时达" back="{{false}}" color="white" background="coral"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+    <view style="display:flex;">
+          <button bind:tap="getSelfDatas"> API </button>
+          <button bind:tap="getUserProfile" style="margin: 0px 1px;"> 获取 </button>
+          <button bind:tap="sendTemplateMessage"> 发送 </button>
+      </view>
+      <view style="display:flex;flex:1;">
+          <view wx:for="{{items}}" wx:key="date" style="display:flex;justify-content:space-between;flex-direction:column;background-color:orangered;margin-bottom:6px;color:white;height:52px;">
+            <view style="display:flex;justify-content:space-between;">
+                <text>{{item.date}}</text>
+                <text>{{item.feel}}</text>
+              </view>
+              <view style="display:flex;justify-content:space-between;">
+                <text>最低:{{item.min}}</text>
+                <text>最高:{{item.max}}</text>
+              </view>
+        </view>
+      </view>
+   <!-- <view style="display:flex;flex:1;flex-direction:column;background-color:blueviolet;height:100%;">
+      <view style="display:flex;">
+          <button bind:tap="getSelfDatas"> API </button>
+          <button bind:tap="getUserProfile" style="margin: 0px 1px;"> 获取 </button>
+          <button bind:tap="sendTemplateMessage"> 发送 </button>
+      </view>
+      <view style="display:flex;flex:1;">
+          <view wx:for="{{items}}" wx:key="date" style="display:flex;justify-content:space-between;flex-direction:column;background-color:orangered;margin-bottom:6px;color:white;height:52px;">
+            <view style="display:flex;justify-content:space-between;">
+                <text>{{item.date}}</text>
+                <text>{{item.feel}}</text>
+              </view>
+              <view style="display:flex;justify-content:space-between;">
+                <text>最低:{{item.min}}</text>
+                <text>最高:{{item.max}}</text>
+              </view>
+        </view>
+      </view>
+      <view style="display:flex;justify-content:space-between;">
+          <view>首页</view>
+          <view>趋势榜</view>
+          <view>我的</view>
+      </view>
+   </view> -->
+</scroll-view>
+<!-- <scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <view class="userinfo">
+      <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
+        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        </button>
+        <view class="nickname-wrapper">
+          <text class="nickname-label">昵称</text>
+          <input type="nickname" class="nickname-input" placeholder="请输入昵称" bind:change="onInputChange" />
+        </view>
+      </block>
+      <block wx:elif="{{!hasUserInfo}}">
+        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+        <view wx:else> 请使用2.10.4及以上版本基础库 </view>
+      </block>
+      <block wx:else>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
+    </view>
+    <view class="usermotto">
+      <text class="user-motto">{{motto}}</text>
+    </view>
+  </view>
+</scroll-view> -->

@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<navigation-bar title="掌上爆品" back="{{false}}" color="white" background="coral"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+   <view style="display:flex;flex:1;flex-direction:column;height:100%;">
+      <!-- <view style="display:flex;">
+          <button bind:tap="getSelfDatas"> API </button>
+          <button bind:tap="getUserProfile" style="margin: 0px 1px;"> 获取 </button>
+          <button bind:tap="sendTemplateMessage"> 发送 </button>
+      </view>
+      <view style="display:flex;flex:1;flex-direction:column;background-color:white;">
+          <view wx:for="{{items}}" wx:key="date" 
+          style="display:flex;justify-content:space-between;flex-direction:column;background-color:orangered;margin-bottom:6px;color:white;height:52px;">
+            <view style="display:flex;justify-content:space-between;">
+                <text>{{item.date}}</text>
+                <text>{{item.feel}}</text>
+              </view>
+              <view style="display:flex;justify-content:space-between;">
+                <text>最低:{{item.min}}</text>
+                <text>最高:{{item.max}}</text>
+              </view>
+        </view>
+      </view> -->
+   </view>
+</scroll-view>
