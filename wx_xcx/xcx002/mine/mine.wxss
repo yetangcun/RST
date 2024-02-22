@@ -1,3 +1,4 @@
+@import '../resources/iconfont/iconfont.wxss';
 page {
   height: 100vh;
   display: flex;
@@ -7,10 +8,24 @@ page {
   flex: 1;
   overflow-y: hidden;
 }
-.log-item {
-  margin-top: 20rpx;
-  text-align: center;
+.unlogined {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-.log-item:last-child {
-  padding-bottom: env(safe-area-inset-bottom);
+.iconstl {
+  margin-top:2px;
+  font-size:19px;
+  color:#26b125;
+  font-weight:600;
+  margin-right:3px;
+}
+.iconstl2 {
+  margin-top:2px;
+  font-size:26px;
+  color:#1890ff;
+  font-weight:600;
 }

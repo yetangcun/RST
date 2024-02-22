@@ -1,6 +1,6 @@
 // index.js
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-
+const appObj = getApp()
 Component({
   data: {
     motto: '',
@@ -34,6 +34,12 @@ Component({
       })
     },
     swtichPG(e) {
+      if(!appObj.globalData.reqtoken) {
+        wx.switchTab({
+          url: '/mine/mine',
+        })
+        return
+      }
       const id = e.target.dataset.optp
       let url = ''
       switch(id) {

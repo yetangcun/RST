@@ -1,8 +1,14 @@
 <navigation-bar title="掌上爆品-趋势榜" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <view class="page_top">
    <view style="display:flex;width:100%;background-color:#1890FF;">
-      <view class="tab_nav" style="color:{{mtype==0?'#1890ff':'white'}};background-color:{{mtype==0?'white':'#1890ff'}};" id="0" bind:tap="switchNav">视频趋势榜</view>
-      <view class="tab_nav" style="color:{{mtype==1?'#1890ff':'white'}};background-color:{{mtype==1?'white':'#1890ff'}};" id="1" bind:tap="switchNav">商品趋势榜</view>
+      <view class="tab_nav" style="color:{{mtype==0?'#1890ff':'white'}};background-color:{{mtype==0?'white':'#1890ff'}};" bind:tap="switchNav" data-optp="0">
+          <view style="display:flex;flex:1;justify-content:center;" bind:tap="switchNav" data-optp="0">视频趋势榜</view>
+          <icon type="search" size="18" color="#1890ff" style="margin-right:6px;" bind:tap="reloadOpt" data-datap="0"></icon>
+      </view>
+      <view class="tab_nav" style="color:{{mtype==1?'#1890ff':'white'}};background-color:{{mtype==1?'white':'#1890ff'}};" bind:tap="switchNav" data-optp="1">
+          <view style="display:flex;flex:1;justify-content:center;" bind:tap="switchNav" data-optp="1">商品趋势榜</view>
+          <icon type="search" size="18" color="#1890ff" style="margin-right:6px;" bind:tap="reloadOpt" data-datap="1"></icon>
+      </view>
    </view>
    <scroll-view class="scrollarea" scroll-y type="list">
      <view>

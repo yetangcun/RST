@@ -1,7 +1,36 @@
 <!--logs.wxml-->
-<navigation-bar title="掌上爆品-我的" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
+<navigation-bar title="掌上爆品-我的" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <scroll-view class="scrollarea" scroll-y type="list">
-  <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
+  <!-- <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
     <view class="log-item">{{index + 1}}. {{log.date}}</view>
-  </block>
+  </block> -->
+  <view wx:if="{{islogined===1}}" class="logined">
+      <view style="display:flex;padding:20px 0px 20px 20px;align-items:center;border-bottom:1px solid lightgray;">
+          <image src="{{uhead}}" style="width:64px;height:64px;margin-right:10px;"></image>
+          <text style="font-size:19px;">{{uname}}</text>
+      </view>
+      <view style="display:flex;flex:1;"></view>
+  </view>
+  <view wx:else class="unlogined">
+       <view>
+           <view style="display:flex; justify-content:center;font-size:18px;color:lightgray;font-weight:600;">用户登录</view>
+           <view style="display:flex;align-items:center;border-bottom:1px solid #1890ff;margin-top: 27px;">
+               <view class="iconfont icon-usericon" style="font-size:23px;color:#1890ff;font-weight:600;margin-right:4px;"></view>
+               <view style="display:flex;">
+                  <input auto-focus bindinput="bindAccInput" placeholder="请输入登录账号" style="font-size: 15px;"/>
+               </view>
+           </view>
+           <view style="display:flex;align-items:center;border-bottom:1px solid #1890ff;margin:27px 0px;">
+               <view class="iconfont icon-offlock" style="font-size:23px;color:#1890ff;margin-right:4px;"></view>
+               <view style="display:flex;">
+                  <input bindinput="bindPwdInput" password placeholder="请输入登录密码" style="font-size: 15px;"/>
+               </view>
+           </view>
+           <button style="background-color: #1890ff; color: white; width: 227px;" bind:tap="doUserLogin">登录</button>
+       </view>
+       <view style="display:flex;align-items:center;margin-top: 32px;">
+        <view class="iconfont icon-weixin iconstl"></view>
+        <view style="color:#26b125;font-weight:600;font-size:14px;" bind:tap="doWxLogin">微信登录</view>
+       </view>
+  </view>
 </scroll-view>

@@ -14,6 +14,12 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: {},
+    reqtoken: '',
+    islogined:false,
+    openid: '',
+    appid: 'wx2381b1e44ebfa7b3',
+    secret: 'cb084353216a01924c7b34e7cf3708f7',
+    apiBaseUrl:'http://192.168.30.166:5296/'
   }
 })
