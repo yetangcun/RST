@@ -63,7 +63,8 @@ Component({
           appObj.globalData.userInfo.uname = obj.Data.name
           thisObj.setData({
             islogined: 1,
-            uname: obj.Data.name
+            uname: obj.Data.name,
+            uhead: "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132"
           })
         },
         fail (err) {
@@ -91,13 +92,36 @@ Component({
         success: (res) => {
           const code =  res.code // 得到code
           if(!code) return
-          let appid = appObj.globalData.appid
-          let secret = appObj.globalData.secret
+          // let appid = appObj.globalData.appid
+          // let secret = appObj.globalData.secret
           // console.log(appid, secret)
+          wx.request({
+            url: `${appObj.globalData.apiBaseUrl}api/ds/Wxreq/GetWxloginRes/${code}`,
+            method: 'GET',
+            success (rs) {
+              console.log(rs.data)
+              if(rs.statusCode==200  && rs.data) {
+                if(rs.data.openid) {
+                  appObj.globalData.openid = rs.data.openid
+                  appObj.globalData.reqtoken = rs.data.token
+                  thisObj.setData({
+                    islogined:1,
+                    uname:rs.data.openid
+                  })
+                }
+              }
+            },
+            fail (er) {
+              console.log(er)
+            }
+          })
+
+          /*
           wx.request({ // 根据appid、secret、code获取openid
             url: `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${code}&grant_type=authorization_code`,
             method: 'GET',
-            success(ress) { // console.log(ress)
+            success(ress) { 
+              console.log(ress)
               if(ress.data.openid) {
                 appObj.globalData.openid = ress.data.openid
                 thisObj.setData({
@@ -112,7 +136,7 @@ Component({
                 icon: 'error'
               })
             }
-          })
+          })*/
         }
       })
       // 获取微信用户信息
@@ -126,7 +150,7 @@ Component({
                 uname:appObj.globalData.userInfo.uname,
                 uhead:appObj.globalData.userInfo.uhead
               })
-           } // console.log(appObj.globalData)
+           } console.log(appObj.globalData)
         },
         fail (errs) {
           console.log(errs)

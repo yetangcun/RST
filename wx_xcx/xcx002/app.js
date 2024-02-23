@@ -15,7 +15,7 @@ App({
   },
   globalData: {
     userInfo: {},
-    reqtoken: '',
+    reqtoken: '',  // 'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token
     islogined:false,
     openid: '',
     appid: 'wx2381b1e44ebfa7b3',
