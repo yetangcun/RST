@@ -1,4 +1,11 @@
-<navigation-bar title="掌上爆品-添加关注" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
-<scroll-view class="scrollarea" scroll-y type="list">
-     <view>添加关注</view>
+<navigation-bar title="掌上爆品-添加达人" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
+<scroll-view class="scrollarea" enable-flex="true" scroll-y>
+     <view style="display:flex;flex:1;width:100%;height:100%;flex-direction:column;padding: 10px;">
+           <view style="display:flex;align-items:center;border-bottom:1px solid #1890ff;margin:27px 0px;">
+               <view style="display:flex;">
+                  <input bindinput="bindPwdInput" password placeholder="请输入达人短链接" style="font-size: 15px;"/>
+               </view>
+           </view>
+           <button style="background-color: #1890ff; color: white; width: 227px;" bind:tap="doUserLogin">提交</button>
+     </view>
 </scroll-view>

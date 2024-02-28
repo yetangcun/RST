@@ -1,6 +1,6 @@
 <navigation-bar title="掌上爆品-趋势榜" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <view class="page_top">
-   <view style="display:flex;width:100%;background-color:#1890FF;">
+   <!-- <view style="display:flex;width:100%;background-color:#1890FF;">
       <view class="tab_nav" style="color:{{mtype==0?'#1890ff':'white'}};background-color:{{mtype==0?'white':'#1890ff'}};" bind:tap="switchNav" data-optp="0">
           <view style="display:flex;flex:1;justify-content:center;" bind:tap="switchNav" data-optp="0">视频趋势榜</view>
           <icon type="search" size="18" color="#1890ff" style="margin-right:6px;" bind:tap="reloadOpt" data-datap="0"></icon>
@@ -9,9 +9,35 @@
           <view style="display:flex;flex:1;justify-content:center;" bind:tap="switchNav" data-optp="1">商品趋势榜</view>
           <icon type="search" size="18" color="#1890ff" style="margin-right:6px;" bind:tap="reloadOpt" data-datap="1"></icon>
       </view>
+   </view> -->
+   <view>
+      <van-dropdown-menu>
+        <van-dropdown-item value="{{ selRankTp }}" options="{{ ranks }}" bind:change="switchRank" />
+        <van-dropdown-item id="item2" title="{{ itemTitle }}">
+          <van-cell title="{{ choose1 }}" bind:tap="onCalDisplay" value="{{ dateRange }}" />
+          <van-cell title="{{ choose2 }}" bind:tap="onGrpDisplay" value="{{ grpid }}" />
+          <van-cell title="{{ choose3 }}" bind:tap="onOdTpDisplay" value="{{ odtp }}" />
+          <van-field value="{{ content }}"
+              placeholder="请输入查询内容|商品ID"
+              border="{{ false }}" bind:change="onChange"/>
+          <view style="padding: 5px 16px;">
+            <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
+          </view>
+        </van-dropdown-item>
+      </van-dropdown-menu>
    </view>
    <scroll-view class="scrollarea" scroll-y type="list">
      <view>
      </view>
    </scroll-view>
+   
+   <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onCalConfirm"/>
+   <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
+     <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
+     bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
+   </van-popup>
+   <van-popup show="{{ showOdtp }}" bind:close="onOdtpConfirm" position="bottom" custom-style="height:40%;">
+     <van-picker columns="{{ odtps }}" bind:change="onOdtpChange" show-toolbar="true" 
+     bind:confirm="onOdtpConfirm" bind:cancel="onOdtpConfirm" />
+   </van-popup>
 </view>

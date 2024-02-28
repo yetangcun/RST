@@ -96,7 +96,7 @@ Component({
           // let secret = appObj.globalData.secret
           // console.log(appid, secret)
           wx.request({
-            url: `${appObj.globalData.apiBaseUrl}api/ds/Wxreq/GetWxloginRes/${code}`,
+            url: `${appObj.globalData.apiBaseUrl}api/ds/Wxreq/GetWxloginRes/${code}/1`,
             method: 'GET',
             success (rs) {
               console.log(rs.data)
