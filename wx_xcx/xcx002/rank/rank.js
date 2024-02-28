@@ -92,7 +92,7 @@ Component({
   lifetimes: {
     attached ()  {
       let dte = new Date()
-      dte = dte.setDate(dte.getDate()-2)
+      dte = dte.setDate(dte.getDate()-6)
       let sdt = new Date(dte)
       let edte = new Date()
       
