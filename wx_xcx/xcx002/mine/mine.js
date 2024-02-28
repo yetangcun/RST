@@ -106,7 +106,7 @@ Component({
                   appObj.globalData.reqtoken = rs.data.token
                   thisObj.setData({
                     islogined:1,
-                    uname:rs.data.openid
+                    // uname:rs.data.openid
                   })
                 }
               }

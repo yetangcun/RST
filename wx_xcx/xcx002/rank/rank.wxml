@@ -14,7 +14,7 @@
       <van-dropdown-menu>
         <van-dropdown-item value="{{ selRankTp }}" options="{{ ranks }}" bind:change="switchRank" />
         <van-dropdown-item id="item2" title="{{ itemTitle }}">
-          <van-cell title="{{ choose1 }}" bind:tap="onCalDisplay" value="{{ dateRange }}" />
+          <van-cell title="{{ choose1 }}" bind:tap="onCalDisplay" value="{{ dtRange }}" />
           <van-cell title="{{ choose2 }}" bind:tap="onGrpDisplay" value="{{ grpid }}" />
           <van-cell title="{{ choose3 }}" bind:tap="onOdTpDisplay" value="{{ odtp }}" />
           <van-field value="{{ content }}"
@@ -30,8 +30,7 @@
      <view>
      </view>
    </scroll-view>
-   
-   <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onCalConfirm"/>
+   <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
    <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
      <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
      bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
