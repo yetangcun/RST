@@ -98,15 +98,13 @@ Component({
           wx.request({
             url: `${appObj.globalData.apiBaseUrl}api/ds/Wxreq/GetWxloginRes/${code}/1`,
             method: 'GET',
-            success (rs) {
-              console.log(rs.data)
+            success (rs) {  // console.log(rs.data)
               if(rs.statusCode==200  && rs.data) {
                 if(rs.data.openid) {
                   appObj.globalData.openid = rs.data.openid
                   appObj.globalData.reqtoken = rs.data.token
                   thisObj.setData({
-                    islogined:1,
-                    // uname:rs.data.openid
+                    islogined:1, // uname:rs.data.openid
                   })
                 }
               }

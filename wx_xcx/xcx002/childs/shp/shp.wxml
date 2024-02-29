@@ -1,0 +1,4 @@
+<navigation-bar title="掌上爆品-商品列表" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+     <view>商品列表</view>
+</scroll-view>

@@ -56,8 +56,9 @@
   display:flex;
   padding:20px;
   font-size: 16px;
+  margin-bottom: 11px;
   flex-direction: column;
   justify-content:center;
-  margin-right:16px;color:white;
+  margin-right:11px;color:white;
   background-color:#1890ff;
 }
