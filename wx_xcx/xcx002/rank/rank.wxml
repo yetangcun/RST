@@ -1,39 +1,36 @@
 <navigation-bar title="掌上爆品-趋势榜" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <view class="page_top">
-   <!-- <view style="display:flex;width:100%;background-color:#1890FF;">
-      <view class="tab_nav" style="color:{{mtype==0?'#1890ff':'white'}};background-color:{{mtype==0?'white':'#1890ff'}};" bind:tap="switchNav" data-optp="0">
-          <view style="display:flex;flex:1;justify-content:center;" bind:tap="switchNav" data-optp="0">视频趋势榜</view>
-          <icon type="search" size="18" color="#1890ff" style="margin-right:6px;" bind:tap="reloadOpt" data-datap="0"></icon>
-      </view>
-      <view class="tab_nav" style="color:{{mtype==1?'#1890ff':'white'}};background-color:{{mtype==1?'white':'#1890ff'}};" bind:tap="switchNav" data-optp="1">
-          <view style="display:flex;flex:1;justify-content:center;" bind:tap="switchNav" data-optp="1">商品趋势榜</view>
-          <icon type="search" size="18" color="#1890ff" style="margin-right:6px;" bind:tap="reloadOpt" data-datap="1"></icon>
-      </view>
-   </view> -->
-   <view>
-      <van-dropdown-menu>
+   <view style="display:flex;width:100%;">
+      <van-dropdown-menu style="width:100%;">
         <van-dropdown-item value="{{ selRankTp }}" options="{{ ranks }}" bind:change="switchRank" />
         <van-dropdown-item id="item2" title="{{ itemTitle }}">
-          <van-cell title="{{ choose1 }}" bind:tap="onCalDisplay" value="{{ dtRange }}" />
+          <van-cell wx:if="{{mtype==='1'}}" title="{{ dtTxt1 }}" bind:tap="onCalDisplay" data-tmtp="1" value="{{ dtRange1 }}" />
+          <van-cell title="{{ dtTxt2 }}" bind:tap="onCalDisplay" data-tmtp="2" value="{{ dtRange2 }}" />
           <van-cell title="{{ choose2 }}" bind:tap="onGrpDisplay" value="{{ grpid }}" />
           <van-cell title="{{ choose3 }}" bind:tap="onOdTpDisplay" value="{{ odtp }}" />
-          <van-field value="{{ content }}"
-              placeholder="请输入查询内容|商品ID"
-              border="{{ false }}" bind:change="onChange"/>
+          <van-field wx:if="{{mtype==='1'}}" value="{{ dr }}" placeholder="请输入达人昵称" border="{{ false }}"/>
+          <van-field value="{{ query }}" placeholder="请输入查询内容|商品ID" border="{{ false }}"/>
           <view style="padding: 5px 16px;">
             <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
           </view>
         </van-dropdown-item>
       </van-dropdown-menu>
    </view>
-   <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">
-     <view>
+   <view class="pviewstl">
+     <view class="singlePane" wx:for="{{vdata}}" wx:key="vid" wx:for-item="vd">
+          <view style="display:flex;">
+             <image src="{{vd.vurl}}" style="height:172px;width:128px;"></image>
+          </view>
+          <view style="display:flex; flex-direction:column;">
+             <span>{{vd.name}}</span>
+          </view>
      </view>
-   </scroll-view>
-   <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
+   </view>
+   <van-loading wx:if="{{islding}}" type="spinner" color="#1989fa" style="display:flex;width:100%;height:100%;justify-content: center;align-items: center;margin-top:270px;"/>
+   <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" data-tmcal="1" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
+   <van-calendar show="{{ showCal1 }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" data-tmcal="2" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
    <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
-     <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
-     bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
+     <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
    </van-popup>
    <van-popup show="{{ showOdtp }}" bind:close="onOdtpConfirm" position="bottom" custom-style="height:40%;">
      <van-picker columns="{{ odtps }}" bind:change="onOdtpChange" show-toolbar="true" 

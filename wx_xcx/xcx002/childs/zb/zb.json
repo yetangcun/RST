@@ -2,6 +2,9 @@
   "usingComponents": {
     "navigation-bar":"/components/navigation-bar/navigation-bar",
     "van-icon": "/miniprogram/miniprogram_npm/@vant/weapp/icon/index",
+    "van-cell": "/miniprogram/miniprogram_npm/@vant/weapp/cell/index",
+    "van-field": "/miniprogram/miniprogram_npm/@vant/weapp/field/index",
+    "van-button": "/miniprogram/miniprogram_npm/@vant/weapp/button/index",
     "van-dropdown-menu": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-menu/index",
     "van-dropdown-item": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-item/index"
   }

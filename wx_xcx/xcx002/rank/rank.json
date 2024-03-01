@@ -4,14 +4,15 @@
     "van-button": "/miniprogram/miniprogram_npm/@vant/weapp/button/index",
     "van-calendar": "/miniprogram/miniprogram_npm/@vant/weapp/calendar/index",
     "van-datetime-picker": "/miniprogram/miniprogram_npm/@vant/weapp/datetime-picker/index",
+    "van-cell": "/miniprogram/miniprogram_npm/@vant/weapp/cell/index",
     "van-field": "/miniprogram/miniprogram_npm/@vant/weapp/field/index",
     "van-picker": "/miniprogram/miniprogram_npm/@vant/weapp/picker/index",
     "van-popup": "/miniprogram/miniprogram_npm/@vant/weapp/popup/index",
-    "van-action-sheet": "/miniprogram/miniprogram_npm/@vant/weapp/action-sheet/index",
-    "van-cell": "/miniprogram/miniprogram_npm/@vant/weapp/cell/index",
     "van-icon": "/miniprogram/miniprogram_npm/@vant/weapp/icon/index",
     "van-tab": "/miniprogram/miniprogram_npm/@vant/weapp/tab/index",
+    "van-loading": "/miniprogram/miniprogram_npm/@vant/weapp/loading/index",
     "van-tabs": "/miniprogram/miniprogram_npm/@vant/weapp/tabs/index",
+    "van-action-sheet": "/miniprogram/miniprogram_npm/@vant/weapp/action-sheet/index",
     "van-dropdown-menu": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-menu/index",
     "van-dropdown-item": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-item/index"
   }

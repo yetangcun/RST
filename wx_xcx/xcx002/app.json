@@ -6,7 +6,8 @@
     "childs/zb/zb",
     "childs/vd/vd",
     "childs/shp/shp",
-    "childs/zbopt/zbopt"
+    "childs/zbopt/zbopt",
+    "childs/zbgrp/zbgrp"
   ],
   "window": {
     "navigationBarTextStyle": "black",

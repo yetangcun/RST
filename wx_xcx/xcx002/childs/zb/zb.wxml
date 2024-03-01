@@ -1,30 +1,27 @@
 <navigation-bar title="掌上爆品-达人列表" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
-<scroll-view class="scrollarea" scroll-y type="list">
-     <view  style="display: flex;flex: 1;flex-direction:column;">
-        <view style="display: flex;width: 100%;">
-           <view style="display:flex;flex:1;">
-              <van-dropdown-menu style="width: 100%;">
-                <van-dropdown-item id="item1" title="{{ filterTitle }}">
-                  <van-cell title="{{ choose1 }}" bind:tap="onCalDisplay" value="{{ dtRange }}" />
-                  <van-cell title="{{ choose2 }}" bind:tap="onGrpDisplay" value="{{ grpid }}" />
-                  <van-cell title="{{ choose3 }}" bind:tap="onOdTpDisplay" value="{{ odtp }}" />
-                  <van-field value="{{ content }}"
-                      placeholder="请输入查询内容|商品ID"
-                      border="{{ false }}" bind:change="onChange"/>
-                  <view style="padding: 5px 16px;">
-                    <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
-                  </view>
-                </van-dropdown-item>
-              </van-dropdown-menu>
-           </view>
-           <view style="display: flex; padding: 0px 18px;">
-              <van-icon name="replay" />
-           </view>
+<view  style="display:flex;flex:1;flex-direction:column;">
+    <view style="display: flex;width: 100%;">
+        <view style="display:flex;flex:1;">
+          <van-dropdown-menu style="width: 100%;">
+            <van-dropdown-item id="item1" title="{{ fltTitle }}">
+              <van-cell title="{{ grpTxt }}" bind:tap="onGrpDisplay" value="{{ grpid }}" />
+              <van-field value="{{ queryTxt }}" placeholder="抖音号|昵称" border="{{ false }}"/>
+              <view style="padding: 5px 16px;">
+                <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
+              </view>
+            </van-dropdown-item>
+          </van-dropdown-menu>
         </view>
-
-        <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">
-          <view>
-          </view>
-        </scroll-view>
-     </view>
-</scroll-view>
+        <view style="display: flex; padding: 0px 18px;">
+          <van-icon name="replay" />
+        </view>
+    </view>
+    <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">
+      <view>
+      </view>
+    </scroll-view>
+    <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
+        <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
+          bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
+    </van-popup>
+</view>

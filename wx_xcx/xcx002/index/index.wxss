@@ -59,6 +59,7 @@
   margin-bottom: 11px;
   flex-direction: column;
   justify-content:center;
-  margin-right:11px;color:white;
+  border-radius: 3px;
+  margin-right:14px;color:white;
   background-color:#1890ff;
 }

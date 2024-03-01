@@ -46,6 +46,7 @@ Component({
         case '1': url='../childs/zb/zb'; break;
         case '2': url='../childs/vd/vd'; break;
         case '3': url='../childs/shp/shp'; break;
+        case '4': url='../childs/zbgrp/zbgrp'; break;
         case '99': url='../childs/zbopt/zbopt'; break;
       }
       wx.navigateTo({
