@@ -13,6 +13,11 @@ fn main() {
     println!("{_str2},{_restr}");
     str_fn(_restr);  // 所有权转移
 
+    let mut rstr = String::from("Hi");
+    println!("{}--", rstr);
+    refer_str(&mut rstr);
+    println!("{}++", rstr);
+
     // 标量类型 以及 由标量类型组成的复合类型都不一样 赋值给新变量之后旧变量依然有效可用
     let i1 = 9;
     let _i2 = i1;
@@ -33,4 +38,8 @@ fn reference_str(str:&String) -> String {
     let mut str1 = String::from(str);
     str1.push_str(", my friend");
     str1
+}
+
+fn refer_str(str:&mut String){
+    str.push_str(", my friend");
 }
