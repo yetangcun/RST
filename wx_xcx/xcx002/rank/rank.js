@@ -99,9 +99,9 @@ Component({
       let upTm = this.data.dtRange2?this.data.dtRange2.split('-'):[]
       let dr =  this.data.dr?[this.data.dr]:[]
       let thisObj = this
-      thisObj.setData({vdata:[]})
-      thisObj.setData({shpdata:[]})
-      thisObj.setData({zbdata:[],islding:true})
+      thisObj.setData({vdata:null})
+      thisObj.setData({shpdata:null})
+      thisObj.setData({zbdata:null, islding:true})
       
       if(tp==='1') { // 视频趋势
         if(this.vdata==null) {
@@ -127,8 +127,7 @@ Component({
             },
             url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Vediochg/GetVediochgByPage',
             success (res) {
-              thisObj.setData({vdata:res.data.Datas,islding:false})
-              console.log(thisObj.data.vdata)
+               thisObj.setData({vdata:res.data.Datas,islding:false})
             },
             fail (err) {
               console.log(err)

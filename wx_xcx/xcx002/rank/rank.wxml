@@ -17,16 +17,16 @@
       </van-dropdown-menu>
    </view>
    <view class="pviewstl">
-     <view class="singlePane" wx:for="{{vdata}}" wx:key="vid" wx:for-item="vd">
-          <view style="display:flex;">
-             <image src="{{vd.vurl}}" style="height:172px;width:128px;"></image>
-          </view>
-          <view style="display:flex; flex-direction:column;">
-             <span>{{vd.name}}</span>
-          </view>
-     </view>
+        <view class="singlePane" wx:for="{{vdata}}" wx:key="vid" wx:for-item="vd">
+              <view style="display:flex;">
+                <image src="{{vd.vurl}}" style="height:172px;width:128px;"></image>
+              </view>
+              <view style="display:flex; flex-direction:column;">
+                <span>{{vd.name}}</span>
+              </view>
+        </view>
    </view>
-   <van-loading wx:if="{{islding}}" type="spinner" color="#1989fa" style="display:flex;width:100%;height:100%;justify-content: center;align-items: center;margin-top:270px;"/>
+   <van-loading wx:if="{{islding}}" type="spinner" color="#1989fa" style="display:flex;width:100%;height:100%;justify-content: center;align-items: center;"/>
    <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" data-tmcal="1" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
    <van-calendar show="{{ showCal1 }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" data-tmcal="2" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
    <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
