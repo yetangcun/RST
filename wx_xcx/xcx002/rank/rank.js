@@ -36,8 +36,8 @@ Component({
   methods: {
     onConfirm() {
       let tmp = `${this.data.dtRange1}-${this.data.dtRange2}-${this.data.grpid}-${this.data.dr}-${this.data.odtp}`
-      console.log(tmp)
       this.selectComponent('#item2').toggle();
+      this.doLoad(this.data.mtype)
     },
     onCalDisplay(e) {
       let tmtp = e.target.dataset.tmtp
@@ -86,7 +86,6 @@ Component({
     switchRank({detail}) {
       if(!detail) return
       if(detail!=this.data.mtype) this.setData({mtype:detail})
-      console.log(detail)
       this.doLoad(detail)
     },
     reloadOpt(e) {
@@ -94,7 +93,6 @@ Component({
       this.doLoad(mt)
     },
     doLoad(tp) {
-      let fd =  this.data.odtp === '总点赞'? 'dzs':'dz'
       let pubTm = this.data.dtRange1?this.data.dtRange1.split('-'):[]
       let upTm = this.data.dtRange2?this.data.dtRange2.split('-'):[]
       let dr =  this.data.dr?[this.data.dr]:[]
@@ -104,6 +102,7 @@ Component({
       thisObj.setData({zbdata:null, islding:true})
       
       if(tp==='1') { // 视频趋势
+        let fd =  this.data.odtp === '总点赞'? 'dzs':'dz'
         if(this.vdata==null) {
           wx.request({
             method: 'POST',
@@ -139,16 +138,70 @@ Component({
       }
 
       if(tp === '2') { // 商品趋势
+        let fd =  this.data.odtp === '总点赞'? 'digg':'diggc'
         if(this.shpdata==null) {
-          thisObj.setData({shpdata:[],islding:false})
+          wx.request({
+            method: 'POST',
+            data: {
+              clttype: 1,
+              PageSize: 100,
+              CurrentIndex: 1,
+              ReqParams: {
+                field: fd,
+                order: '1',
+                gid: this.data.grpid,
+                times: upTm,
+                content: this.data.query
+              }
+            },
+            header: {
+              'Content-Type':'application/json',
+              'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
+            },
+            url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Prd/GetPrdChgPage',
+            success (res) {
+               thisObj.setData({shpdata:res.data.Datas,islding:false})
+               // console.log(thisObj.data.shpdata)
+            },
+            fail (err) {
+              console.log(err)
+            }
+          })
         }
         else { }
         return
       }
       
       if(tp === '3') { // 达人趋势 
+        let fd =  this.data.odtp === '总点赞'? 'dzs':'dz'
         if(this.zbdata==null) {
-          thisObj.setData({zbdata:[],islding:false})
+          wx.request({
+            method: 'POST',
+            data: {
+              clttype: 1,
+              PageSize: 100,
+              CurrentIndex: 1,
+              ReqParams: {
+                field: fd,
+                order: '1',
+                gid: this.data.grpid,
+                uid: dr,
+                times: upTm
+              }
+            },
+            header: {
+              'Content-Type':'application/json',
+              'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
+            },
+            url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Zbchg/GetZbchgByPage',
+            success (res) {
+               // console.log(res.data.Datas)
+               thisObj.setData({zbdata:res.data.Datas,islding:false})
+            },
+            fail (err) {
+              console.log(err)
+            }
+          })
         }
         else { }
       }
@@ -163,6 +216,7 @@ Component({
         return
       }
 
+      console.log('---init---')
       let dte = new Date(); dte = dte.setDate(dte.getDate()-14)
       let sdt = new Date(dte)
       let mt = sdt.getMonth() + 1  // 发布日期起始
