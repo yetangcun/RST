@@ -21,19 +21,20 @@
               <view style="display:flex;">
                 <image src="{{vd.vurl}}" style="height:172px;width:128px;"></image>
               </view>
-              <view style="display:flex; flex-direction:column;">
-                <span style="display: flex;align-items: flex-start;color: blue;justify-content:center;font-size:16px;padding-bottom:4px;">
+              <view style="display:flex; flex-direction:column;padding:0px 1px;">
+                <span style="display: flex;align-items: flex-start;color: #1890FF;justify-content:center;font-size:16px;padding-bottom:4px;">
                 {{vd.name}}</span>
-                <view style="display: flex; justify-content: space-between;font-size: 15px; padding: 4px 1px 6px 1px; color: gray;">
+                <view style="display: flex; justify-content: space-between;font-size: 14px; padding: 4px 1px 6px 1px; color: gray;">
                    <view>点赞:
                       <span style="color:{{odtp=='新增点赞'?'gray':'coral'}}">{{vd.dzs}}</span>
                    </view>
                    <view style="color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.dz>=0?'+'+vd.dz:'-'+vd.dz}}</view>
                 </view>
-                <view style="display: flex; text-indent: 10px;font-size:14px;flex: 1; color: gray;">
+                <view style="display:flex; text-indent:10px;font-size:13px;color:gray;max-height:100px;min-height:100px;overflow-y:auto;overflow-x:hidden;">
                 {{vd.desc}}</view>
-                <view style="display: flex; color: gray; font-size:13px; align-items: center;">
-                更新于: {{vd.uptime}}</view>
+                <view style="display:flex;color:gray;font-size:13px;align-items:flex-end;flex:1;padding-bottom:1px;">
+                <span style="font-size:12px;">更新于:</span> 
+                {{vd.uptime}}</view>
               </view>
         </view>
    </view>
@@ -42,16 +43,16 @@
             <view style="display:flex;">
               <image src="{{vd.cover}}" style="height:151px;width:151px;"></image>
             </view>
-            <view style="display:flex; flex-direction:column;">
-              <span style="display: flex;align-items: flex-start;color: blue;justify-content:center;font-size:16px;padding-bottom:4px;">
+            <view style="display:flex; flex-direction:column;padding:0px 1px;">
+              <span style="display:flex;align-items:flex-start;color:#1890FF;justify-content:center;font-size:16px;padding-bottom:4px;">
               {{vd.scn}}</span>
-              <view style="display: flex; justify-content: space-between;font-size: 15px; padding: 4px 1px 6px 1px; color: gray;">
+              <view style="display: flex; justify-content: space-between;font-size: 14px; padding: 4px 1px 6px 1px; color: gray;">
                   <view>点赞:
                     <span style="color:{{odtp=='新增点赞'?'gray':'coral'}}">{{vd.digg}}</span>
                   </view>
                   <view style="color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.diggc>=0?'+'+vd.diggc:''+vd.diggc}}</view>
               </view>
-              <view style="display: flex; text-indent: 10px;font-size:14px;flex: 1; color: gray;">
+              <view style="display: flex; text-indent: 10px;font-size:13px;flex: 1; color: gray;">
               {{vd.title}}</view>
               <view title="更新时间" style="display: flex; color: gray; font-size:13px; align-items: center;">
               {{vd.intime}}</view>
@@ -63,16 +64,19 @@
             <view style="display:flex;">
               <image src="{{vd.head}}" style="height:111px;width:111px;"></image>
             </view>
-            <view style="display:flex; flex-direction:column;">
-              <span style="display: flex;align-items: flex-start;color: blue;justify-content:center;font-size:16px;padding-bottom:4px;">
+            <view style="display:flex;flex-direction:column;flex:1;padding:0px 1px;">
+              <span style="display: flex;align-items: flex-start;color:#1890ff;justify-content:center;font-size:16px;padding-bottom:4px;">
               {{vd.name}}</span>
               <view style="display:flex;justify-content:space-between;font-size:14px;padding:4px 1px 6px 1px;color:gray;">
-                  <view>点赞数: <span style="color:{{odtp=='新增点赞'?'gray':'coral'}}">{{vd.dzs}}</span></view>
-                  <view style="color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.dz>=0?'+'+vd.dz:'-'+vd.dz}}</view>
+                  <view style="display:flex;">
+                   <span style="font-size:13px;margin-right:4px;">点赞数:</span>
+                   <span style="color:{{odtp=='新增点赞'?'gray':'coral'}}">{{vd.dzs}}</span></view>
+                  <view style="display:flex;color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.dz>=0?'+'+vd.dz:'-'+vd.dz}}</view>
               </view>
               <view style="display:flex;font-size:14px;flex:1;color:gray;padding:1px 1px 6px 1px;">
-              抖音号: {{vd.account}}</view>
-              <view style="display:flex;color:gray;font-size:12px;align-items:flex-end;padding:1px 1px;justify-content:flex-end;">
+              <span style="font-size:13px;margin-right:4px;">抖音号:</span> 
+              {{vd.account}}</view>
+              <view style="display:flex;color:gray;font-size:12px;align-items:flex-end;padding:1px 1px;justify-content:flex-start;">
               {{vd.url}}</view>
             </view>
       </view>
