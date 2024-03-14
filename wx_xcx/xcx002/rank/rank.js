@@ -19,7 +19,8 @@ Component({
     showGrp: false,
     showOdtp: false,
     odtps: ['新增点赞', '总点赞'],
-    grps: ['无','分组1','分组2','分组3'],
+    grps: [],
+    grpsObj: [],
     grpid: '',        // 分组类型
     dr: '',           // 达人
     odtp: '新增点赞',  // 排序类型
@@ -66,7 +67,9 @@ Component({
       this.setData({ showGrp: true });
     },
     onGrpChange({detail}) {
-      this.setData({grpid: detail.value})
+      let vl = detail.value
+      if(vl === '无') this.setData({grpid: ''})
+      else this.setData({grpid: vl})
     },
     onGrpConfirm()  {
       this.setData({ showGrp: false });
@@ -89,8 +92,7 @@ Component({
       if(detail!=this.data.mtype) this.setData({mtype:detail})
       this.doLoad(detail)
     },
-    reloadOpt(e) {
-      // const mt = e.target.dataset.datap
+    reloadOpt(e) { // const mt = e.target.dataset.datap
       let mt = this.data.mtype
       this.doLoad(mt)
     },
@@ -105,8 +107,12 @@ Component({
         })
         return
       }
-
+      let gid = ''
       if(!this.data.dtRange1 || !this.data.dtRange2) this.initTmRange()
+      if(this.data.grpid) {
+        let obj = this.data.grpsObj.find(g=>g.lb===this.data.grpid)
+        if(obj) gid = obj.vl
+      } // console.log(this.data.grpid, gid)
 
       let pubTm = this.data.dtRange1.split('-')
       let upTm = this.data.dtRange2.split('-')
@@ -115,7 +121,6 @@ Component({
       thisObj.setData({vdata:null})
       thisObj.setData({shpdata:null})
       thisObj.setData({zbdata:null, islding:true})
-      
       if(tp==='1') { // 视频趋势
         let fd =  this.data.odtp === '总点赞'? 'dzs':'dz'
         if(this.vdata==null) {
@@ -128,7 +133,7 @@ Component({
               ReqParams: {
                 field: fd,
                 order: '1',
-                gid: this.data.grpid,
+                gid: gid,
                 uid: dr,
                 times: upTm,
                 putimes: pubTm,
@@ -139,7 +144,7 @@ Component({
               'Content-Type':'application/json',
               'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
             },
-            url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Vediochg/GetVediochgByPage',
+            url:appObj.globalData.apiBaseUrl+'api/ds/Vediochg/GetVediochgByPage',
             success (res) {
                thisObj.setData({vdata:res.data.Datas,islding:false})
             },
@@ -164,7 +169,7 @@ Component({
               ReqParams: {
                 field: fd,
                 order: '1',
-                gid: this.data.grpid,
+                gid: gid,
                 times: upTm,
                 content: this.data.query
               }
@@ -173,7 +178,7 @@ Component({
               'Content-Type':'application/json',
               'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
             },
-            url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Prd/GetPrdChgPage',
+            url:appObj.globalData.apiBaseUrl+'api/ds/Prd/GetPrdChgPage',
             success (res) {
                thisObj.setData({shpdata:res.data.Datas,islding:false})
                // console.log(thisObj.data.shpdata)
@@ -199,7 +204,7 @@ Component({
               ReqParams: {
                 field: fd,
                 order: '1',
-                gid: this.data.grpid,
+                gid: gid,
                 uid: dr,
                 times: upTm
               }
@@ -208,7 +213,7 @@ Component({
               'Content-Type':'application/json',
               'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
             },
-            url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Zbchg/GetZbchgByPage',
+            url:appObj.globalData.apiBaseUrl+'api/ds/Zbchg/GetZbchgByPage',
             success (res) { // console.log(res.data.Datas)
                thisObj.setData({zbdata:res.data.Datas,islding:false})
             },
@@ -243,6 +248,37 @@ Component({
       let minTimes = edte.getTime() - 2592000000  // 往前推一个月
       this.setData({dtRange1:`${sdate}-${edate}`,maxCal:maxTimes,minCal:minTimes})
       this.setData({dtRange2:`${sdate1}-${edate}`,maxCal:maxTimes,minCal:minTimes})
+    },
+    init() {
+      let thObj = this
+      wx.request({
+        method: 'GET',
+        url: appObj.globalData.apiBaseUrl + 'api/ds/Zbgroup/Getgroups',
+        header: {
+          'Content-Type':'application/json',
+          'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
+        },
+        success(res) {
+          if(res.data.Data) {
+            let tmp=['无']
+            let tmpObj = []
+            res.data.Data.forEach(el => {
+              tmp.push(el.label)
+              tmpObj.push({
+                lb:el.label,
+                vl:el.value
+              })
+            })
+            thObj.setData({
+              grps:tmp,
+              grpsObj:tmpObj
+            })
+          }
+        },
+        fail(err) {
+          console.log(err)
+        }
+      })
     }
   },
   lifetimes: {
@@ -253,7 +289,7 @@ Component({
         })
         return
       }
-
+      this.init()
       this.initTmRange()  // 初始化时间范围
       this.doLoad('1')    // 默认加载
     }
