@@ -34,7 +34,7 @@ Component({
       })
     },
     swtichPG(e) {
-      if(!appObj.globalData.reqtoken&&!appObj.globalData.openid) {
+      if(!appObj.globalData.reqtoken||appObj.globalData.islogined===false) {
         wx.switchTab({
           url: '/mine/mine',
         })

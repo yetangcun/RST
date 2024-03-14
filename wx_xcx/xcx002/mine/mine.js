@@ -1,6 +1,7 @@
 // logs.js
 const util = require('../utils/util.js')
 const appObj = getApp()
+import Dialog from '../miniprogram/miniprogram_npm/@vant/weapp/dialog/dialog';
 Component({
   data: {
     logs: [],
@@ -8,7 +9,13 @@ Component({
     lname: '',
     lpwd: '',
     uname: '',
-    uhead: ''
+    uhead: '',
+    drpstl: '.drpStl',
+    itmTitle: '操作',
+    drpDatas: [
+      { text: '退出', value: '2' },
+      { text: '编辑', value: '1' }
+    ]
   },
   pageLifetimes: {
     show() {
@@ -59,12 +66,14 @@ Component({
             return
           }
           let obj = res.data;
-          appObj.globalData.reqtoken = obj.Data.accessToken
+          appObj.globalData.islogined = true
           appObj.globalData.userInfo.uname = obj.Data.name
+          appObj.globalData.reqtoken = obj.Data.accessToken
           thisObj.setData({
             islogined: 1,
             uname: obj.Data.name,
-            uhead: "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132"
+            uhead: "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132",
+            lpwd:'', lname:''
           })
         },
         fail (err) {
@@ -101,6 +110,7 @@ Component({
             success (rs) {  // console.log(rs.data)
               if(rs.statusCode==200  && rs.data) {
                 if(rs.data.openid) {
+                  appObj.globalData.islogined = true
                   appObj.globalData.openid = rs.data.openid
                   appObj.globalData.reqtoken = rs.data.token
                   thisObj.setData({
@@ -158,6 +168,26 @@ Component({
           })
         }
       })
+    },
+    onDrpOpt(e) {
+      let detail = e.target.dataset.optp
+      this.setData({drpVal:detail})
+      let thObj = this
+      if(detail === '2') {
+          Dialog.confirm({
+            title: '退出提醒',
+            message: '确认退出吗?',
+          }).then(() => {
+             thObj.setData({islogined:0})
+             appObj.globalData.reqtoken = ''
+             appObj.globalData.islogined = false
+          }).catch(() => {
+             thObj.selectComponent('#itm1').toggle();
+          });
+      }
+      else if(detail === '1') {
+        this.selectComponent('#itm1').toggle();
+      }
     }
   },
   lifetimes: {

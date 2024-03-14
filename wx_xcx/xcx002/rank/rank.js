@@ -90,7 +90,8 @@ Component({
       this.doLoad(detail)
     },
     reloadOpt(e) {
-      const mt = e.target.dataset.datap
+      // const mt = e.target.dataset.datap
+      let mt = this.data.mtype
       this.doLoad(mt)
     },
     doLoad(tp) {

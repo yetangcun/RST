@@ -5,9 +5,25 @@
     <view class="log-item">{{index + 1}}. {{log.date}}</view>
   </block> -->
   <view wx:if="{{islogined===1}}" class="logined">
-      <view style="display:flex;padding:20px 0px 20px 20px;align-items:center;border-bottom:1px solid lightgray;">
-          <image src="{{uhead}}" style="width:64px;height:64px;margin-right:10px;"></image>
-          <text style="display:flex;font-size:19px;flex-wrap:wrap;">{{uname}}</text>
+      <view style="display:flex;padding:20px 0px 20px 20px;border-bottom:1px solid lightgray;align-items:center;">
+          <view style="display: flex; flex: 1;align-items:center;">
+            <image src="{{uhead}}" style="width:64px;height:64px;margin-right:10px;"></image>
+            <text style="display:flex;font-size:19px;flex-wrap:wrap;">{{uname}}</text>
+          </view>
+          <van-dropdown-menu custom-class="{{ drpstl }}"><!-- <van-dropdown-item value="{{drpVal}}" options="{{drpDatas}}" bind:change="onDrpOpt"/> -->
+            <van-dropdown-item id="itm1" title="{{itmTitle}}">
+              <view style="padding: 5px 16px;">
+                <van-button type="danger" block round bind:tap="onDrpOpt" data-optp="2">
+                  退出
+                </van-button>
+              </view>
+              <view style="padding: 5px 16px;">
+                <van-button type="danger" block round bind:tap="onDrpOpt" data-optp="1">
+                  编辑
+                </van-button>
+              </view>
+            </van-dropdown-item>
+          </van-dropdown-menu>
       </view>
       <view style="display:flex;flex:1;"></view>
   </view>
@@ -34,3 +50,4 @@
        </view>
   </view>
 </scroll-view>
+<van-dialog id="van-dialog" />

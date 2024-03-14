@@ -15,7 +15,10 @@
           </view>
         </van-dropdown-item>
       </van-dropdown-menu>
-      <view style="display:flex;align-items:center;font-size:17px;color:#1890ff;font-weight:600;justify-content:center;flex:1;">刷新</view>
+      <view bind:tap="reloadOpt"
+      style="display:flex;align-items:center;font-size:17px;color:white;font-weight:600;justify-content:center;flex:1;background-color:#1890ff;">
+        刷新
+      </view>
    </view>
    <view wx:if="{{mtype==='1'}}" class="pviewstl">
         <view class="singlePane" wx:for="{{vdata}}" wx:key="vid" wx:for-item="vd">

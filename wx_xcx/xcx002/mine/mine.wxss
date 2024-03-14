@@ -29,3 +29,16 @@ page {
   color:#1890ff;
   font-weight:600;
 }
+.drpStl {
+  display: flex;
+  max-width: 81px;
+  min-width: 81px;
+  background-color: #1890ff; 
+  box-shadow: none;
+  border: none;
+}
+.dlgstl {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
