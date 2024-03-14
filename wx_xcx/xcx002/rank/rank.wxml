@@ -1,8 +1,8 @@
 <navigation-bar title="掌上爆品-趋势榜" back="{{false}}" color="#1890FF" background="lightgray"></navigation-bar>
 <view class="page_top">
    <view style="display:flex;width:100%;">
-      <van-dropdown-menu style="width:100%;">
-        <van-dropdown-item value="{{ selRankTp }}" options="{{ ranks }}" bind:change="switchRank" />
+      <van-dropdown-menu custom-class="{{ drpstl }}">
+        <van-dropdown-item value="{{ selRankTp }}" options="{{ ranks }}" bind:change="switchRank"/>
         <van-dropdown-item id="item2" title="{{ itemTitle }}">
           <van-cell wx:if="{{mtype==='1'}}" title="{{ dtTxt1 }}" bind:tap="onCalDisplay" data-tmtp="1" value="{{ dtRange1 }}" />
           <van-cell title="{{ dtTxt2 }}" bind:tap="onCalDisplay" data-tmtp="2" value="{{ dtRange2 }}" />
@@ -15,6 +15,7 @@
           </view>
         </van-dropdown-item>
       </van-dropdown-menu>
+      <view style="display:flex;align-items:center;font-size:17px;color:#1890ff;font-weight:600;justify-content:center;flex:1;">刷新</view>
    </view>
    <view wx:if="{{mtype==='1'}}" class="pviewstl">
         <view class="singlePane" wx:for="{{vdata}}" wx:key="vid" wx:for-item="vd">
@@ -71,7 +72,7 @@
                   <view style="display:flex;">
                    <span style="font-size:13px;margin-right:4px;">点赞数:</span>
                    <span style="color:{{odtp=='新增点赞'?'gray':'coral'}}">{{vd.dzs}}</span></view>
-                  <view style="display:flex;color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.dz>=0?'+'+vd.dz:'-'+vd.dz}}</view>
+                  <view style="display:flex;color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.rdz>=0?'+'+vd.rdz:''+vd.rdz}}</view>
               </view>
               <view style="display:flex;font-size:14px;flex:1;color:gray;padding:1px 1px 6px 1px;">
               <span style="font-size:13px;margin-right:4px;">抖音号:</span> 

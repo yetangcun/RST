@@ -27,3 +27,8 @@ page {
   border-radius: 3px;
   box-shadow: 0 0 4px gray;
 }
+.drpStl {
+  display: flex;
+  min-width: 272px;
+  background-color: #1890ff; 
+}

@@ -9,6 +9,7 @@ Component({
     query: '',
     mind: '',
     maxd: '',
+    drpstl: '.drpStl',
     islding:false,
     dtTxt1: '发布日期',
     dtTxt2: '观测日期',
@@ -93,8 +94,21 @@ Component({
       this.doLoad(mt)
     },
     doLoad(tp) {
-      let pubTm = this.data.dtRange1?this.data.dtRange1.split('-'):[]
-      let upTm = this.data.dtRange2?this.data.dtRange2.split('-'):[]
+      if(!appObj.globalData.reqtoken) {
+        wx.switchTab({
+          url: '/mine/mine',
+        })
+        wx.showToast({
+          title: '请先登录',
+          icon: 'error'
+        })
+        return
+      }
+
+      if(!this.data.dtRange1 || !this.data.dtRange2) this.initTmRange()
+
+      let pubTm = this.data.dtRange1.split('-')
+      let upTm = this.data.dtRange2.split('-')
       let dr =  this.data.dr?[this.data.dr]:[]
       let thisObj = this
       thisObj.setData({vdata:null})
@@ -108,7 +122,7 @@ Component({
             method: 'POST',
             data: {
               clttype: 1,
-              PageSize: 100,
+              PageSize: 200,
               CurrentIndex: 1,
               ReqParams: {
                 field: fd,
@@ -144,7 +158,7 @@ Component({
             method: 'POST',
             data: {
               clttype: 1,
-              PageSize: 100,
+              PageSize: 200,
               CurrentIndex: 1,
               ReqParams: {
                 field: fd,
@@ -179,7 +193,7 @@ Component({
             method: 'POST',
             data: {
               clttype: 1,
-              PageSize: 100,
+              PageSize: 200,
               CurrentIndex: 1,
               ReqParams: {
                 field: fd,
@@ -194,8 +208,7 @@ Component({
               'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
             },
             url: `${appObj.globalData.apiBaseUrl}`+'api/ds/Zbchg/GetZbchgByPage',
-            success (res) {
-               // console.log(res.data.Datas)
+            success (res) { // console.log(res.data.Datas)
                thisObj.setData({zbdata:res.data.Datas,islding:false})
             },
             fail (err) {
@@ -205,6 +218,30 @@ Component({
         }
         else { }
       }
+    },
+    initTmRange() {
+      let dte = new Date(); dte = dte.setDate(dte.getDate()-28)
+      let sdt = new Date(dte)
+      let mt = sdt.getMonth() + 1  // 发布日期起始
+      let dt = sdt.getDate()
+      
+      let dte1 = new Date(); dte1 = dte1.setDate(dte1.getDate()-2)
+      let sdt1 = new Date(dte1)
+      let mt1 = sdt1.getMonth() + 1  // 观测日期起始
+      let dt1 = sdt1.getDate()
+
+      let edte = new Date()          // 发布、观测截至日期
+      let emt = edte.getMonth() + 1
+      let edt = edte.getDate()
+
+      let sdate = `${mt}.${dt}`
+      let sdate1 = `${mt1}.${dt1}`
+      let edate = `${emt}.${edt}`
+      
+      let maxTimes = edte.getTime() + 86400000    // 往后推一天 24*60*60*1000
+      let minTimes = edte.getTime() - 2592000000  // 往前推一个月
+      this.setData({dtRange1:`${sdate}-${edate}`,maxCal:maxTimes,minCal:minTimes})
+      this.setData({dtRange2:`${sdate1}-${edate}`,maxCal:maxTimes,minCal:minTimes})
     }
   },
   lifetimes: {
@@ -216,31 +253,8 @@ Component({
         return
       }
 
-      console.log('---init---')
-      let dte = new Date(); dte = dte.setDate(dte.getDate()-14)
-      let sdt = new Date(dte)
-      let mt = sdt.getMonth() + 1  // 发布日期起始
-      let dt = sdt.getDate()
-      
-      let dte1 = new Date(); dte1 = dte1.setDate(dte1.getDate()-2)
-      let sdt1 = new Date(dte1)
-      let mt1 = sdt1.getMonth() + 1  // 观测日期起始
-      let dt1 = sdt1.getDate()
-
-      let edte = new Date()
-      let emt = edte.getMonth() + 1  // 发布、观测截至日期
-      let edt = edte.getDate()
-
-      let sdate = `${mt}.${dt}`
-      let sdate1 = `${mt1}.${dt1}`
-      let edate = `${emt}.${edt}`
-      
-      let maxTimes = edte.getTime() + 86400000    // 往后推一天 24*60*60*1000
-      let minTimes = edte.getTime() - 2592000000  // 往前推一个月
-      this.setData({dtRange1:`${sdate}-${edate}`,maxCal:maxTimes,minCal:minTimes})
-      this.setData({dtRange2:`${sdate1}-${edate}`,maxCal:maxTimes,minCal:minTimes})
-
-      this.doLoad('1')  // 默认加载
+      this.initTmRange()  // 初始化时间范围
+      this.doLoad('1')    // 默认加载
     }
   },
   pageLifetimes: {
