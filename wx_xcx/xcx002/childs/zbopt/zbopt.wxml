@@ -1,11 +1,19 @@
 <navigation-bar title="掌上爆品-达人操作" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
 <scroll-view class="scrollarea" enable-flex="true" scroll-y>
      <view style="display:flex;flex:1;width:100%;height:100%;flex-direction:column;padding: 10px;">
-           <view style="display:flex;align-items:center;border-bottom:1px solid #1890ff;margin:27px 0px;">
-               <view style="display:flex;">
-                  <input bindinput="bindPwdInput" password placeholder="请输入达人短链接" style="font-size: 15px;"/>
+           <view style="display:flex;align-items:center;margin:27px 0px;flex-direction:column;">
+               <view style="display:flex;border-bottom:1px solid #1890ff;width:100%;">
+                  <van-field value="{{ zbUrl }}" placeholder="链接: https://v.douyin.com/iN3AXFGa/" bind:change="inputChg" 
+                  border="{{ false }}" title-width="2.7em" style="width:304px; font-size:12px;" clearable="{{true}}"/>
+                  <!-- <input bindinput="bindPwdInput" password placeholder="请输入达人短链接" style="font-size: 15px;"/> -->
+               </view>
+               <view style="display:flex;margin-top:27px;border-bottom:1px solid #1890ff;width:100%;">
+                <van-dropdown-menu style="width: 100%;">
+                   <van-dropdown-item value="{{ selGrp }}" options="{{ opts }}" bind:change="chgHandle" />
+                </van-dropdown-menu>
+                  <!-- <input bindinput="bindPwdInput" password placeholder="请输入达人短链接" style="font-size: 15px;"/> -->
                </view>
            </view>
-           <button style="background-color: #1890ff; color: white; width: 227px;" bind:tap="doUserLogin">提交</button>
+           <button style="background-color: #1890ff; color: white; width: 227px;" bind:tap="doAddZb">提交</button>
      </view>
 </scroll-view>

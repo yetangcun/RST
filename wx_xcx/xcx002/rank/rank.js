@@ -159,7 +159,7 @@ Component({
             url:appObj.globalData.apiBaseUrl+'api/ds/Vediochg/GetVediochgByPage',
             success (res) {
                thisObj.setData({vdata:res.data.Datas,islding:false})
-               console.log(thisObj.data.vdata)
+               // console.log(thisObj.data.vdata)
             },
             fail (err) {
               console.log(err)
