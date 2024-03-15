@@ -15,8 +15,8 @@
             </van-dropdown-item>
           </van-dropdown-menu>
         </view>
-        <view style="display: flex; padding: 0px 18px;">
-          <van-icon name="replay" />
+        <view style="display: flex; padding: 0px 16px;background-color:#1890ff;">
+          <van-icon name="replay" style="color:white; font-size: 23px;" bind:tap="reloadOpt"/>
         </view>
     </view>
     <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">

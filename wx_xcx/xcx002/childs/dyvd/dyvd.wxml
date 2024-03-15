@@ -1,0 +1,6 @@
+<navigation-bar title="掌上爆品-第三方" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
+<view  style="display:flex;flex:1;flex-direction:column;">
+    <view>
+       <web-view src="{{vdurl}}"></web-view>
+    </view>
+</view>

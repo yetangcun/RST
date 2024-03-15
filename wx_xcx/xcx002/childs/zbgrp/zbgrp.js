@@ -22,6 +22,9 @@ Component({
     },
     onGrpChange () {
 
+    },
+    reloadOpt () {
+
     }
   }
 })

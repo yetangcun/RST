@@ -10,6 +10,9 @@ Component({
     switchNav(e) {
       const mt = e.target.id
       if(mt!=this.data.mtype) this.setData({mtype:mt})
+    },
+    reloadOpt () {
+
     }
   }
 })

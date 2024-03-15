@@ -34,7 +34,8 @@
                    </view>
                    <view style="color:{{odtp=='新增点赞'?'coral':'gray'}}">{{vd.dz>=0?'+'+vd.dz:'-'+vd.dz}}</view>
                 </view>
-                <view style="display:flex; text-indent:10px;font-size:13px;color:gray;max-height:100px;min-height:100px;overflow-y:auto;overflow-x:hidden;">
+                <view 
+                style="display:flex; text-indent:10px;font-size:13px;color:gray;max-height:100px;min-height:100px;overflow-y:auto;overflow-x:hidden;">
                 {{vd.desc}}</view>
                 <view style="display:flex;color:gray;font-size:13px;align-items:flex-end;flex:1;padding-bottom:1px;">
                 <span style="font-size:12px;">更新于:</span> 

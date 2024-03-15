@@ -87,6 +87,12 @@ Component({
       date = new Date(date);
       return `${date.getMonth() + 1}.${date.getDate()}`;
     },
+    openVd(e) {   // bind:tap="openVd" data-vd="{{vd.vid+'_'+vd.secuid}}"
+      let vid = e.target.dataset.vd
+      wx.navigateTo({
+        url: `../childs/dyvd/dyvd?vd=${vid}`,
+      })
+    },
     switchRank({detail}) {
       if(!detail) return
       if(detail!=this.data.mtype) this.setData({mtype:detail})
@@ -107,6 +113,12 @@ Component({
         })
         return
       }
+
+      if(!this.data.grps) {
+        this.init()
+        return
+      }
+
       let gid = ''
       if(!this.data.dtRange1 || !this.data.dtRange2) this.initTmRange()
       if(this.data.grpid && this.data.grpid!='无') {
@@ -147,6 +159,7 @@ Component({
             url:appObj.globalData.apiBaseUrl+'api/ds/Vediochg/GetVediochgByPage',
             success (res) {
                thisObj.setData({vdata:res.data.Datas,islding:false})
+               console.log(thisObj.data.vdata)
             },
             fail (err) {
               console.log(err)
@@ -250,6 +263,7 @@ Component({
       this.setData({dtRange2:`${sdate1}-${edate}`,maxCal:maxTimes,minCal:minTimes})
     },
     init() {
+      this.initTmRange()  // 初始化时间范围
       let thObj = this
       wx.request({
         method: 'GET',
@@ -273,6 +287,9 @@ Component({
               grps:tmp,
               grpsObj:tmpObj
             })
+            let fgrp = thObj.data.grps.find(g=>g.indexOf('小仙家人们')!=-1)
+            if(fgrp) thObj.setData({grpid:fgrp})
+            thObj.doLoad('1')    // 默认加载
           }
         },
         fail(err) {
@@ -290,8 +307,6 @@ Component({
         return
       }
       this.init()
-      this.initTmRange()  // 初始化时间范围
-      this.doLoad('1')    // 默认加载
     }
   },
   pageLifetimes: {

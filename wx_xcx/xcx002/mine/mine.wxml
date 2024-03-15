@@ -5,10 +5,10 @@
     <view class="log-item">{{index + 1}}. {{log.date}}</view>
   </block> -->
   <view wx:if="{{islogined===1}}" class="logined">
-      <view style="display:flex;padding:20px 0px 20px 20px;border-bottom:1px solid lightgray;align-items:center;">
+      <view style="display:flex;padding:11px;border-bottom:1px solid lightgray;align-items:center;">
           <view style="display: flex; flex: 1;align-items:center;">
             <image src="{{uhead}}" style="width:64px;height:64px;margin-right:10px;"></image>
-            <text style="display:flex;font-size:19px;flex-wrap:wrap;">{{uname}}</text>
+            <text style="display:flex;font-size:18px;flex-wrap:wrap;">{{uname}}</text>
           </view>
           <van-dropdown-menu custom-class="{{ drpstl }}"><!-- <van-dropdown-item value="{{drpVal}}" options="{{drpDatas}}" bind:change="onDrpOpt"/> -->
             <van-dropdown-item id="itm1" title="{{itmTitle}}">
@@ -31,13 +31,15 @@
        <view>
            <view style="display:flex; justify-content:center;font-size:18px;color:lightgray;font-weight:600;">用户登录</view>
            <view style="display:flex;align-items:center;border-bottom:1px solid #1890ff;margin-top: 27px;">
-               <view class="iconfont icon-usericon" style="font-size:23px;color:#1890ff;font-weight:600;margin-right:4px;"></view>
+               <van-icon name="manager-o" style="font-size:26px;color:#1890ff;font-weight:600;margin-right:4px;" />
+               <!-- <view class="iconfont icon-usericon" style="font-size:23px;color:#1890ff;font-weight:600;margin-right:4px;"></view> -->
                <view style="display:flex;">
                   <input auto-focus bindinput="bindAccInput" placeholder="请输入登录账号" style="font-size: 15px;"/>
                </view>
            </view>
            <view style="display:flex;align-items:center;border-bottom:1px solid #1890ff;margin:27px 0px;">
-               <view class="iconfont icon-offlock" style="font-size:23px;color:#1890ff;margin-right:4px;"></view>
+               <van-icon name="shield-o" style="font-size:26px;color:#1890ff;margin-right:4px;" />
+               <!-- <view class="iconfont icon-offlock" style="font-size:23px;color:#1890ff;margin-right:4px;"></view> -->
                <view style="display:flex;">
                   <input bindinput="bindPwdInput" password placeholder="请输入登录密码" style="font-size: 15px;"/>
                </view>
@@ -45,8 +47,8 @@
            <button style="background-color: #1890ff; color: white; width: 227px;" bind:tap="doUserLogin">登录</button>
        </view>
        <view style="display:flex;align-items:center;margin-top: 32px;">
-        <view class="iconfont icon-weixin iconstl"></view>
-        <view style="color:#26b125;font-weight:600;font-size:14px;" bind:tap="doWxLogin">微信登录</view>
+        <van-icon name="chat-o" style="font-size:21px;margin-right:4px;color:#26b125;margin-top:2px;" />
+        <view style="color:#26b125;font-weight:600;font-size:15px;" bind:tap="doWxLogin">微信登录</view>
        </view>
   </view>
 </scroll-view>
