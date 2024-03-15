@@ -109,11 +109,11 @@ Component({
       }
       let gid = ''
       if(!this.data.dtRange1 || !this.data.dtRange2) this.initTmRange()
-      if(this.data.grpid) {
+      if(this.data.grpid && this.data.grpid!='无') {
         let obj = this.data.grpsObj.find(g=>g.lb===this.data.grpid)
         if(obj) gid = obj.vl
-      } // console.log(this.data.grpid, gid)
-
+      }
+      
       let pubTm = this.data.dtRange1.split('-')
       let upTm = this.data.dtRange2.split('-')
       let dr =  this.data.dr?[this.data.dr]:[]
