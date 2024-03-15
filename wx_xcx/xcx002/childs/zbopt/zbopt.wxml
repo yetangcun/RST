@@ -10,8 +10,7 @@
                <view style="display:flex;margin-top:27px;border-bottom:1px solid #1890ff;width:100%;">
                 <van-dropdown-menu style="width: 100%;">
                    <van-dropdown-item value="{{ selGrp }}" options="{{ opts }}" bind:change="chgHandle" />
-                </van-dropdown-menu>
-                  <!-- <input bindinput="bindPwdInput" password placeholder="请输入达人短链接" style="font-size: 15px;"/> -->
+                </van-dropdown-menu> <!-- <input bindinput="bindPwdInput" password placeholder="请输入达人短链接" style="font-size: 15px;"/> -->
                </view>
            </view>
            <button style="background-color: #1890ff; color: white; width: 227px;" bind:tap="doAddZb">提交</button>
