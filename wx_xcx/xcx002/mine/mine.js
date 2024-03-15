@@ -158,7 +158,7 @@ Component({
                 uname:appObj.globalData.userInfo.uname,
                 uhead:appObj.globalData.userInfo.uhead
               })
-           } console.log(appObj.globalData)
+           } // console.log(appObj.globalData)
         },
         fail (errs) {
           console.log(errs)
