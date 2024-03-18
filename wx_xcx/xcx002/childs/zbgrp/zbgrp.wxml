@@ -1,29 +1,38 @@
 <navigation-bar title="掌上爆品-达人分组" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
-<scroll-view class="scrollarea" scroll-y type="list">
-     <view  style="display:flex;flex:1;flex-direction:column;">
-        <view style="display: flex;width: 100%;">
-           <view style="display:flex;flex:1;">
-              <van-dropdown-menu style="width: 100%;">
-                <van-dropdown-item id="item1" title="{{ fltTitle }}">
-                  <van-field value="{{ query }}" placeholder="查询内容|组名称" border="{{ false }}"/>
-                  <view style="padding: 5px 16px;">
-                    <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
-                  </view>
-                </van-dropdown-item>
-              </van-dropdown-menu>
-           </view>
-           <view style="display: flex; padding: 0px 16px;background-color:#1890ff;">
-              <van-icon name="replay" style="color:white; font-size: 23px;" bind:tap="reloadOpt"/>
-           </view>
-        </view>
-
-        <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">
-          <view>
-          </view>
-        </scroll-view>
-        <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
-            <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
-              bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
-        </van-popup>
-     </view>
-</scroll-view>
+<view  style="display:flex;flex:1;flex-direction:column;overflow:hidden;">
+  <view style="display: flex;width: 100%;">
+      <view style="display:flex;flex:1;">
+        <van-dropdown-menu style="width: 100%;">
+          <van-dropdown-item id="item1" title="{{ fltTitle }}">
+            <van-field value="{{ query }}" placeholder="查询分组|分组名称" border="{{ false }}" bind:input="inputAccpt" clearable/>
+            <view style="padding: 5px 16px;">
+              <van-button type="danger" block round bind:click="onQueryConfirm" size="small">确认</van-button>
+            </view>
+          </van-dropdown-item>
+        </van-dropdown-menu>
+      </view>
+      <view style="display: flex; padding: 0px 16px;background-color:#1890ff;">
+        <van-icon name="replay" style="color:white; font-size: 23px;" bind:tap="reloadOpt"/>
+      </view>
+  </view>
+  <view style="display:flex;flex:1;overflow-y: hidden;">
+    <view style="display: flex; height: 100%; min-width:113px; max-width:113px; overflow-y: auto; overflow-x: hidden;">
+        <van-sidebar active-key="{{ actKy }}" style="display: flex; min-width: 156px;">
+            <van-sidebar-item wx:for="{{grpsObj}}"  wx:key="vl" wx:for-item="grp" title="{{grp.lb}}" 
+            custom-class="{{sldstl}}" bind:click="grpchg"/>
+        </van-sidebar>
+    </view>
+    <view style="display: flex; flex: 1; height: 100%; overflow-y: auto; overflow-x: hidden;">
+      <van-checkbox-group value="{{ selzbs }}" bind:change="onZbChange" max="{{ 9999 }}">
+        <van-checkbox wx:for="{{zbs}}" wx:key="vl" wx:for-item="zb" name="{{zb.vl}}" class="chbstl">{{zb.lb}}</van-checkbox>
+      </van-checkbox-group>
+    </view>
+  </view>
+  <view wx:if="{{showGrpOpt}}" style="display: flex;min-height: 49px; max-height: 49px;align-items:center;border-top: 1px solid #1890ff;padding:0px 6px;justify-content:center;">
+     <van-button type="info" block round bind:click="cancelROpt" size="small" class="btnstl">取消</van-button>
+     <van-button type="primary" block round bind:click="saveRopt" size="small" class="btnstl">保存</van-button>
+  </view>
+  <van-loading wx:if="{{islding}}" type="spinner" color="#1989fa" style="display:flex;width:100%;height:100%;justify-content: center;align-items: center;"/>
+  <!-- <van-popup show="{{ showGrpOpt }}" closeable position="bottom" custom-style="height:15%;" bind:close="onOptClose">
+  </van-popup> -->
+</view>
