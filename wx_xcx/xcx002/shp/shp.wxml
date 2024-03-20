@@ -5,9 +5,9 @@
           <van-dropdown-menu style="width: 100%;">
             <van-dropdown-item id="item1" title="{{ fltTitle }}">
               <van-cell title="{{ dtTxt }}" bind:tap="onDtDisplay" value="{{ dtRange }}" />
-              <van-field value="{{ query }}" placeholder="商品描述|商品ID" border="{{ false }}"/>
+              <van-field value="{{ query }}" placeholder="商品描述|商品ID" border="{{ false }}" bind:input="inputAccpt"/>
               <view style="padding: 5px 16px;">
-                 <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
+                 <van-button type="danger" block round bind:click="onShpQuery" size="small">确认</van-button>
               </view>
             </van-dropdown-item>
           </van-dropdown-menu>
@@ -16,12 +16,7 @@
           <van-icon name="replay" style="color:white; font-size: 23px;" bind:tap="reloadOpt"/>
         </view>
     </view>
-    <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">
-      <view>
-      </view>
-    </scroll-view>
-    <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
-        <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
-          bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
-    </van-popup>
+    <view>
+    </view>
+    <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onShpConfirm" bind:closed="onShpConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
 </view>

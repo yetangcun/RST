@@ -8,7 +8,7 @@ Component({
     grpid: '',
     showGrp: false,
     grps: [],
-    query: '',
+    cnt: '',
     actKy: -1,
     grps: [],   // 分组
     grpsObj: [],
@@ -86,7 +86,7 @@ Component({
         url: appObj.globalData.apiBaseUrl + 'api/ds/Zbgroup/Getgroups/'+cnt,
         header: {
           'Content-Type':'application/json',
-          'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
+          'Authorization':`Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
         },
         success(res) {
           thObj.setData({islding:false})
@@ -180,7 +180,7 @@ Component({
       
       this.setData({selzbs:[], islding:true, showGrpOpt:false, actKy:-1, grpid:''})
       this.initZb()
-      this.initGrp('')
+      this.initGrp(this.data.cnt)
     },
     onLoad() {
       this.reloadOpt()

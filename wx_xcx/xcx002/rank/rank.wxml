@@ -93,7 +93,6 @@
      <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
    </van-popup>
    <van-popup show="{{ showOdtp }}" bind:close="onOdtpConfirm" position="bottom" custom-style="height:40%;">
-     <van-picker columns="{{ odtps }}" bind:change="onOdtpChange" show-toolbar="true" 
-     bind:confirm="onOdtpConfirm" bind:cancel="onOdtpConfirm" />
+     <van-picker columns="{{ odtps }}" bind:change="onOdtpChange" show-toolbar="true" bind:confirm="onOdtpConfirm" bind:cancel="onOdtpConfirm" />
    </van-popup>
 </view>
