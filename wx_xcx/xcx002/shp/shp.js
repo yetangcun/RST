@@ -9,6 +9,7 @@ Component({
     showCal:false,
     maxCal:0,
     minCal:0,
+    islding: false,
     shpdata: []
   },
   methods: {
@@ -40,7 +41,7 @@ Component({
           content: this.data.query
         }
       }
-      console.log(dta)
+      this.setData({islding:true})
       wx.request({
         method: 'POST',
         data: dta,
@@ -50,11 +51,13 @@ Component({
         },
         url:appObj.globalData.apiBaseUrl+'api/ds/Prd/GetprdPage',
         success (res) {
-          console.log(res)
-          thObj.setData({shpdata:res.data.Datas,islding:false}) // console.log(thisObj.data.shpdata)
+          res.data.Datas.forEach(s=>{
+            s.price = (s.price/100).toFixed(1)
+          })
+           thObj.setData({shpdata:res.data.Datas,islding:false}) // console.log(thisObj.data.shpdata)
         },
         fail (err) {
-          console.log(err)
+          this.setData({islding:false})
         }
       })
     },
@@ -62,12 +65,13 @@ Component({
       this.selectComponent("#item1").toggle()
       this.reloadOpt()
     },
-    onDtDisplay (event) {
+    onDtDisplay (e) {
+      console.log(e)
       this.setData({showCal:true})
     },
-    onShpConfirm(event) {
-      if(!event.detail) return
-      const [start, end] = event.detail;
+    onShpConfirm(e) {
+      if(!e.detail) return
+      const [start, end] = e.detail;
       this.setData({
          showCal: false,
          dtRange: `${this.formatDate(start)}-${this.formatDate(end)}`,
@@ -91,7 +95,7 @@ Component({
       let edate = `${emt}.${edt}`
       
       let maxTimes = edte.getTime() + 86400000    // 往后推一天 24*60*60*1000
-      let minTimes = sdt.getTime() - 2592000000  // 往前推一个月
+      let minTimes = sdt.getTime() - 2592000000   // 往前推一个月
       this.setData({dtRange:`${sdate}-${edate}`, maxCal:maxTimes, minCal:minTimes})
     },
     onLoad () {

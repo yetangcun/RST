@@ -7,9 +7,10 @@
       "van-popup": "/miniprogram/miniprogram_npm/@vant/weapp/popup/index",
       "van-button": "/miniprogram/miniprogram_npm/@vant/weapp/button/index",
       "van-picker": "/miniprogram/miniprogram_npm/@vant/weapp/picker/index",
+      "van-loading": "/miniprogram/miniprogram_npm/@vant/weapp/loading/index",
+      "van-calendar": "/miniprogram/miniprogram_npm/@vant/weapp/calendar/index",
       "van-dropdown-menu": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-menu/index",
-      "van-dropdown-item": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-item/index",
-      "van-calendar": "/miniprogram/miniprogram_npm/@vant/weapp/calendar/index"
+      "van-dropdown-item": "/miniprogram/miniprogram_npm/@vant/weapp/dropdown-item/index"
   },
   "enablePullDownRefresh": true
 }
