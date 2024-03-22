@@ -2,7 +2,7 @@ let appObj = getApp()
 Component({
   data: {
     mtype:'0',  // 0视频趋势 1商品趋势
-    fltTitle: '筛选条件',
+    fltTitle: '筛选',
     dtTxt: '观测时间',
     query: '',
     dtRange: '',
@@ -30,7 +30,7 @@ Component({
       }
       let thObj = this
       let upTm = this.data.dtRange.split('-')
-      let fd = 'sales'
+      let fd = 'sales' // 写定为按照销量排序 
       let dta = {
         clttype: 1,
         PageSize: 100,
@@ -97,15 +97,39 @@ Component({
       let maxTimes = edte.getTime() + 86400000    // 往后推一天 24*60*60*1000
       let minTimes = sdt.getTime() - 2592000000   // 往前推一个月
       this.setData({dtRange:`${sdate}-${edate}`, maxCal:maxTimes, minCal:minTimes})
+
+      this.reloadOpt()
     },
-    onLoad () {
-      this.initTmRg()
+    inputAccpt({detail}) {
+      this.setData({query: detail})
     },
     onPullDownRefresh () { // 下拉刷新
 
     },
     onReachBottom () { // 上拉加载
 
+    }
+  },
+  lifetimes: {
+    attached ()  {
+      if(!appObj.globalData.reqtoken) {
+        wx.switchTab({
+          url: '/mine/mine',
+        })
+        return
+      }
+      this.initTmRg()
+    }
+  },
+  pageLifetimes: {
+    show() {
+      if (typeof this.getTabBar === 'function') {
+        this.getTabBar((tabBar) => {
+          tabBar.setData({
+            selected: 1
+          })
+        })
+      }
     }
   }
 })

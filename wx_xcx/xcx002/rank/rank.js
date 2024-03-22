@@ -37,7 +37,7 @@ Component({
   },
   methods: {
     onConfirm() {
-      let tmp = `${this.data.dtRange1}-${this.data.dtRange2}-${this.data.grpid}-${this.data.dr}-${this.data.odtp}`
+      // let tmp = `${this.data.dtRange1}-${this.data.dtRange2}-${this.data.grpid}-${this.data.dr}-${this.data.odtp}`
       this.selectComponent('#item2').toggle();
       this.doLoad(this.data.mtype)
     },

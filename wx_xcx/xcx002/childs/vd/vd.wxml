@@ -1,16 +1,13 @@
 <navigation-bar title="掌上爆品-视频列表" back="{{true}}" color="#1890FF" background="lightgray"></navigation-bar>
-<view  style="display:flex;flex:1;flex-direction:column;">
+<view  style="display:flex;flex:1;flex-direction:column;overflow:hidden;">
     <view style="display: flex;width: 100%;">
         <view style="display:flex;flex:1;">
           <van-dropdown-menu style="width: 100%;">
             <van-dropdown-item id="item1" title="{{ fltTitle }}">
-              <van-cell title="{{ dtTxt1 }}" bind:tap="onCalDisplay" value="{{ dtRange1 }}" />
-              <van-cell title="{{ dtTxt2 }}" bind:tap="onCalDisplay" value="{{ dtRange2 }}" />
-              <van-cell title="{{ grpTxt }}" bind:tap="onGrpDisplay" value="{{ grpid }}" />
-              <van-field value="{{ dr }}" placeholder="请输入达人昵称" border="{{ false }}"/>
-              <van-field value="{{ query }}" placeholder="视频描述|商品ID" border="{{ false }}"/>
+              <van-cell title="{{ dtTxt }}" bind:tap="onDtDisplay" value="{{ dtRange }}" />
+              <van-field value="{{ query }}" placeholder="商品描述|商品ID" border="{{ false }}" bind:input="inputAccpt"/>
               <view style="padding: 5px 16px;">
-                <van-button type="danger" block round bind:click="onConfirm" size="small">确认</van-button>
+                 <van-button type="danger" block round bind:click="onShpQuery" size="small">确认</van-button>
               </view>
             </van-dropdown-item>
           </van-dropdown-menu>
@@ -19,14 +16,30 @@
           <van-icon name="replay" style="color:white; font-size: 23px;" bind:tap="reloadOpt"/>
         </view>
     </view>
-    <scroll-view class="scrollarea" enable-flex="true" scroll-y type="list">
-      <view>
-      </view>
-    </scroll-view>
-   <van-calendar show="{{ pubCal }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
-   <van-calendar show="{{ upCal }}" type="range" position="top" bind:confirm="onCalConfirm" bind:closed="onCalConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}" />
-    <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
-        <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" 
-          bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
-    </van-popup>
+    <view style="display: flex; flex: 1; flex-direction: column;overflow-y: auto; overflow-x: hidden;">
+       <view wx:for="{{shpdata}}" wx:key="pdid" wx:for-item="shp" class="sglstl">
+           <view style="display: flex;">
+              <view style="display:flex;">
+                <image src="{{shp.cover}}" style="height:150px;width:150px;"></image>
+              </view>
+              <view style="display: flex; flex-direction: column; flex: 1;">
+                  <view class="lstl" style="color: #1890ff;justify-content: center;">{{shp.scn}}</view>
+                  <view class="lstl">
+                     销量:<span style="color: coral;margin-left: 6px;">{{shp.selled}}</span>
+                  </view>
+                  <view class="lstl">
+                     价格:<span style="color: coral;margin-left: 6px;">{{shp.price}}</span>
+                  </view>
+                  <view class="lstl" style="color:black;text-indent: 10px;">{{shp.title}}</view>
+              </view>
+           </view>
+           <view style="display: flex; justify-content: space-around; font-size: 13px; ">
+              <view class="lstl">
+              {{shp.intime}}</view>
+              <view class="lstl">{{shp.pdid}}</view>
+           </view>
+       </view>
+    </view>
+    <van-loading wx:if="{{islding}}" type="spinner" color="#1989fa" style="display:flex;width:100%;height:100%;justify-content: center;align-items: center;"/>
+    <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onShpConfirm" bind:closed="onShpConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}"/>
 </view>
