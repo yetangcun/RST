@@ -7,6 +7,7 @@
   "main": ".eslintrc.js",
   "devDependencies": {},
   "scripts": {
+    "dev": "npm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
