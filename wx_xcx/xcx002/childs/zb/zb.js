@@ -1,22 +1,18 @@
 let appObj = getApp()
 Component({
   data: {
-    mtype:'0',  // 0视频趋势 1商品趋势
-    fltTitle: '筛选条件',
-    dtTxt: '观测时间',
+    grpTxt:'分组',  // 0视频趋势 1商品趋势
+    fltTitle: '筛选',
+    grpid: '',
+    grps: [],
+    grpsObj: [],
     query: '',
-    dtRange: '',
-    showCal:false,
-    maxCal:0,
-    minCal:0,
+    grpNm: '',
     islding: false,
-    shpdata: []
+    showGrp: false,
+    zbdata: []
   },
   methods: {
-    switchNav(e) {
-      const mt = e.target.id
-      if(mt!=this.data.mtype) this.setData({mtype:mt})
-    },
     reloadOpt () {
       if(!appObj.globalData.reqtoken) {
         wx.switchTab({
@@ -29,15 +25,14 @@ Component({
         return
       }
       let thObj = this
-      let upTm = this.data.dtRange.split('-')
-      let fd = 'sales'
+      let fd = 'favorited'
       let dta = {
         clttype: 1,
         PageSize: 100,
         CurrentIndex: 1,
         ReqParams: {
           field: fd,
-          times: upTm,
+          gid:this.data.grpid,
           content: this.data.query
         }
       }
@@ -49,25 +44,26 @@ Component({
           'Content-Type':'application/json',
           'Authorization':`Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
         },
-        url:appObj.globalData.apiBaseUrl+'api/ds/Prd/GetprdPage',
+        url:appObj.globalData.apiBaseUrl+'api/ds/ZbInfo/GetZbByPage',
         success (res) {
-          res.data.Datas.forEach(s=>{
-            s.price = (s.price/100).toFixed(1)
-          })
-           thObj.setData({shpdata:res.data.Datas,islding:false}) // console.log(thisObj.data.shpdata)
+           res.data.Datas.forEach(r=>{
+             r.favorited = r.favorited.toLocaleString()
+             r.follower =  r.follower.toLocaleString()
+             r.count = r.count.toLocaleString()
+           })
+           thObj.setData({zbdata:res.data.Datas,islding:false}) // console.log(thisObj.data.zbdata)
         },
         fail (err) {
           this.setData({islding:false})
         }
       })
     },
-    onShpQuery () {
+    onZbQuery () {
       this.selectComponent("#item1").toggle()
       this.reloadOpt()
     },
     onDtDisplay (e) {
-      console.log(e)
-      this.setData({showCal:true})
+      this.setData({showGrp:true})
     },
     onShpConfirm(e) {
       if(!e.detail) return
@@ -80,6 +76,9 @@ Component({
     formatDate(date) {
       date = new Date(date);
       return `${date.getMonth() + 1}.${date.getDate()}`;
+    },
+    inputAccpt({detail}) {
+      this.setData({query:detail})
     },
     initTmRg() {
       let dte = new Date(); dte = dte.setDate(dte.getDate()-2)
@@ -99,6 +98,61 @@ Component({
 
       this.setData({dtRange:`${sdate}-${edate}`, maxCal:maxTimes, minCal:minTimes})
     },
+    init(){
+      if(!appObj.globalData.reqtoken) {
+        wx.switchTab({ url: '/mine/mine'})
+        return
+      }  // this.initTmRg()
+      let thObj = this
+      wx.request({
+        method: 'GET',
+        url: appObj.globalData.apiBaseUrl + 'api/ds/Zbgroup/Getgroups',
+        header: {
+          'Content-Type':'application/json',
+          'Authorization': `Bearer ${appObj.globalData.reqtoken}` //'Authorization':'Bearer '+wx.getStorageSync('userToken').access_token,
+        },
+        success(res) {
+          if(res.data.Data) {
+            let tmp=['无']
+            let tmpObj = []
+            res.data.Data.forEach(el => {
+              tmp.push(el.label)
+              tmpObj.push({
+                lb:el.label,
+                vl:el.value
+              })
+            })
+            thObj.setData({
+              grps:tmp,
+              grpsObj:tmpObj
+            })
+            let fgrp = thObj.data.grps.find(g=>g.indexOf('小仙家人们')!=-1)
+            if(fgrp) thObj.setData({grpid:fgrp})
+            thObj.reloadOpt()
+          }
+        },
+        fail(err) {
+          console.log(err)
+        }
+      })
+    },
+    onGrpDisplay(event) {
+      this.setData({ showGrp: true });
+    },
+    onGrpChange({detail}) {
+      let lb = detail.value   
+      let obj = this.data.grpsObj.find(g=>g.lb===lb)
+      if(!obj || lb === '无')
+        this.setData({grpid: '', grpNm:''})
+      else if(obj) {
+        this.setData({grpNm:lb})
+        this.setData({grpid: obj.vl})
+      }
+      // console.log(this.data.grpid, this.data.grpNm)
+    },
+    onGrpConfirm()  {
+      this.setData({ showGrp: false });
+    },
     onPullDownRefresh () { // 下拉刷新
     },
     onReachBottom () { // 上拉加载
@@ -112,7 +166,7 @@ Component({
         })
         return
       }
-      this.initTmRg()
+      this.init()
     }
   },
   pageLifetimes: {

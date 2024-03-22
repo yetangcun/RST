@@ -34,9 +34,8 @@
                   <view class="lstl" style="color:black;text-indent: 10px;">{{shp.title}}</view>
               </view>
            </view>
-           <view style="display: flex; justify-content: space-around; font-size: 13px; ">
-              <view class="lstl">
-              {{shp.intime}}</view>
+           <view style="display: flex; justify-content: space-between; font-size: 12px; padding:0px 3px 3px 3px;">
+              <view class="lstl">{{shp.intime}}</view>
               <view class="lstl">{{shp.pdid}}</view>
            </view>
        </view>

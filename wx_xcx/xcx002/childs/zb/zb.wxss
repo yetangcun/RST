@@ -16,6 +16,6 @@ page {
 .lstl {
   display: flex;
   font-size: 14px;
-  padding-top: 5px;
+  padding-top: 11px;
   color: gray;
 }

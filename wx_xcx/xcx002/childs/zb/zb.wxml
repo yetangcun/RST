@@ -4,10 +4,10 @@
         <view style="display:flex;flex:1;">
           <van-dropdown-menu style="width: 100%;">
             <van-dropdown-item id="item1" title="{{ fltTitle }}">
-              <van-cell title="{{ dtTxt }}" bind:tap="onDtDisplay" value="{{ dtRange }}" />
-              <van-field value="{{ query }}" placeholder="商品描述|商品ID" border="{{ false }}" bind:input="inputAccpt"/>
+              <van-cell title="{{ grpTxt }}" bind:tap="onGrpDisplay" value="{{ grpNm }}" />
+              <van-field value="{{ query }}" placeholder="达人昵称" border="{{ false }}" bind:input="inputAccpt" clearable/>
               <view style="padding: 5px 16px;">
-                 <van-button type="danger" block round bind:click="onShpQuery" size="small">确认</van-button>
+                 <van-button type="danger" block round bind:click="onZbQuery" size="small">确认</van-button>
               </view>
             </van-dropdown-item>
           </van-dropdown-menu>
@@ -17,29 +17,35 @@
         </view>
     </view>
     <view style="display: flex; flex: 1; flex-direction: column;overflow-y: auto; overflow-x: hidden;">
-       <view wx:for="{{shpdata}}" wx:key="pdid" wx:for-item="shp" class="sglstl">
+       <view wx:for="{{zbdata}}" wx:key="pdid" wx:for-item="zb" class="sglstl">
            <view style="display: flex;">
               <view style="display:flex;">
-                <image src="{{shp.cover}}" style="height:150px;width:150px;"></image>
+                <image src="{{zb.head}}" style="height:150px;width:150px;"></image>
               </view>
-              <view style="display: flex; flex-direction: column; flex: 1;">
-                  <view class="lstl" style="color: #1890ff;justify-content: center;">{{shp.scn}}</view>
+              <view style="display: flex; flex-direction: column; flex: 1; padding-left: 4px;">
+                  <view class="lstl" style="color: #1890ff;justify-content: center;">{{zb.nickname}}</view>
                   <view class="lstl">
-                     销量:<span style="color: coral;margin-left: 6px;">{{shp.selled}}</span>
+                     点赞:<span style="color: coral;margin-left: 6px;">{{zb.favorited}}</span>
                   </view>
                   <view class="lstl">
-                     价格:<span style="color: coral;margin-left: 6px;">{{shp.price}}</span>
+                     粉丝:<span style="color: coral;margin-left: 6px;">{{zb.follower}}</span>
                   </view>
-                  <view class="lstl" style="color:black;text-indent: 10px;">{{shp.title}}</view>
+                  <view class="lstl">
+                     作品:<span style="color: coral;margin-left: 6px;">{{zb.count}}</span>
+                  </view>
               </view>
            </view>
-           <view style="display: flex; justify-content: space-around; font-size: 13px; ">
-              <view class="lstl">
-              {{shp.intime}}</view>
-              <view class="lstl">{{shp.pdid}}</view>
+           <view style="display: flex; justify-content: space-between; font-size: 13px;padding:4px; color: gray;">
+              <view style="display: flex;">
+              更新于: {{zb.uptime}}</view>
+              <view style="display: flex;">
+              抖音号: {{zb.name}}</view>
            </view>
        </view>
     </view>
     <van-loading wx:if="{{islding}}" type="spinner" color="#1989fa" style="display:flex;width:100%;height:100%;justify-content: center;align-items: center;"/>
     <van-calendar show="{{ showCal }}" type="range" position="top" bind:confirm="onShpConfirm" bind:closed="onShpConfirm" min-date="{{ minCal }}" max-date="{{ maxCal }}"/>
+   <van-popup show="{{ showGrp }}" bind:close="onGrpConfirm" position="bottom" custom-style="height:40%;">
+     <van-picker columns="{{ grps }}" bind:change="onGrpChange" show-toolbar="true" bind:confirm="onGrpConfirm" bind:cancel="onGrpConfirm" />
+   </van-popup>
 </view>
