@@ -24,7 +24,6 @@ fn main() {
     println!("{i1}, {_i2}");
 }
 
-
 fn return_str() -> String {
     let str = String::from("hey");
     str
