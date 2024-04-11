@@ -59,7 +59,6 @@ fn str_refer(sr:&String) ->String {
     let nsr2 = &mut nsr;
 
     println!("{0},{1}", "nsr1", nsr2);
-    println!("{0}-{1}", "nsr1", nsr2);
 
     println!("{0}", nsr2);
     
