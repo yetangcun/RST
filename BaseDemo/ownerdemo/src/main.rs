@@ -51,7 +51,7 @@ fn str() {
     println!("{0}", _rstr)
 }
 
-fn str_refer(sr:&String) ->String {
+fn str_refer(sr:&String) -> String {
     let mut nsr = String::from(sr);
     nsr.push_str(",welcome");
 
