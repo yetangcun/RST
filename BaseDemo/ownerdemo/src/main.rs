@@ -55,13 +55,14 @@ fn str_refer(sr:&String) ->String {
     let mut nsr = String::from(sr);
     nsr.push_str(",welcome");
 
-    //let nsr1 = & nsr;
+    let nsr1 = "nsr1";
+    // let nsr1 = &nsr; // 此路不通
     let nsr2 = &mut nsr;
 
-    println!("{0},{1}", "nsr1", nsr2);
-
-    println!("{0}", nsr2);
+    println!("{0},{1}", nsr1, nsr2);
     
+    println!("{0}", nsr2);
+
     let nsr3 = &mut nsr;
     
     println!("{0}", nsr3);
