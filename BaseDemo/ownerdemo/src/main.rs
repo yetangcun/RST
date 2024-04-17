@@ -48,7 +48,7 @@ fn refer_str(str:&mut String){
 fn str() {
     let s = String::from("test 007");
     let _rstr = str_refer(&s);
-    println!("{0}", _rstr)
+    println!("{_rstr}, {s}")
 }
 
 fn str_refer(sr:&String) -> String {
