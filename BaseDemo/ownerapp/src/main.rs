@@ -1,12 +1,12 @@
 fn main() {
 
-    let mut str = String::from("Hello, world!");
+    let mut str = String::from("Hello world!");
 
     let lens = fr_wd(&str);
     
     println!("{0}", lens);
 
-    slice_fn();
+    // slice_fn();
 
     let sr = sl_fn(&str);
     
@@ -33,10 +33,11 @@ fn slice_fn () {
     // let s = String::from("hello world");
     let s = "hello world";
 
-    let s1 = &s[..6];
-    let s2 = &s[6..];
+    let s1 = &s[..5];
+    let s2 = &s[5..];
 
-    println!("{0}{1}", s1, s2);
+    println!("{0}", s1);
+    println!("{0}", s2);
 }
 
 fn sl_fn (s: &String) ->&str {
@@ -51,7 +52,6 @@ fn sl_fn (s: &String) ->&str {
 
     &s[..]
 }
-
 
 fn sl_num () {
     
