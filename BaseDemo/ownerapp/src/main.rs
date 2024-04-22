@@ -6,9 +6,9 @@ fn main() {
     
     println!("{0}", lens);
 
-    // slice_fn();
+    slice_fn();
 
-    let sr = sl_fn(&str);
+    let sr = sl_fn(&str[..]);
     
     println!("{sr}");
     
@@ -29,8 +29,7 @@ fn fr_wd(s:&String) -> usize {
     s.len()
 }
 
-fn slice_fn () {
-    // let s = String::from("hello world");
+fn slice_fn () {  // let s = String::from("hello world");
     let s = "hello world";
 
     let s1 = &s[..5];
@@ -40,7 +39,7 @@ fn slice_fn () {
     println!("{0}", s2);
 }
 
-fn sl_fn (s: &String) ->&str {
+fn sl_fn (s: &str) -> &str {
 
     let bts = s.as_bytes();
 
