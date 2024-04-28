@@ -14,6 +14,15 @@ fn main() {
         ..usr1
     };
     println!("you're from the {0}", usr2.addr);
+    
+    let name = String::from("xiaoxiao");
+    let addr = String::from("yetangcun007");
+    let usr3 = User {
+        age: 23,
+        addr,
+        name
+    };
+    println!("you're from the {0}", usr3.addr);
 }
 
 
