@@ -36,9 +36,11 @@ fn main() {
         wdth
     };
 
-    let rslt = do_areas(&rct);
-    
-    println!("The last result is: {rslt}");
+    // let rslt = do_areas(&rct);
+    //println!("The last result is: {rslt}");
+
+    let rslt1 = rct.do_areas();
+    println!("The last result is: {rslt1}");
 
     dbg!(&rct);
 }
@@ -63,4 +65,10 @@ struct User {
 struct Rectgle {
     wdth: u32,
     hight: u32
+}
+
+impl Rectgle {
+    fn do_areas(&self) -> u32 {
+        self.wdth * self.hight
+    }
 }
