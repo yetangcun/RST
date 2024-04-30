@@ -43,6 +43,20 @@ fn main() {
     println!("The last result is: {rslt1}");
 
     dbg!(&rct);
+
+    let hg = 19;
+    let wd = 19;
+    let other = Rectgle {
+        wdth:wd,
+        hight:hg
+    };
+
+    let rs1 = rct.do_cmpare(&other);
+    let rs2 = other.do_cmpare(&rct);
+    println!("the content are : {rs1},{rs2}");
+
+    let _rct = Rectgle::sqe(27, 27);
+    println!("the cnt are : {0},{1}",_rct.wdth,_rct.hight);
 }
 
 fn do_area (prms: (u32,u32)) -> u32 {
@@ -70,5 +84,16 @@ struct Rectgle {
 impl Rectgle {
     fn do_areas(&self) -> u32 {
         self.wdth * self.hight
+    }
+
+    fn do_cmpare(&self, other:&Rectgle) -> bool {
+        self.wdth>other.wdth && self.hight > other.hight
+    }
+
+    fn sqe (w:u32, h:u32) -> Self {
+        Self {
+            wdth:w,
+            hight:h
+        }
     }
 }
