@@ -43,7 +43,20 @@ fn main() {
     println!("The last result is: {rslt1}");
 
     dbg!(&rct);
-e : {0},{1}",_rct.wdth,_rct.hight);
+    
+    let hg = 19;
+    let wd = 19;
+    let other = Rectgle {
+        wdth:wd,
+        hight:hg
+    };
+
+    let rs1 = rct.do_cmpare(&other);
+    let rs2 = other.do_cmpare(&rct);
+    println!("the content are : {rs1},{rs2}");
+
+    let _rct = Rectgle::sqe(27, 27);
+    println!("{0},{1}",_rct.wdth,_rct.hight);
 }
 
 fn do_area (prms: (u32,u32)) -> u32 {
@@ -63,19 +76,6 @@ struct User {
 }
 
 #[derive(Debug)]
-    let hg = 19;
-    let wd = 19;
-    let other = Rectgle {
-        wdth:wd,
-        hight:hg
-    };
-
-    let rs1 = rct.do_cmpare(&other);
-    let rs2 = other.do_cmpare(&rct);
-    println!("the content are : {rs1},{rs2}");
-
-    let _rct = Rectgle::sqe(27, 27);
-    println!("the cnt ar
 struct Rectgle {
     wdth: u32,
     hight: u32
