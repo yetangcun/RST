@@ -1,3 +1,5 @@
+mod enums; // 引用同目录下的lib.rs模块
+
 fn main() {
     let mut usr1 = User {
         addr: String::from("yetangcun"),
@@ -57,6 +59,8 @@ fn main() {
 
     let _rct = Rectgle::sqe(27, 27);
     println!("{0},{1}",_rct.wdth,_rct.hight);
+
+    enums::enum_fn();
 }
 
 fn do_area (prms: (u32,u32)) -> u32 {
