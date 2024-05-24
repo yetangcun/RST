@@ -32,7 +32,6 @@ fn main() {
 
     let hight=16;
     let wdth = 15;
-
     let rct = Rectgle {
         hight,
         wdth
@@ -46,8 +45,7 @@ fn main() {
 
     dbg!(&rct);
     
-    let hg = 19;
-    let wd = 19;
+    let hg = 19; let wd = 19;
     let other = Rectgle {
         wdth:wd,
         hight:hg
@@ -86,15 +84,15 @@ struct Rectgle {
 }
 
 impl Rectgle {
-    fn do_areas(&self) -> u32 {
+    fn do_areas(&self) -> u32 { // 方法
         self.wdth * self.hight
     }
 
-    fn do_cmpare(&self, other:&Rectgle) -> bool {
+    fn do_cmpare(&self, other:&Rectgle) -> bool {   // 方法
         self.wdth>other.wdth && self.hight > other.hight
     }
 
-    fn sqe (w:u32, h:u32) -> Self {
+    fn sqe (w:u32, h:u32) -> Self {   // 关联函数
         Self {
             wdth:w,
             hight:h
