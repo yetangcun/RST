@@ -1,6 +1,11 @@
 mod enums; // 引用同目录下的lib.rs模块
+mod mtchs;
 
 fn main() {
+
+    let match_vl = mtchs::match_fn1(matchs::Coin::Dime);
+    println!("the match vl is {0}",match_vl);
+
     let mut usr1 = User {
         addr: String::from("yetangcun"),
         name: String::from("xiaoxiao"),
@@ -68,7 +73,6 @@ fn do_area (prms: (u32,u32)) -> u32 {
 fn do_areas (rct: &Rectgle) -> u32 {
     rct.wdth * rct.hight
 }
-
 
 // 结构体定义
 struct User {

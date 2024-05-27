@@ -1,3 +1,10 @@
+pub enum Message {
+    Quit,
+    Move {x:i32,y:i32},
+    Write(String),
+    ChgColor(i32,i32,i32),
+}
+
 pub fn enum_fn () {
     println!("---begin enum---");
     let msg = Message::Write(String::from("hello"));
@@ -14,7 +21,6 @@ pub fn enum_fn () {
     let y: Option<i32> = Some(5);
 }
 
-
 enum IpKind {
     V4,
     V6
@@ -23,13 +29,6 @@ enum IpKind {
 struct IpAddr {
     kind: IpKind,
     address: String
-}
-
-enum Message {
-    Quit,
-    Move {x:i32,y:i32},
-    Write(String),
-    ChgColor(i32,i32,i32),
 }
 
 impl Message {
