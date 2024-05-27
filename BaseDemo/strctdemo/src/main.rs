@@ -3,8 +3,24 @@ mod mtchs;
 
 fn main() {
 
-    let match_vl = mtchs::match_fn1(matchs::Coin::Dime);
+    mtchs::match_fn0();
+
+    let match_vl = mtchs::match_fn1(mtchs::Coin::Dime);
     println!("the match vl is {0}",match_vl);
+
+    let str =  String::from("ytc666");
+    let mesg = enums::Message::Write(str);
+    let mtch_v2 = mtchs::match_fn2(mesg);
+    println!("the match v2 is {0}",mtch_v2);
+
+    let mesge = Some(enums::IpAddr{
+        kind:enums::IpKind::V4,
+        address:String::from("127.0.0.1")
+    }); // let mesge = None;
+    let mtch_v3 = mtchs::match_fn3(mesge);
+    println!("the match v3 is {0}",mtch_v3);
+
+    mtchs::match_fn4();
 
     let mut usr1 = User {
         addr: String::from("yetangcun"),

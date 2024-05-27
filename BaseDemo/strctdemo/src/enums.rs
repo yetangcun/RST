@@ -1,7 +1,7 @@
 pub enum Message {
     Quit,
-    Move {x:i32,y:i32},
     Write(String),
+    Move {x:i32,y:i32},
     ChgColor(i32,i32,i32),
 }
 
@@ -21,14 +21,14 @@ pub fn enum_fn () {
     let y: Option<i32> = Some(5);
 }
 
-enum IpKind {
+pub enum IpKind {
     V4,
     V6
 }
 
-struct IpAddr {
-    kind: IpKind,
-    address: String
+pub struct IpAddr {
+    pub kind: IpKind,
+    pub address: String
 }
 
 impl Message {

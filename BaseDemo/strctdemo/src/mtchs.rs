@@ -1,4 +1,4 @@
-mod enums;
+use crate::enums;
 
 pub enum Coin {
     Penny,
@@ -7,22 +7,52 @@ pub enum Coin {
     Quarter
 }
 
+// 特殊模式匹配 _
+pub fn match_fn0() {
+    let d_roll = 9;
+    match d_roll {
+        6=>println!("six"),
+        7=>println!("seven"),
+        _=>println!("others")
+    }
+}
+
+// 通配模式 other
 pub fn match_fn1(cn:Coin) -> u8 {
     match cn {
         Coin::Penny=>1,
         Coin::Nickel=>5,
-        Coin::Dime=>10,
-        Coin::Quarter=>25
+        // Coin::Dime=>10,
+        Coin::Quarter=>25,
+        other=>100,
     }
 }
 
+// 引用其他文件定义的枚举
 pub fn match_fn2(msg:enums::Message) -> String  {
     match msg {
-        enums::Message::Quit=>println!("Quit"),
-        enums::Message::Move{x,y}=>println!("Move x:{0},y:{1}",x,y),
-        enums::Message::Write(s)=>println!("Write:{0}",s),
-        enums::Message::ChgColor(r,g,b)=>println!("ChgColor:{0},{1},{2}",r,g,b)
+        enums::Message::Quit=> String::from("Quit"),
+        enums::Message::Move{x,y}=> String::from("MOVE"),
+        enums::Message::Write(s)=> s,
+        enums::Message::ChgColor(r,g,b)=> String::from("EMPTY")
     }
+}
 
-    return "".to_string();
+// Option<T> 枚举使用
+pub fn match_fn3(msg:Option<enums::IpAddr>) -> String  {
+    match msg {
+        Some(enums::IpAddr{kind,address})=> String::from(address),
+        None=> String::from("None")
+    }
+}
+
+pub fn match_fn4() {
+    let cfg_max = Some(3u8);
+    if let Some(max) = cfg_max {
+        println!("The maximum is configured to be {}", max);
+    }
+    // match cfg_max {
+    //     Some(max) => println!("The maximum is configured to be {}", max),
+    //     _ => (),
+    // }
 }
