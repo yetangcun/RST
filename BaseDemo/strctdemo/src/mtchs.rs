@@ -1,10 +1,15 @@
 use crate::enums;
 
+pub enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
 pub enum Coin {
     Penny,
     Nickel,
     Dime,
-    Quarter
+    Quarter(UsState)
 }
 
 // 特殊模式匹配 _
@@ -21,9 +26,8 @@ pub fn match_fn0() {
 pub fn match_fn1(cn:Coin) -> u8 {
     match cn {
         Coin::Penny=>1,
-        Coin::Nickel=>5,
-        // Coin::Dime=>10,
-        Coin::Quarter=>25,
+        Coin::Nickel=>5, // Coin::Dime=>10,
+        Coin::Quarter(ustate)=>25,
         other=>100,
     }
 }
@@ -46,10 +50,13 @@ pub fn match_fn3(msg:Option<enums::IpAddr>) -> String  {
     }
 }
 
-pub fn match_fn4() {
-    let cfg_max = Some(3u8);
+pub fn match_fn4(cfg_max:Option<u8>) {
+    // let cfg_max = Some(3u8);
     if let Some(max) = cfg_max {
         println!("The maximum is configured to be {}", max);
+    }
+    else {
+        println!("The maximum is not configured");
     }
     // match cfg_max {
     //     Some(max) => println!("The maximum is configured to be {}", max),

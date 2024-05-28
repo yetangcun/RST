@@ -5,7 +5,8 @@ fn main() {
 
     mtchs::match_fn0();
 
-    let match_vl = mtchs::match_fn1(mtchs::Coin::Dime);
+    let m_coin = mtchs::Coin::Quarter(mtchs::UsState::Alabama);
+    let match_vl = mtchs::match_fn1(m_coin);
     println!("the match vl is {0}",match_vl);
 
     let str =  String::from("ytc666");
@@ -20,7 +21,7 @@ fn main() {
     let mtch_v3 = mtchs::match_fn3(mesge);
     println!("the match v3 is {0}",mtch_v3);
 
-    mtchs::match_fn4();
+    let cfg_max = Some(3u8); mtchs::match_fn4(cfg_max);
 
     let mut usr1 = User {
         addr: String::from("yetangcun"),
