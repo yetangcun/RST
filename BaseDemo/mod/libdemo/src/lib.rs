@@ -15,19 +15,22 @@ mod tests {
     pub fn it_works() {
         let result = add(2, 2);
         assert_eq!(result, 4);
+        sock::sock_fn(); 
     }
 }
 
 use crate::tcudp::sock;
 
 mod bse {
+    // use super::*;
     use super::*;
     mod tst {
         use super::*;
         // 公开方法
         pub fn test_fn() {
             println!("test_fn");
-            sock::sock_fn(); tests::it_works();
+            sock::sock_fn(); // super::super::tests::it_works();
+            tests::it_works();
         }
     }
 }
