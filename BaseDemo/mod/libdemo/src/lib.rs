@@ -1,6 +1,9 @@
-mod tcudp;
+pub mod tcudp;
 
 pub fn add(left: usize, right: usize) -> usize {
+    tcudp::sock::sock_fn();
+    tcudp::tcputil::tcp_fn();
+    tcudp::udputil::udp_fn();
     left + right
 }
 
@@ -15,13 +18,16 @@ mod tests {
     }
 }
 
+use crate::tcudp::sock::sock_fn;
+
 mod bse {
+    use super::*;
     mod tst {
         use super::*;
-
         // 公开方法
         pub fn test_fn() {
             println!("test_fn");
+            sock_fn();
         }
     }
 }
