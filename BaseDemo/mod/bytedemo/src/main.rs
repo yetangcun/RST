@@ -1,5 +1,5 @@
 use libdemo::tcudp::*;
-use bytedemo::extensions::*;
+use bytedemo::extensions::{mysqlutil,discacheutil};
 
 fn main() {
     println!("Hello, world!");
