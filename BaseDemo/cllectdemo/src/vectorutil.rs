@@ -46,7 +46,7 @@ pub fn vec_fn() {
         }
     }
 
-    let rp = rw.pop(); // 弹出最后一个加入的元素
+    let rp:Option<SpdSheetCell> = rw.pop(); // 弹出最后一个加入的元素
     match rp {
         Some(SpdSheetCell::Int(x)) => println!("the int is: {x}"),
         Some(SpdSheetCell::Float(x)) => println!("the float is: {x}"),
