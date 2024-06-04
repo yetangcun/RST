@@ -3,6 +3,8 @@ mod strutil;
 mod hashmaputil;
 
 fn main() {
-    println!("Hello, world!");
+    println!("--集合调用开始--");
     vectorutil::vec_fn();
+    strutil::str_fn();
+    println!("--集合调用结束--");
 }

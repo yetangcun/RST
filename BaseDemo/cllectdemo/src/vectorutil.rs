@@ -1,6 +1,6 @@
 pub fn vec_fn() {
     let v:Vec<i32> = Vec::new();
-    let mut vele = vec![1,2,3];
+    let mut vele = vec![1,2,3];  // vec! 宏
     vele.push(4);
 
     let thrd: &i32 = &vele[0];
