@@ -7,6 +7,9 @@ cargo new bytedemo
 # 创建库Crate
 cargo new --lib libdemo
 
+# 编译打包
+cargo build --release
+
 # 创建本地分支
 git branch rstbase 或 git checkout -b rstbase
 

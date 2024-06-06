@@ -2,8 +2,13 @@ use std::io;
 mod vectorutil;
 mod strutil;
 mod hashmaputil;
+mod cllectutil;
 
 fn main() {
+    let vecs = vec![1,2,3,4,5];
+    cllectutil::getMax(&vecs);
+    cllectutil::getMax0(&vecs);
+
     println!("--集合调用开始--");
     vectorutil::vec_fn();
     strutil::str_fn();
