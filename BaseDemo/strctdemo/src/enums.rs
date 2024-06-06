@@ -34,8 +34,12 @@ pub struct IpAddr {
 }
 
 impl Message {
-    fn call(&self) {
+    fn call(&self) { // 方法
         // method body would be defined here
         // println!("{0}",self.Write.to_string());
+    }
+
+    fn test_fn (str: &String) {  // 关联函数
+        println!("translate in params is: {str}")
     }
 }
