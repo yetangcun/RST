@@ -1,9 +1,10 @@
-// use serde::{Serialize,Deserialize};
+use serde::{Serialize,Deserialize};
 // use utoipa::ToSchema;
 // use utoipa::ToSchema;
 
 // #[derive(Schema)]
 // #[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct lginput { // 登录入参
     pub account:String,
     pub passwd:String
