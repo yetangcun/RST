@@ -15,6 +15,8 @@ pub struct userQueryInput { // 查询入参
     pub uid:i32,
     pub orgid:String
 }
+
+#[derive(Serialize, Deserialize)]
 pub struct userOptInput { // 操作入参
     pub name:String,
     pub employeeNo:String,
