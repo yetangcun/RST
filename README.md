@@ -25,3 +25,8 @@ git push origin --delete rstbase
 # 查看所有远程分支
 git branch -a 或 git branch -r
 
+
+[dependencies]
+mysql = "*"
+clickhouse_rs = "*"
+

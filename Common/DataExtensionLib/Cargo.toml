@@ -4,3 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+mysql = "25.0.1"  # mysql driver
+mongodb = "2.8.2" # mongodb driver
+clickhouse = "0.11.6" # clickhouse driver
+tiberius = "0.12.2"  # SQL Server
+tokio = { version = "1.38.0", features = ["full"] } # async runtime
+tokio-postgres = "0.7.10"  # postgres driver
