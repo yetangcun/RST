@@ -10,6 +10,7 @@ pub struct lginput { // 登录入参
     pub passwd:String
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct userQueryInput { // 查询入参
     pub name:String,
     pub uid:i32,
@@ -32,6 +33,7 @@ pub struct userOptInput { // 操作入参
     pub state:i32
 }
 
+#[derive(Serialize)]
 pub struct userQueryOutput { // 查询出参
     pub name:String,
     pub employeeNo:String,
