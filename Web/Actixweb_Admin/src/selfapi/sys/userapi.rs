@@ -13,8 +13,8 @@ pub async fn do_login(req: web::Json<lginput>) -> impl Responder {
 // #[post("/sys/user/dologin1")]
 pub async fn opt(req: web::Json<userOptInput>) -> impl Responder {
     // let rt = String::from(userbll::do_login(req_body.into_inner()).await);
-    let nm = &req.name;
-    let rt = String::from("congratulations {nm}, you've logined success!");
+    let _nm = &req.name;
+    let rt = String::from("congratulations {_nm}, you've logined success!");
     HttpResponse::Ok().body(rt) // Ok(rt)
 }
 
@@ -24,16 +24,16 @@ pub async fn get_user() -> Result<impl Responder> {
 
     let usr = userQueryOutput {
         name:String::from("xiaoxiao"),
-        employeeNo:String::from("YF00001"),
-        roleName:String::from("管理员"),
-        orgName:String::from("研究中心"),
+        employee_no:String::from("YF00001"),
+        role_name:String::from("管理员"),
+        org_name:String::from("研究中心"),
         addr:String::from("yetangcun"),
         age:1,
         phone:String::from("15111111111"),
-        addUser:String::from("SUPERADMIN"),
-        addTime:String::from("2024-06-12 10:10:10"),
-        upUser:String::from("ADMIN"),
-        upTime:String::from("2024-06-12 10:10:12"),
+        add_user:String::from("SUPERADMIN"),
+        add_time:String::from("2024-06-12 10:10:10"),
+        up_user:String::from("ADMIN"),
+        up_time:String::from("2024-06-12 10:10:12"),
         state:1
     };
 
