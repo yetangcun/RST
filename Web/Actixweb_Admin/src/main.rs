@@ -5,7 +5,7 @@ mod bll;
 mod mdl;
 mod selfapi;
 use actix_web::{get,post,web,App,HttpResponse,HttpServer,Responder};
-use selfapi::sys::userapi::{do_login,get_user,opt};
+use selfapi::sys::userapi::{do_login,get_user,opt,user_del};
 // use mdl::sysmdl::usermdl::{lginput};
 
 // use utoipa::OpenApi;
@@ -42,6 +42,7 @@ async fn main()->std::io::Result<()>{
             // .service(outputs)
             .service(do_login)
             .service(get_user)
+            .route("/sys/user/del/{id}", web::delete().to(user_del))
             // .route("/sys/user/dologin", web::post().to(do_login))
             .route("/sys/user/opt", web::post().to(opt))
             .route("/hey", web::get().to(manual_hllo))
