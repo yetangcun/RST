@@ -8,6 +8,10 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
+pub trait FrmRow: Sized {
+    fn from_row(row: mysql::Row) -> Result<Self, mysql::Error>;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
