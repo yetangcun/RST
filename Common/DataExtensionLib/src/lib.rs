@@ -3,6 +3,7 @@ mod mssqlLib;
 mod pgsqlLib;
 mod mongodbLib;
 mod clkhouseLib;
+pub mod datasqlx;   
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right

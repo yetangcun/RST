@@ -20,13 +20,12 @@ pub async fn opt(req: web::Json<userOptInput>) -> impl Responder {
 }
 
 // #[delete("/sys/user/del/{id}")]
-pub async fn user_del(item_id: web::Path<i32>) -> impl Responder{
-    let sql = format!("delete from sys_user where Id={}",item_id);
+pub async fn user_del(id: web::Path<i32>) -> impl Responder{
+    let sql = format!("delete from sys_user where Id={}",id);
     let rs = mysqlLib::opt(&sql);
     if rs {
         return HttpResponse::Ok().body("删除成功");
     }
-       
     HttpResponse::Ok().body("删除失败") // Ok(rt)
     // HttpResponse::Ok().body(rs)
 }
