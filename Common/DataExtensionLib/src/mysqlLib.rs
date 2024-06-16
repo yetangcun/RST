@@ -2,7 +2,8 @@
 use mysql::{prelude::*, Pool, PooledConn};
 use crate::FrmRow;
 
-const conn_str:&str = "mysql://root:99999999@localhost:3306/dsweb";
+// 99999999
+const conn_str:&str = "mysql://root:xiaoxiaojun@localhost:3306/blackweb";
 
 fn get_conn() -> PooledConn {
     let pool = Pool::new(conn_str).unwrap();
