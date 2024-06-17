@@ -39,8 +39,8 @@ pub struct userOptSimplInput { // 操作入参
     pub id:i32,
     pub account:String,
     pub passwd:String,
-    pub status:String,
-    pub isdeleted:String,
+    pub status:i32,
+    pub isdeleted:i32,
     pub createtime:String,
     pub createuserid:i32
 }
