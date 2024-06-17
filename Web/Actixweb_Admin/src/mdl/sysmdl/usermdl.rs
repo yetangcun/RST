@@ -34,6 +34,17 @@ pub struct userOptInput { // 操作入参
     pub state:i32
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct userOptSimplInput { // 操作入参
+    pub id:i32,
+    pub account:String,
+    pub passwd:String,
+    pub status:String,
+    pub isdeleted:String,
+    pub createtime:String,
+    pub createuserid:i32
+}
+
 #[derive(Serialize)]
 pub struct userQueryOutput { // 查询出参
     pub name:String,
