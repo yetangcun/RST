@@ -62,12 +62,12 @@ pub async fn user_update(req: web::Json<userOptSimplInput>) -> Result<impl Respo
     };
 
     // HttpResponse::Ok().body(msg) 
-    let rsmdl = resmdl {
+    let rsml = rsmdl {
         msg: msg,
         succ: true
     };
 
-    Ok(web::Json(rsmdl))
+    Ok(web::Json(rsml))
 }
 
 #[get("/sys/user/getuser")]
