@@ -4,6 +4,7 @@ mod pgsqlLib;
 mod mongodbLib;
 mod clkhouseLib;
 pub mod datasqlx;   
+use sqlx::sqlite::{SqliteRow};
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
@@ -12,6 +13,9 @@ pub fn add(left: usize, right: usize) -> usize {
 pub trait FrmRow: Sized {
     fn from_row(row: mysql::Row) -> Result<Self, mysql::Error>;
 }
+
+pub trait SqliteRw: for<'r> sqlx::FromRow<'r, SqliteRow> {}
+impl<T> SqliteRw for T where T: for<'r> sqlx::FromRow<'r, SqliteRow> {}
 
 #[cfg(test)]
 mod tests {

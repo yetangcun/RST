@@ -26,7 +26,6 @@ pub fn do_del(sql:&str) {
     conn.exec_drop("delete from sys_user where Account=?", ("admin",)).unwrap();
 }
 
-
 pub fn do_query() -> Vec<(i32,String,String)> {
     let mut conn = get_conn();
     let rs:Vec<(i32,String,String)> = 
@@ -38,6 +37,7 @@ pub fn do_query() -> Vec<(i32,String,String)> {
 }
 
 pub fn query<T:FrmRow>(sql:&str) -> Vec<T> {
+    
     let mut conn = get_conn();
     let mut reslts = Vec::new();
 

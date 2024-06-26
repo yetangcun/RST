@@ -2,7 +2,7 @@ use crate::mdl::sysmdl::usermdl::{lginput,userQueryInput,userOptInput,userQueryO
 use crate::mdl::sysmdl::rsmdl;
 use crate::bll::sysbll::userbll;
 use actix_web::{get,post,web,App,Result, HttpResponse,HttpServer,Responder};
-use DataExtensionLib::{mysqlLib};
+use DataExtensionLib::{mysqlLib, datasqlx};
 use chrono::{Local, DateTime};
 
 #[post("/sys/user/dologin")]
@@ -94,4 +94,20 @@ pub async fn get_user() -> Result<impl Responder> {
     let rss0:Vec<userQuerySimple> = mysqlLib::query::<userQuerySimple>("select Id, Account, Passwd from sys_user");
 
     Ok(web::Json(rss0))
+}
+
+#[get("/sys/user/getusr")]
+pub async fn get_usr() -> Result<impl Responder> {
+
+    let rss0:Vec<datasqlx::sqlitex::User> = datasqlx::sqlitex::do_query("select Id, Account, Passwd from sys_user").await.unwrap();
+
+    Ok(web::Json(rss0))
+}
+
+#[post("/sys/user/add_usr")]
+pub async fn add_usr() -> Result<impl Responder> {
+
+    let rs = datasqlx::sqlitex::do_opt("insert into sys_user(Id, Account, Passwd) values(111,'xxiao', 'xpwd')").await.unwrap();
+
+    Ok(web::Json(rs))
 }

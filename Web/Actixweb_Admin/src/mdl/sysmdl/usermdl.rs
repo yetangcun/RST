@@ -77,3 +77,4 @@ impl FrmRow for userQuerySimple {
         })
     }
 }
+
