@@ -96,7 +96,7 @@ pub async fn get_user() -> Result<impl Responder> {
     Ok(web::Json(rss0))
 }
 
-#[get("/sys/user/getusr")]
+#[get("/sys/user/ge_tusr")]
 pub async fn get_usr() -> Result<impl Responder> {
 
     let rss0:Vec<datasqlx::sqlitex::User> = datasqlx::sqlitex::do_query("select Id, Account, Passwd from sys_user").await.unwrap();

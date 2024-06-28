@@ -1,6 +1,10 @@
 // use mysql::*;
 use mysql::{prelude::*, Pool, PooledConn};
-use crate::FrmRow;
+
+// 类似于接口 trait
+pub trait FrmRow: Sized {
+    fn from_row(row: mysql::Row) -> Result<Self, mysql::Error>;
+}
 
 // 99999999 | xiaoxiaojun
 const conn_str:&str = "mysql://root:99999999@localhost:3306/blackweb";

@@ -1,4 +1,5 @@
 pub mod mysqlLib;
+mod cfg;
 mod mssqlLib;
 mod pgsqlLib;
 mod mongodbLib;
@@ -8,10 +9,6 @@ use sqlx::sqlite::{SqliteRow};
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
-}
-
-pub trait FrmRow: Sized {
-    fn from_row(row: mysql::Row) -> Result<Self, mysql::Error>;
 }
 
 pub trait SqliteRw: for<'r> sqlx::FromRow<'r, SqliteRow> {}

@@ -1,10 +1,9 @@
 use serde::{Serialize,Deserialize};
-use DataExtensionLib::{FrmRow};
+use DataExtensionLib::mysqlLib::{FrmRow};
 // use utoipa::ToSchema;
-// use utoipa::ToSchema;
-
 // #[derive(Schema)]
 // #[derive(Serialize, Deserialize)]
+
 #[derive(Serialize, Deserialize)]
 pub struct lginput { // 登录入参
     pub account:String,

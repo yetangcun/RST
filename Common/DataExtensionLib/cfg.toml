@@ -1,0 +1,2 @@
+[database]
+mysql_url = "mysql://root:99999999@localhost:3306/dsweb"
