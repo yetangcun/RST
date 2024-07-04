@@ -1,5 +1,6 @@
 use sqlx::{Error,FromRow,Row};
-use sqlx::mysql::{MySqlPool, MySqlPoolOptions, MySqlRow};
+use sqlx::{MySqlPool};
+use sqlx::mysql::{MySqlPoolOptions, MySqlRow};
 use std::fs::File;
 use std::io::prelude::*;
 use serde::Deserialize;
@@ -7,7 +8,7 @@ use toml;
 use crate::cfg;
 use crate::datasqlx::sqlitex;
 
-pub async fn _init() -> mysql::MySqlPool {
+pub async fn _init() -> MySqlPool {
 
     // let mut file = File::open("cfg.toml");
     // let mut contents = String::new();
@@ -15,7 +16,7 @@ pub async fn _init() -> mysql::MySqlPool {
     // let cfg: Cfg = toml::from_str(&contents);
     // let db_path = cfg::database::mysql_url;
     let database_url = format!("mysql://root:99999999@localhost:3306/dsweb");
-    mysql::MySqlPool::connect(&database_url).await.unwrap()
+    MySqlPool::connect(&database_url).await.unwrap()
 
     // 执行一个查询来创建表，这将隐式创建数据库文件x
 }
