@@ -42,9 +42,30 @@ T: FromRow<'static, MySqlRow> + Send + 'static,
     let pl = _init().await;
     let mut ts = Vec::new();
 
-    sqlx::query_as(sql)
-    .fetch_all(&pl)
-    .await;
+    // sqlx::query_as::<_, T>(sql)
+    // .fetch_all(&pl)
+    // .await;
 
     Ok(ts)
+}
+
+pub async fn do_opt (sql:&str) -> Result<bool, Error> {
+    
+    let pl = _init().await;
+
+    let _ = sqlx::query(sql)
+    .execute(&pl)
+    .await;
+
+    Ok(true)
+}
+
+pub async fn get_mx<T>(arrs:&[T]) -> &T {
+    let mut vl = &arrs[0];
+    for itm in arrs {
+        if itm > vl {
+            vl = itm;
+        }
+    }
+    vl
 }
