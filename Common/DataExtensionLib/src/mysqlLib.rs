@@ -1,10 +1,4 @@
-// use mysql::*;
-use mysql::{prelude::*, Pool, PooledConn};
-
-// 类似于接口 trait
-pub trait FrmRow: Sized {
-    fn from_row(row: mysql::Row) -> Result<Self, mysql::Error>;
-}
+use mysql::{prelude::*, Pool, PooledConn}; // use mysql::*;
 
 // 99999999 | xiaoxiaojun
 const conn_str:&str = "mysql://root:99999999@localhost:3306/blackweb";
@@ -38,6 +32,11 @@ pub fn do_query() -> Vec<(i32,String,String)> {
         println!("ID: {}, Account: {}, Passwd:{}", Id, Account, Passwd);
     }
     rs
+}
+
+// 类似于接口 trait 只有方法定义不需要实现
+pub trait FrmRow: Sized {
+    fn from_row(row: mysql::Row) -> Result<Self, mysql::Error>;
 }
 
 pub fn query<T:FrmRow>(sql:&str) -> Vec<T> {

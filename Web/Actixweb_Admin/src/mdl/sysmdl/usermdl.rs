@@ -1,5 +1,10 @@
 use serde::{Serialize,Deserialize};
 use DataExtensionLib::mysqlLib::{FrmRow};
+
+use DataExtensionLib::datasqlx::mysqlx;
+use sqlx::{Error,FromRow,Row};
+use sqlx::mysql::{MySqlPoolOptions, MySqlRow};
+
 // use utoipa::ToSchema;
 // #[derive(Schema)]
 // #[derive(Serialize, Deserialize)]
@@ -67,12 +72,24 @@ pub struct userQuerySimple {
     pub passwd:String
 }
 
+// mysql库
 impl FrmRow for userQuerySimple {
     fn from_row(row: mysql::Row) -> Result<Self, mysql::Error> {
         Ok(userQuerySimple {
             id: row.get(0).unwrap(),
             account: row.get(1).unwrap(),
             passwd: row.get(2).unwrap(),
+        })
+    }
+}
+
+// sqlx库
+impl mysqlx::SqlxMysqlMap for userQuerySimple {
+    fn frm_rw(rw: MySqlRow) -> Result<Self, sqlx::Error> {
+        Ok(userQuerySimple {
+            id: rw.get(0),
+            account: rw.get(1),
+            passwd: rw.get(2),
         })
     }
 }
