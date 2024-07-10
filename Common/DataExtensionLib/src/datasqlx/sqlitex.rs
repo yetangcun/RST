@@ -18,28 +18,18 @@ pub async fn _init() -> SqlitePool {
     pol
 }
 
-#[derive(Debug,Serialize, Deserialize, FromRow)]
-pub struct User {
-    id: i32,
-    account: String,
-    passwd: String,
+// #[derive(Debug,Serialize, Deserialize, FromRow)]
+// pub struct User {
+//     id: i32,
+//     account: String,
+//     passwd: String,
+// }
+
+pub trait SqlxSqliteRw:Sized { 
+    fn from_row(row: SqliteRow) -> Result<Self, Error>;   // Required method
 }
 
 // pub trait SqliteRw: for<'r> sqlx::FromRow<'r, SqliteRow> {}  // FromRow
-pub trait SqltRw<'r, R>: Sized where R: Row
-{ 
-    fn from_row(row: &'r R) -> Result<Self, Error>;   // Required method
-}
-impl SqltRw<'_, SqliteRow> for User {
-    fn from_row(row: &SqliteRow) -> sqlx::Result<Self> {
-        Ok(User {
-            id: row.try_get("id").unwrap(),
-            account: row.try_get("account").unwrap(),
-            passwd: row.try_get("passwd").unwrap()
-        })
-    }
-}
-
 // pub async fn do_search<T:SqliteRw>(sql:&str) -> Result<Vec<T>, Error> { // 
 //     let pl = _init().await;
 //     sqlx::query_as::<_, T>(sql)
@@ -47,12 +37,21 @@ impl SqltRw<'_, SqliteRow> for User {
 //     .await
 // }
 
-pub async fn do_query(sql:&str) -> Result<Vec<User>, Error> { // 
+pub async fn do_query<T:SqlxSqliteRw>(sql:&str) -> Result<Vec<T>, Error> { // 
     let pl = _init().await;
     
-    sqlx::query_as::<_, User>(sql)
+    let mut ts = Vec::new();
+    
+    let rws = sqlx::query(sql)
     .fetch_all(&pl)
-    .await
+    .await.unwrap();
+
+    for rw in rws {
+        let itm = T::from_row(rw);
+        ts.push(itm.unwrap());
+    }
+
+    Ok(ts)
 }
 
 pub async fn do_opt (sql:&str) -> Result<bool, Error> {

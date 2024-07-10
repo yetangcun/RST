@@ -6,7 +6,6 @@ use std::io::prelude::*;
 use serde::Deserialize;
 use toml;
 use crate::cfg;
-use crate::datasqlx::sqlitex;
 
 pub async fn _init() -> MySqlPool {
 
@@ -15,32 +14,31 @@ pub async fn _init() -> MySqlPool {
     // file.read_to_string(&mut contents);
     // let cfg: Cfg = toml::from_str(&contents);
     // let db_path = cfg::database::mysql_url;
-    let database_url = format!("mysql://root:99999999@localhost:3306/dsweb");
-    MySqlPool::connect(&database_url).await.unwrap()
+    
+    // let db_url = format!("mysql://root:99999999@localhost:3306/dsweb");
+    // MySqlPool::connect(&db_url).await.unwrap()
+    
+    let db_url = "mysql://root:99999999@localhost:3306/dsweb";
+    MySqlPool::connect(db_url).await.unwrap()
 
     // 执行一个查询来创建表，这将隐式创建数据库文件x
 }
 
-pub trait SqlxMysqlMap {
+pub trait SqlxMysqlMp: Sized {
     fn frm_rw(rw:MySqlRow) -> Result<Self,Error> where Self: Sized;
 }
 
-pub async fn do_query<T:SqlxMysqlMap>(sql:&str) ->Result<Vec<T>,Error> where
-T: FromRow<'static, MySqlRow> + Send + 'static, 
+pub async fn do_query<T:SqlxMysqlMp>(sql:&str) ->Result<Vec<T>,Error>
 {
     let pl = _init().await;
     let mut ts = Vec::new();
 
-    sqlx::query(sql).
-    map(|rw: sqlx::mysql::MySqlRow|{
-        let itm = T::frm_rw(rw).unwrap();
-        ts.push(itm);
-    }).
-    fetch_all(&pl).await?;
+    let rws = sqlx::query(sql).fetch_all(&pl).await.unwrap();
 
-    // sqlx::query_as::<_, T>(sql)
-    // .fetch_all(&pl)
-    // .await;
+    for rw in rws {
+        let itm = T::frm_rw(rw);
+        ts.push(itm.unwrap());
+    }
 
     Ok(ts)
 }
