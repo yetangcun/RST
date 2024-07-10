@@ -1,9 +1,10 @@
 use serde::{Serialize,Deserialize};
 use DataExtensionLib::mysqlLib::{FrmRow};
 
-use DataExtensionLib::datasqlx::mysqlx;
+use DataExtensionLib::datasqlx::{mysqlx,sqlitex};
 use sqlx::{Error,FromRow,Row};
-use sqlx::mysql::{MySqlPoolOptions, MySqlRow};
+use sqlx::mysql::{MySqlRow};
+use sqlx::sqlite::{SqliteRow};
 
 // use utoipa::ToSchema;
 // #[derive(Schema)]
@@ -65,9 +66,9 @@ pub struct userQueryOutput { // 查询出参
     pub state:i32
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct userQuerySimple {
-    pub id:i32,
+    pub id:String,
     pub account:String,
     pub passwd:String
 }
@@ -83,13 +84,24 @@ impl FrmRow for userQuerySimple {
     }
 }
 
-// sqlx库
-impl mysqlx::SqlxMysqlMap for userQuerySimple {
+// sqlx库 mysql
+impl mysqlx::SqlxMysqlMp for userQuerySimple {
     fn frm_rw(rw: MySqlRow) -> Result<Self, sqlx::Error> {
         Ok(userQuerySimple {
             id: rw.get(0),
             account: rw.get(1),
             passwd: rw.get(2),
+        })
+    }
+}
+
+// sqlx sqlite
+impl sqlitex::SqlxSqliteRw for userQuerySimple {
+    fn from_row(row:SqliteRow) -> sqlx::Result<Self> {
+        Ok(userQuerySimple {
+            id: row.get(0),
+            account: row.get(1),
+            passwd: row.get(2)
         })
     }
 }

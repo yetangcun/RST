@@ -21,6 +21,7 @@ pub async fn opt(req: web::Json<userOptInput>) -> impl Responder {
     HttpResponse::Ok().body(rt) // Ok(rt)
 }
 
+// mysqlLib mysql
 // #[delete("/sys/user/del/{id}")]
 pub async fn user_del(id: web::Path<i32>) -> impl Responder{
     let sql = format!("delete from sys_user where Id={}",id);
@@ -96,18 +97,38 @@ pub async fn get_user() -> Result<impl Responder> {
     Ok(web::Json(rss0))
 }
 
-#[get("/sys/user/ge_tusr")]
+// sqlx sqlite
+#[get("/sys/user/get_tusr")]
 pub async fn get_usr() -> Result<impl Responder> {
 
-    let rss0:Vec<datasqlx::sqlitex::User> = datasqlx::sqlitex::do_query("select Id, Account, Passwd from sys_user").await.unwrap();
+    let rss0:Vec<userQuerySimple> = datasqlx::sqlitex::do_query::<userQuerySimple>("select Id, Account, Passwd from sys_user").await.unwrap();
 
     Ok(web::Json(rss0))
 }
 
 #[post("/sys/user/add_usr")]
-pub async fn add_usr() -> Result<impl Responder> {
+pub async fn add_usr(req: web::Json<userQuerySimple>) -> Result<impl Responder> {
 
-    let rs = datasqlx::sqlitex::do_opt("insert into sys_user(Id, Account, Passwd) values(111,'xxiao', 'xpwd')").await.unwrap();
+    println!("add fn: {0}-{1}-{2}", req.id, req.account, req.passwd);
+    let sql = format!("insert into sys_user(Id, Account, Passwd) values('{0}','{1}', '{2}')", req.id, req.account, req.passwd);
+    let rs = datasqlx::sqlitex::do_opt(&sql).await.unwrap();
+
+    Ok(web::Json(rs))
+}
+
+// sqlx mysql
+#[get("/sys/user/search")]
+pub async fn search() -> Result<impl Responder> {
+
+    let rs:Vec<userQuerySimple> = datasqlx::mysqlx::do_query::<userQuerySimple>("select Id,Account,Passwd from sys_user").await.unwrap();
+
+    Ok(web::Json(rs))
+}
+
+#[post("/sys/user/opt")]
+pub async fn do_opt(req: web::Json<userOptSimplInput>) -> Result<impl Responder> {
+
+    let rs = datasqlx::mysqlx::do_opt("insert into sys_user() values()").await.unwrap();
 
     Ok(web::Json(rs))
 }
