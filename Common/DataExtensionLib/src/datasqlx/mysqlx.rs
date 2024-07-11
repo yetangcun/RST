@@ -24,6 +24,7 @@ pub async fn _init() -> MySqlPool {
     // 执行一个查询来创建表，这将隐式创建数据库文件x
 }
 
+// 特性定义
 pub trait SqlxMysqlMp: Sized {
     fn frm_rw(rw:MySqlRow) -> Result<Self,Error> where Self: Sized;
 }

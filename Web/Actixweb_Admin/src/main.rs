@@ -5,9 +5,20 @@ mod bll;
 mod mdl;
 mod selfapi;
 use actix_web::{get,post,web,App,HttpResponse,HttpServer,Responder};
-use selfapi::sys::userapi::{do_login,get_user,opt,user_del,user_add,user_update,get_usr,add_usr,search,do_opt};
-// use mdl::sysmdl::usermdl::{lginput};
+use selfapi::sys::userapi::{
+    do_login,
+    get_user,
+    opt,
+    user_del,
+    user_add,
+    user_update,
+    get_usr,
+    add_usr,
+    search,
+    do_opt
+};
 
+// use mdl::sysmdl::usermdl::{lginput};
 // use utoipa::OpenApi;
 // use utoipa_swagger_ui::SwaggerUi;
 // use utoipa::ToSchema;

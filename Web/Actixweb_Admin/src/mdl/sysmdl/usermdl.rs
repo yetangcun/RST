@@ -1,5 +1,5 @@
 use serde::{Serialize,Deserialize};
-use DataExtensionLib::mysqlLib::{FrmRow};
+use DataExtensionLib::{test_trat,mysqlLib};
 
 use DataExtensionLib::datasqlx::{mysqlx,sqlitex};
 use sqlx::{Error,FromRow,Row};
@@ -74,7 +74,7 @@ pub struct userQuerySimple {
 }
 
 // mysql库
-impl FrmRow for userQuerySimple {
+impl mysqlLib::FrmRow for userQuerySimple {
     fn from_row(row: mysql::Row) -> Result<Self, mysql::Error> {
         Ok(userQuerySimple {
             id: row.get(0).unwrap(),
@@ -106,3 +106,15 @@ impl sqlitex::SqlxSqliteRw for userQuerySimple {
     }
 }
 
+impl test_trat for userQuerySimple {
+    fn test_fn(&self) -> String {
+        format!("test_trat");
+
+        String::from("test_trat")
+    }
+
+    fn test_fn2(&self) -> String{
+        format!("test_trat2");
+        String::from("test_trat2")
+    }
+}

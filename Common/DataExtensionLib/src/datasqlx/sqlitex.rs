@@ -25,17 +25,10 @@ pub async fn _init() -> SqlitePool {
 //     passwd: String,
 // }
 
+// 特性定义
 pub trait SqlxSqliteRw:Sized { 
     fn from_row(row: SqliteRow) -> Result<Self, Error>;   // Required method
 }
-
-// pub trait SqliteRw: for<'r> sqlx::FromRow<'r, SqliteRow> {}  // FromRow
-// pub async fn do_search<T:SqliteRw>(sql:&str) -> Result<Vec<T>, Error> { // 
-//     let pl = _init().await;
-//     sqlx::query_as::<_, T>(sql)
-//     .fetch_all(&pl)
-//     .await
-// }
 
 pub async fn do_query<T:SqlxSqliteRw>(sql:&str) -> Result<Vec<T>, Error> { // 
     let pl = _init().await;
