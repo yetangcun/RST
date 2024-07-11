@@ -1,5 +1,5 @@
 use serde::{Serialize,Deserialize};
-use DataExtensionLib::{test_trat,mysqlLib};
+use DataExtensionLib::{test_trat,mysqlLib,DbrowMap};
 
 use DataExtensionLib::datasqlx::{mysqlx,sqlitex};
 use sqlx::{Error,FromRow,Row};
@@ -94,10 +94,28 @@ impl mysqlx::SqlxMysqlMp for userQuerySimple {
         })
     }
 }
+impl DbrowMap<MySqlRow, sqlx::Error> for userQuerySimple {
+    fn frm_rw(rw: MySqlRow) -> Result<Self, sqlx::Error> {
+        Ok(userQuerySimple {
+            id: rw.get(0),
+            account: rw.get(1),
+            passwd: rw.get(2),
+        })
+    }
+}
 
 // sqlx sqlite
 impl sqlitex::SqlxSqliteRw for userQuerySimple {
-    fn from_row(row:SqliteRow) -> sqlx::Result<Self> {
+    fn frm_rw(row:SqliteRow) -> Result<Self, sqlx::Error> {
+        Ok(userQuerySimple {
+            id: row.get(0),
+            account: row.get(1),
+            passwd: row.get(2)
+        })
+    }
+}
+impl DbrowMap<SqliteRow, sqlx::Error> for userQuerySimple {
+    fn frm_rw(row:SqliteRow) -> Result<Self, sqlx::Error> {
         Ok(userQuerySimple {
             id: row.get(0),
             account: row.get(1),
@@ -113,7 +131,7 @@ impl test_trat for userQuerySimple {
         String::from("test_trat")
     }
 
-    fn test_fn2(&self) -> String{
+    fn test_fn2(&self) -> String {
         format!("test_trat2");
         String::from("test_trat2")
     }

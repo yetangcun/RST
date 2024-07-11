@@ -27,7 +27,7 @@ pub async fn _init() -> SqlitePool {
 
 // 特性定义
 pub trait SqlxSqliteRw:Sized { 
-    fn from_row(row: SqliteRow) -> Result<Self, Error>;   // Required method
+    fn frm_rw(row: SqliteRow) -> Result<Self, Error>;   // Required method
 }
 
 pub async fn do_query<T:SqlxSqliteRw>(sql:&str) -> Result<Vec<T>, Error> { // 
@@ -40,7 +40,7 @@ pub async fn do_query<T:SqlxSqliteRw>(sql:&str) -> Result<Vec<T>, Error> { //
     .await.unwrap();
 
     for rw in rws {
-        let itm = T::from_row(rw);
+        let itm = T::frm_rw(rw);
         ts.push(itm.unwrap());
     }
 

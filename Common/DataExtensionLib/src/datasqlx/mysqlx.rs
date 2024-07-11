@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use serde::Deserialize;
 use toml;
-use crate::cfg;
+use crate::{cfg, DbrowMap};
 
 pub async fn _init() -> MySqlPool {
 
@@ -28,8 +28,22 @@ pub async fn _init() -> MySqlPool {
 pub trait SqlxMysqlMp: Sized {
     fn frm_rw(rw:MySqlRow) -> Result<Self,Error> where Self: Sized;
 }
+pub async fn exe_query<T:SqlxMysqlMp>(sql:&str) ->Result<Vec<T>,Error>
+{
+    let pl = _init().await;
+    let mut ts = Vec::new();
 
-pub async fn do_query<T:SqlxMysqlMp>(sql:&str) ->Result<Vec<T>,Error>
+    let rws = sqlx::query(sql).fetch_all(&pl).await.unwrap();
+
+    for rw in rws {
+        let itm = T::frm_rw(rw);
+        ts.push(itm.unwrap());
+    }
+
+    Ok(ts)
+}
+
+pub async fn do_query<T:DbrowMap<MySqlRow,Error>>(sql:&str) ->Result<Vec<T>,Error>
 {
     let pl = _init().await;
     let mut ts = Vec::new();

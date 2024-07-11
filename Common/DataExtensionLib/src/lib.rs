@@ -11,6 +11,10 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
+// 利用泛型定义一个通用的数据表映射结构对象的trait
+pub trait DbrowMap<T,Err>:Sized {
+    fn frm_rw(rw:T) -> Result<Self, Err> where Self: Sized;
+}
 
 // 测试实现
 pub trait test_trat {
