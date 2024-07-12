@@ -4,6 +4,7 @@ use crate::bll::sysbll::userbll;
 use actix_web::{get,post,web,App,Result, HttpResponse,HttpServer,Responder};
 use DataExtensionLib::{mysqlLib, datasqlx};
 use chrono::{Local, DateTime};
+use CommonExtensionLib::utils::{secutil, jwtutil};
 
 #[post("/sys/user/dologin")]
 pub async fn do_login(req: web::Json<lginput>) -> impl Responder {
@@ -98,8 +99,15 @@ pub async fn get_user() -> Result<impl Responder> {
 }
 
 // sqlx sqlite
-#[get("/sys/user/get_tusr")]
+#[get("/sys/user/get_usr")]
 pub async fn get_usr() -> Result<impl Responder> {
+    let sr = String::from("xyz_zyx_abc_cba");
+    let hsh = secutil::md5_hash(&sr);
+    let tken = jwtutil::create_tken();
+    // let tken = String::from("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0a05hbWUiOiJlR2xoYjNocFlXOD0iLCJyb2xlIjoiYWRtaW4iLCJ0a1B3ZCI6Ijk5OTk5OTk5IiwiZXhwIjoxNzIwODU4MTIwLCJpc3MiOiJ3aGlzcGVyLmJsayIsImF1ZCI6IndoaXNwZXIuYmxrIn0._pxLlKEQsQgkItK9Wb0Q6XNz47C03hZ1O6LdzHhJueo");
+    let ritms:(bool, String) = jwtutil::verify_tken(&tken).await;
+
+    println!("sour: {0}, md5: {1}, res: {2}", sr, hsh, ritms.1);
 
     let rss0:Vec<userQuerySimple> = datasqlx::sqlitex::do_query::<userQuerySimple>("select Id, Account, Passwd from sys_user").await.unwrap();
 

@@ -42,14 +42,14 @@ pub trait FrmRow: Sized {
 pub fn query<T:FrmRow>(sql:&str) -> Vec<T> {
     
     let mut conn = get_conn();
-    let mut reslts = Vec::new();
+    let mut rsts = Vec::new();
 
     // 严谨处理
     let rows = conn.query(sql);
     if let Ok(rws) = rows {
         for rw in rws {
             let itm = T::from_row(rw).unwrap();
-            reslts.push(itm);
+            rsts.push(itm);
         }
     }
     else if let Err(err) = rows { //  
@@ -63,7 +63,7 @@ pub fn query<T:FrmRow>(sql:&str) -> Vec<T> {
     //     reslts.push(itm);
     // }
 
-    reslts
+    rsts
 }
 
 // 操作:插入、更新、删除
