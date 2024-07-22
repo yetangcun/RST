@@ -4,6 +4,7 @@
 mod bll;
 mod mdl;
 mod selfapi;
+mod authExt;
 use actix_web::{get,post,web,App,HttpResponse,HttpServer,Responder};
 use selfapi::sys::userapi::{
     do_login,
