@@ -50,6 +50,7 @@ async fn main()->std::io::Result<()>{
     println!("服务127.0.0.1:8080启动侦听!");
     HttpServer::new(move || {
         App::new()
+            .wrap(authExt::TkAuth)
             // .service(
             //     actix_web::web::resource("/")
             //     .wrap(authExt::auth_tk)

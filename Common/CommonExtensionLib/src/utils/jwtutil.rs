@@ -54,7 +54,7 @@ pub fn create_tken() -> String {
 }
 
 // token验证
-pub async fn verify_tken(tken: &String) -> (bool, String) {
+pub fn verify_tken(tken: &String) -> (bool, String) {
 
     let secu_key = DecodingKey::from_secret(SECRET_KEY.as_ref());
 

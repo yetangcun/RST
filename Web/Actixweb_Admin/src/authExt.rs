@@ -13,9 +13,9 @@ use actix_web::{
     error::ErrorUnauthorized
 };
 
-pub struct TkAuth {
-    tk: String
-}
+use CommonExtensionLib::utils::jwtutil;
+
+pub struct TkAuth;
 
 impl<S,B> Transform<S, ServiceRequest> for TkAuth
 where
@@ -31,14 +31,12 @@ where
 
     fn new_transform(&self, nxt: S) -> Self::Future {
         ready(Ok(TkAuthHdl {
-            tk: self.tk.clone(),
             nxt
         }))
     }
 }
 
 pub struct TkAuthHdl<S> {
-    tk: String,
     nxt: S, // The next service to call
 }
 
@@ -58,11 +56,30 @@ where
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
         println!("call fn: {0}", req.path());
-        let tk = req.headers().get("Authorization").unwrap().to_str().unwrap();
+        let tk0 = req.headers().get("Authorization");
+        
+        let mut tk = String::from("");
+        match tk0 {
+            None => {
+                println!("call fn: {0}", "tk none");
+                return Box::pin(
+                    ready(
+                        Err(ErrorUnauthorized("Invalid tken")) // Err(ErrorUnauthorized("Invalid token"))
+                    )
+                )
+            },
+            Some(tk1) => {
+                println!("call fn: {0}", "tk some");
+                println!("get reqtk: {0}", tk1.to_str().unwrap());
+                tk = tk1.to_str().unwrap().to_string();
+            }
+        }
 
         println!("get req tk: {0}", tk);
 
-        if tk != self.tk {
+        let check_rs:(bool,String) = jwtutil::verify_tken(&tk);
+
+        if false == check_rs.0 {
             println!("call fn: {0}", "tk error");
             return Box::pin(
                 ready(

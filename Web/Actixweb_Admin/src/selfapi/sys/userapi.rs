@@ -105,7 +105,7 @@ pub async fn get_usr() -> Result<impl Responder> {
     let hsh = secutil::md5_hash(&sr);
     let tken = jwtutil::create_tken();
     // let tken = String::from("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0a05hbWUiOiJlR2xoYjNocFlXOD0iLCJyb2xlIjoiYWRtaW4iLCJ0a1B3ZCI6Ijk5OTk5OTk5IiwiZXhwIjoxNzIwODU4MTIwLCJpc3MiOiJ3aGlzcGVyLmJsayIsImF1ZCI6IndoaXNwZXIuYmxrIn0._pxLlKEQsQgkItK9Wb0Q6XNz47C03hZ1O6LdzHhJueo");
-    let ritms:(bool, String) = jwtutil::verify_tken(&tken).await;
+    let ritms:(bool, String) = jwtutil::verify_tken(&tken); // await
 
     println!("sour: {0}, md5: {1}, res: {2}", sr, hsh, ritms.1);
 
