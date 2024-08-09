@@ -18,8 +18,7 @@ use CommonExtensionLib::utils::jwtutil;
 pub struct TkAuth;
 
 impl<S,B> Transform<S, ServiceRequest> for TkAuth
-where
-    S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
+where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
     B: 'static
 {
@@ -40,17 +39,16 @@ pub struct TkAuthHdl<S> {
     nxt: S, // The next service to call
 }
 
-type LocalBoxFuture<T> = Pin<Box<dyn Future<Output = T> + 'static>>;
+type LclBoxFuture<T> = Pin<Box<dyn Future<Output = T> + 'static>>;
 
 impl<S,B> Service<ServiceRequest> for TkAuthHdl<S>
-where
-    S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
+where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
     B: 'static
 {
     type Response = ServiceResponse<B>;
     type Error = Error;
-    type Future = LocalBoxFuture<Result<Self::Response,Self::Error>>;
+    type Future = LclBoxFuture<Result<Self::Response,Self::Error>>;
 
     forward_ready!(nxt);
 
