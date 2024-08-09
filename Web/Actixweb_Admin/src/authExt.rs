@@ -56,7 +56,7 @@ where
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
         println!("call fn: {0}", req.path());
-        let tk0 = req.headers().get("Authorization");
+        let tk0 = req.headers().get("Authorization"); // 获取token
         
         let mut tk = String::from("");
         match tk0 {
@@ -77,7 +77,7 @@ where
 
         println!("get req tk: {0}", tk);
 
-        let check_rs:(bool,String) = jwtutil::verify_tken(&tk);
+        let check_rs:(bool,String) = jwtutil::verify_tken(&tk); // 校验token
 
         if false == check_rs.0 {
             println!("call fn: {0}", "tk error");
@@ -88,7 +88,7 @@ where
             )
         }
 
-        let fut = self.nxt.call(req);
+        let fut = self.nxt.call(req); // token校验通过，继续调用下一个服务
         Box::pin(async move {
             let res = fut.await?;
             println!("call fn end");
