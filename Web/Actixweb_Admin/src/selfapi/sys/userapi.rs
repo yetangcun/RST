@@ -6,7 +6,7 @@ use DataExtensionLib::{mysqlLib, datasqlx};
 use chrono::{Local, DateTime};
 use CommonExtensionLib::utils::{secutil, jwtutil};
 
-#[post("/sys/user/dologin")]
+#[post("/rst/user/dologin")]
 pub async fn do_login(req: web::Json<lginput>) -> impl Responder {
     // let rt = String::from(userbll::do_login(req_body.into_inner()).await);
     let rt = String::from(format!("congratulations:{0}, you've logined success!",req.account));
@@ -72,7 +72,7 @@ pub async fn user_update(req: web::Json<userOptSimplInput>) -> Result<impl Respo
     Ok(web::Json(rsml))
 }
 
-#[get("/sys/user/getuser")]
+#[get("/rst/user/getuser")]
 pub async fn get_user() -> Result<impl Responder> {
 
     let _rt = "hi, i'm user";

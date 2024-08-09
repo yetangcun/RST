@@ -3,7 +3,6 @@ use std::{
     pin::Pin,
     task::{Context, Poll}
 };
-
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform}, 
     web::{Data, ServiceConfig},
@@ -12,7 +11,6 @@ use actix_web::{
     Error,
     error::ErrorUnauthorized
 };
-
 use CommonExtensionLib::utils::jwtutil;
 
 pub struct TkAuth;
@@ -53,9 +51,19 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     forward_ready!(nxt);
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
-        println!("call fn: {0}", req.path());
+        let req_pth:&str = req.path();
+        println!("call fn: {0}", req_pth);
+
+        if req_pth.contains("/rst/") { // 不需要校验token 
+            let rsfut = self.nxt.call(req);
+            return Box::pin(async move {
+                let res = rsfut.await?;
+                println!("call fn end");
+                Ok(res)
+            })
+        }
+
         let tk0 = req.headers().get("Authorization"); // 获取token
-        
         let mut tk = String::from("");
         match tk0 {
             None => {
