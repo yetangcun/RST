@@ -63,9 +63,11 @@ pub fn verify_tken(tken: &String) -> (bool, String) {
     // 将String转换为&[_]
     validt.set_audience(&[AUD.to_string()]);  // 设置验证的Audience
 
-    println!("tken: {0}", tken);
+    let real_tk = tken.get(7..).unwrap();
+    
+    println!("real token: {0}", real_tk);
 
-    let tken_data = decode::<Claims>(tken, &secu_key, &validt);
+    let tken_data = decode::<Claims>(real_tk, &secu_key, &validt);
     match tken_data {
         Ok(t) => {
             let exp_tm = t.claims.exp;

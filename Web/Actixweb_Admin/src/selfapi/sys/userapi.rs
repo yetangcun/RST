@@ -10,7 +10,8 @@ use CommonExtensionLib::utils::{secutil, jwtutil};
 pub async fn do_login(req: web::Json<lginput>) -> impl Responder {
     // let rt = String::from(userbll::do_login(req_body.into_inner()).await);
     let rt = String::from(format!("congratulations:{0}, you've logined success!",req.account));
-    HttpResponse::Ok().body(rt) // Ok(rt)
+    let tk_str = jwtutil::create_tken();
+    HttpResponse::Ok().body(tk_str) // Ok(rt)
 }
 
 // #[post("/sys/user/dologin1")]

@@ -52,13 +52,13 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
         let req_pth:&str = req.path();
-        println!("call fn: {0}", req_pth);
+        println!("request router addr: {0}", req_pth);
 
         if req_pth.contains("/rst/") { // 不需要校验token 
             let rsfut = self.nxt.call(req);
             return Box::pin(async move {
                 let res = rsfut.await?;
-                println!("request api end");
+                println!("request end");
                 Ok(res)
             })
         }
@@ -75,16 +75,15 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
                 )
             },
             Some(tk1) => {
-                println!("call fn: {0}", "tk some");
-                println!("get reqtk: {0}", tk1.to_str().unwrap());
-                tk = tk1.to_str().unwrap().to_string();
+                let tk_sr:&str = tk1.to_str().unwrap();
+                println!("get reqtk: {0}", tk_sr);
+                tk = tk_sr.to_string();
             }
         }
 
         println!("get req tk: {0}", tk);
 
         let check_rs:(bool,String) = jwtutil::verify_tken(&tk); // 校验token
-
         if false == check_rs.0 {
             println!("call fn: {0}", "tk error");
             return Box::pin(
