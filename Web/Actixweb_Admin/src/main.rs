@@ -5,6 +5,7 @@ mod bll;
 mod mdl;
 mod selfapi;
 mod authExt;
+mod opdoc;
 use actix_web::{get,post,web,App,HttpResponse,HttpServer,Responder};
 use selfapi::sys::userapi::{
     do_login,
@@ -18,6 +19,8 @@ use selfapi::sys::userapi::{
     search,
     do_opt
 };
+use utoipa::{OpenApi, openapi::OpenApiBuilder};
+use opdoc::*;
 
 // use mdl::sysmdl::usermdl::{lginput};
 // use utoipa::OpenApi;
@@ -46,6 +49,8 @@ async fn manual_hllo() -> impl Responder {
 async fn main()->std::io::Result<()>{
     
     // let openapi = ApiDoc::openapi();
+
+    let blder: OpenApiBuilder = ApiRsDoc::openapi().into();
 
     println!("服务127.0.0.1:8080启动侦听!");
     HttpServer::new(move || {
