@@ -17,8 +17,7 @@ pub struct TkAuth;
 
 impl<S,B> Transform<S, ServiceRequest> for TkAuth
 where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
-    S::Future: 'static,
-    B: 'static
+      S::Future: 'static, B: 'static
 {
     type Response = ServiceResponse<B>;
     type Error = Error;
@@ -41,8 +40,7 @@ type LclBoxFuture<T> = Pin<Box<dyn Future<Output = T> + 'static>>;
 
 impl<S,B> Service<ServiceRequest> for TkAuthHdl<S>
 where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
-    S::Future: 'static,
-    B: 'static
+      S::Future: 'static, B: 'static
 {
     type Response = ServiceResponse<B>;
     type Error = Error;
@@ -80,8 +78,6 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
                 tk = tk_sr.to_string();
             }
         }
-
-        // println!("get req tk: {0}", tk);
 
         let check_rs:(bool,String) = jwtutil::verify_tken(&tk); // 校验token
         if false == check_rs.0 {
