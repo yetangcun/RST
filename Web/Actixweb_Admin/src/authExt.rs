@@ -58,7 +58,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
             let rsfut = self.nxt.call(req);
             return Box::pin(async move {
                 let res = rsfut.await?;
-                println!("call fn end");
+                println!("request api end");
                 Ok(res)
             })
         }
