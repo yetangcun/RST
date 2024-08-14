@@ -63,7 +63,8 @@ pub fn verify_tken(tken: &String) -> (bool, String) {
     // 将String转换为&[_]
     validt.set_audience(&[AUD.to_string()]);  // 设置验证的Audience
 
-    let real_tk = tken.get(7..).unwrap(); // 提取真实token串
+    // let real_tk = tken.get(7..).unwrap(); // 提取真实token串
+    let real_tk = &tken[7..]; // 提取真实token串
     
     println!("real token: {0}", real_tk);
 
