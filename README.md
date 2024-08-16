@@ -46,6 +46,8 @@ git push origin --delete rstbase
 # 查看所有远程分支
 git branch -a 或 git branch -r
 
+# https://docs.rs/utoipa/4.2.3/utoipa/index.html swagger ui utoipa api文档生成
+# https://crates.io/
 
 [dependencies]
 mysql = "*"
