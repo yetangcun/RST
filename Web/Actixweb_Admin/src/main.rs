@@ -20,7 +20,8 @@ use selfapi::sys::userapi::{
     do_opt
 };
 use utoipa::{OpenApi, openapi::OpenApiBuilder};
-use opdoc::*;
+use opdoc::{lghdl,reqhdl,ApiRsDoc,ApiRsDoc1};
+use utoipa_swagger_ui::{SwaggerUi, Url};
 
 // use mdl::sysmdl::usermdl::{lginput};
 // use utoipa::OpenApi;
@@ -50,7 +51,7 @@ async fn main()->std::io::Result<()>{
     
     // let openapi = ApiDoc::openapi();
 
-    let blder: OpenApiBuilder = ApiRsDoc::openapi().into();
+    // let blder: OpenApiBuilder = ApiRsDoc::openapi().into();
 
     println!("服务127.0.0.1:8080启动侦听!");
     HttpServer::new(move || {
@@ -63,6 +64,22 @@ async fn main()->std::io::Result<()>{
             // )
             // .service(hllo)
             // .service(outputs)
+            .service(web::scope("/rsapi")
+               .service(lghdl)
+               .service(reqhdl)
+            )
+            .service(SwaggerUi::new("/swagger-ui/{_:.*}")
+                .urls(vec![
+                    (
+                        Url::new("api1", "/api-docs/openapi1.json"),
+                        ApiRsDoc::openapi()
+                    ),
+                    (
+                        Url::new("api2", "/api-docs/openapi2.json"),
+                        ApiRsDoc1::openapi()
+                    )
+                ])
+            )
             .service(do_login)
             .service(get_user)
             .service(user_add)
