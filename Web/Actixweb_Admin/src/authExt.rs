@@ -32,7 +32,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
 }
 
 pub struct TkAuthHdl<S> {
-    nxt: S, // The next service to call
+    nxt: S, // The next service to call 下一步要执行调用的服务
 }
 
 type LclBoxFuture<T> = Pin<Box<dyn Future<Output = T> + 'static>>;
