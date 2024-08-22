@@ -48,9 +48,30 @@ pub(super) async fn reqhdl(req_bdy: web::Json<reqinput>) -> impl Responder {
 }
 
 #[derive(OpenApi)]
-#[openapi(paths(lghdl,reqhdl), components(schemas(lginput,reqinput)))]
+#[openapi(
+    paths(
+        lghdl,
+        reqhdl
+    ), 
+    components(
+        schemas(
+            lginput,
+            reqinput
+        )
+    ))]
 pub struct ApiRsDoc;
 
 #[derive(OpenApi)]
-#[openapi(paths(lghdl,reqhdl), components(schemas(lginput,reqinput)))]
+#[openapi(
+    paths(
+        lghdl,
+        reqhdl
+    ), 
+    components(
+        schemas(
+            lginput,
+            reqinput
+        )
+    )
+)]
 pub struct ApiRsDoc1;
