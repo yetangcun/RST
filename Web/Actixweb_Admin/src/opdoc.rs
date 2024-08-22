@@ -16,8 +16,7 @@ pub struct reqinput {
     pub pwd: String,
 }
 
-#[utoipa::path(
-    // context_path = "/rsapi",
+#[utoipa::path( // context_path = "/rsapi",
     context_path = "/",
     responses(
         (status = 200, description = "Successful operation", body = String),
