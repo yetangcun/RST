@@ -19,8 +19,8 @@ pub struct reqinput {
 #[utoipa::path( // context_path = "/rsapi",
     context_path = "/",
     responses(
-        (status = 200, description = "Successful operation", body = String),
-        (status = 400, description = "Invalid input")
+        (status = 200, description = "succ", body = String),
+        (status = 400, description = "fail")
     )
 )]
 #[post("/lghdl")]
@@ -34,8 +34,8 @@ pub async fn lghdl(req_bdy: web::Json<lginput>) -> impl Responder {
 #[utoipa::path(
     context_path = "/",
     responses(
-        (status = 200, description = "Successful operation", body = String),
-        (status = 400, description = "Invalid input")
+        (status = 200, description = "succ", body = String),
+        (status = 400, description = "fail")
     )
 )]
 #[post("/reqhdl")]
