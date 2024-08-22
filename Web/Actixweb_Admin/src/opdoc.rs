@@ -21,7 +21,7 @@ pub struct reqinput {
     context_path = "/",
     responses(
         (status = 200, description = "Successful operation", body = String),
-        (status = 400, description = "Invalid input"),
+        (status = 400, description = "Invalid input")
     )
 )]
 #[post("/lghdl")]
@@ -36,7 +36,7 @@ pub async fn lghdl(req_bdy: web::Json<lginput>) -> impl Responder {
     context_path = "/",
     responses(
         (status = 200, description = "Successful operation", body = String),
-        (status = 400, description = "Invalid input"),
+        (status = 400, description = "Invalid input")
     )
 )]
 #[post("/reqhdl")]
