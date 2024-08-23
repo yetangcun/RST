@@ -6,14 +6,14 @@ use serde::{Serialize,Deserialize};
 #[derive(ToSchema, Serialize, Deserialize)]
 pub struct lginput {
     pub usr: String,
-    pub pwd: String,
+    pub pwd: String
 }
 
 
 #[derive(ToSchema, Serialize, Deserialize)]
 pub struct reqinput {
     pub usr: String,
-    pub pwd: String,
+    pub pwd: String
 }
 
 #[utoipa::path( // context_path = "/rsapi",
@@ -32,8 +32,7 @@ pub async fn lghdl(req_bdy: web::Json<lginput>) -> impl Responder {
         usr: String::from(recv.usr), 
         pwd: String::from(recv.pwd) 
     };
-    web::Json(obj)
-    // HttpResponse::Ok().body(rt) 
+    web::Json(obj) // HttpResponse::Ok().body(rt) 
 }
 
 #[utoipa::path(
@@ -52,8 +51,7 @@ pub(super) async fn reqhdl(req_bdy: web::Json<reqinput>) -> impl Responder {
         usr: String::from(recv.usr), 
         pwd: String::from(recv.pwd) 
     };
-    web::Json(rt)
-    // HttpResponse::Ok().body(rt) 
+    web::Json(rt) // HttpResponse::Ok().body(rt) 
 }
 
 #[derive(OpenApi)]
