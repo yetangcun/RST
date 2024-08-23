@@ -65,7 +65,11 @@ pub(super) async fn reqhdl(req_bdy: web::Json<reqinput>) -> impl Responder {
             lginput,
             reqinput
         )
-    ))]
+    ),
+    tags(
+        (name = "系统管理", description = "systemmanager apis")
+    )
+)]
 pub struct ApiRsDoc;
 
 #[derive(OpenApi)]
@@ -79,6 +83,9 @@ pub struct ApiRsDoc;
             lginput,
             reqinput
         )
+    ),
+    tags(
+        (name = "业务管理", description = "bllmanager apis")
     )
 )]
 pub struct ApiRsDoc1;

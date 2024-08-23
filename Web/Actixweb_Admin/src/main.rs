@@ -71,11 +71,11 @@ async fn main()->std::io::Result<()>{
             .service(SwaggerUi::new("/swagger-ui/{_:.*}")
                 .urls(vec![
                     (
-                        Url::new("api1", "/api-docs/openapi1.json"),
+                        Url::new("systemmanager",  "/api-docs/openapi1.json"),
                         ApiRsDoc::openapi()
                     ),
                     (
-                        Url::new("api2", "/api-docs/openapi2.json"),
+                        Url::new("bllmanager", "/api-docs/openapi2.json"),
                         ApiRsDoc1::openapi()
                     )
                 ])
