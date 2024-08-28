@@ -1,3 +1,5 @@
+pub mod traitimpl;
+
 /* 原始写法 */
 pub fn larger_num() {
     let num_arr1 = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -62,9 +64,28 @@ pub fn largest_num1 () {
     let chr_arr1 = vec!['a', 'b', 'd', 'e', 'c', 'h', 'j', 'f', 'i', 'g'];
     let largest_chr1 = get_largest_chr(&chr_arr1);
     println!("the largest chr:{largest_chr1}");
+
+    let p_obj = Point { x: 1.0, y: 2.0 };
+    let p1_obj = Point { x: "yes", y: 'N' };
+    let p_new = p_obj.get_mix_point(p1_obj);
+    println!("the mix point:({},{})", p_new.x, p_new.y);
 }
 /* 函数提取1 */
 
 /* 函数提取2 */
 
 /* 函数提取2 */
+
+pub struct Point<T1,T2> {
+    x:T1,
+    y:T2
+}
+
+impl<T1,T2> Point<T1,T2> {
+    fn get_mix_point<T3,T4>(self, oth: Point<T3,T4>) -> Point<T1,T4> {
+        Point {
+            x:self.x,
+            y:oth.y
+        }
+    }
+}

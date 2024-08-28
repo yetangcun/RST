@@ -6,8 +6,18 @@ mod cllectutil;
 mod traitutil;
 
 use traitutil::{larger_num, largest_num1};
+use crate::traitutil::traitimpl::{NewsArticle,Tweet,Summary};
 
 fn main() {
+
+    let na_obj = NewsArticle {
+        headline:String::from("News Article"),
+        location:String::from("China"),
+        author:String::from("Tom"),
+        content:String::from("Hello World")
+    };
+    let na_res = na_obj.summarize();
+    println!("the na_res is: {na_res}");
 
     largest_num1();
 
