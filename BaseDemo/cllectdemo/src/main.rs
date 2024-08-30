@@ -1,12 +1,13 @@
 use std::io;
-mod vectorutil;
 mod strutil;
+mod vectorutil;
 mod hashmaputil;
 mod cllectutil;
 mod traitutil;
+use std::fmt::Display;
 
 use traitutil::{larger_num, largest_num1};
-use crate::traitutil::traitimpl::{NewsArticle,Tweet,Summary};
+use crate::traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5};
 
 fn main() {
 
@@ -16,8 +17,20 @@ fn main() {
         author:String::from("Tom"),
         content:String::from("Hello World")
     };
+    let twt_obj = Tweet {
+        username:String::from("Tom"),
+        content:String::from("Hello World"),
+        reply:false,
+        retweet:false
+    };
     let na_res = na_obj.summarize();
-    println!("the na_res is: {na_res}");
+    let na_tst = na_obj.tst_fn();
+    println!("the na_res is: {na_res}, {na_tst}"); 
+    // trait_func(&na_obj); 
+    // trait_func(&twt_obj);
+    // trait_func2(&na_obj);
+    // trait_func2(&twt_obj);
+    trait_fn5(&na_obj);
 
     largest_num1();
 
