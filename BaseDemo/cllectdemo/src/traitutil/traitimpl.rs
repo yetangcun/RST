@@ -66,3 +66,37 @@ impl Summary for Tweet {
         format!("{}: {}", self.username, self.content)
     }
 }
+
+
+
+pub struct Pair<T,T1> {
+    x: T,
+    y: T1
+}
+impl<T,T1> Pair<T,T1> {
+    pub fn news(x: T, y: T1) -> Self {
+        Self { x, y }
+    }
+}
+pub fn trait_fn7<T,T1> (na_obj:T, twt_obj:T1) 
+where T:Summary, T1:Summary 
+{
+    // let na_obj = NewsArticle {
+    //     headline:String::from("hello"),
+    //     location:String::from("beijing"),
+    //     author:String::from("tom"),
+    //     content:String::from("hello world!")
+    // };
+
+    
+    // let twt_obj = Tweet {
+    //     username:String::from("tim "),
+    //     content:String::from("welcome!"),
+    //     reply:false,
+    //     retweet:false
+    // };
+
+    let res_obj = Pair::<T,T1>::news(na_obj, twt_obj);
+
+    println!("Haha, {}",res_obj.x.summarize());
+}

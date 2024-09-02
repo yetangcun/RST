@@ -7,7 +7,7 @@ mod traitutil;
 use std::fmt::Display;
 
 use traitutil::{larger_num, largest_num1};
-use crate::traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5};
+use crate::traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5,trait_fn7};
 
 fn main() {
 
@@ -31,6 +31,7 @@ fn main() {
     // trait_func2(&na_obj);
     // trait_func2(&twt_obj);
     trait_fn5(&na_obj);
+    trait_fn7(na_obj, twt_obj);
 
     largest_num1();
 
