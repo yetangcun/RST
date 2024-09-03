@@ -1,4 +1,5 @@
 pub mod traitimpl;
+pub mod lifeutil;
 
 /* 原始写法 */
 pub fn larger_num() {
