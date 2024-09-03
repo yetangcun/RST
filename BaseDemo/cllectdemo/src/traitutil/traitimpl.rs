@@ -67,8 +67,6 @@ impl Summary for Tweet {
     }
 }
 
-
-
 pub struct Pair<T,T1> {
     x: T,
     y: T1
