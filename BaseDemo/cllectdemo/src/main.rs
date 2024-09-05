@@ -7,9 +7,12 @@ mod traitutil;
 use std::fmt::Display;
 
 use traitutil::{larger_num, largest_num1};
-use crate::traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5,trait_fn7};
+use traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5,trait_fn7};
+use traitutil::lifeutil::{lft_fn,lft_fn1,lft_fn2,lft_fn3};
 
 fn main() {
+    lft_fn2();
+    lft_fn3();
 
     let na_obj = NewsArticle {
         headline:String::from("News Article"),

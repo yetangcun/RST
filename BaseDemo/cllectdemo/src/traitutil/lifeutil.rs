@@ -18,3 +18,30 @@ pub fn lgest_fn<'a>(sr1:&'a str, sr2:&'a str) -> &'a str {
         sr2
     }
 }
+
+pub fn lgest_fn2<'a>(sr1:&str, sr2:&str) -> String {
+    let sr = String::from(format!("{}{}", sr1, sr2));
+    sr
+    // sr.as_str()
+}
+
+pub fn lft_fn2() {
+    let s = String::from("hello");
+    {
+        let r1 = String::from("haha");
+        // let r1 = "haha";
+        let res = lgest_fn(s.as_str(), r1.as_str());
+        println!("res1:{res}");
+    }
+}
+
+pub fn lft_fn3() {
+    let s = String::from("hello");
+    let res;
+    {
+        // let r1 = String::from("heihei");
+        let r1 = "heihei";
+        res = lgest_fn(s.as_str(), r1);
+    }
+    println!("res2:{res}");
+}
