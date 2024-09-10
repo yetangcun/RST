@@ -19,7 +19,7 @@ pub fn lgest_fn<'a>(sr1:&'a str, sr2:&'a str) -> &'a str {
     }
 }
 
-pub fn lgest_fn2<'a>(sr1:&str, sr2:&str) -> String {
+pub fn lgest_fn2(sr1:&str, sr2:&str) -> String {
     let sr = String::from(format!("{}{}", sr1, sr2));
     sr
     // sr.as_str()
@@ -39,9 +39,34 @@ pub fn lft_fn3() {
     let s = String::from("hello");
     let res;
     {
-        // let r1 = String::from("heihei");
+        // let r1 = String::from("heihei"); res = lgest_fn(s.as_str(), r1.as_str());
         let r1 = "heihei";
         res = lgest_fn(s.as_str(), r1);
     }
     println!("res2:{res}");
+}
+
+
+pub struct imt<'a> {
+    prt: &'a str
+}
+
+pub fn lft_fn4() {
+    let s = String::from("hello, worlds");
+    let prt = s.split(',').next().unwrap();
+    let obj = imt {
+        prt
+    };
+    // println!("obj:{:?}", obj);
+    println!("prt:{}", obj.prt);
+}
+
+pub fn lft_fn5(pr:&str) -> &str {
+    let bts = pr.as_bytes();
+    for (i, &itm) in bts.iter().enumerate() {
+        if itm == b' ' {
+            return &pr[..i];
+        }
+    }
+    &pr[..]
 }
