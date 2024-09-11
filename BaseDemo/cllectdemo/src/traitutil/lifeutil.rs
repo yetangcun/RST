@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 pub fn lft_fn() {
     let y = 4;
     let x = &y;
@@ -69,4 +71,15 @@ pub fn lft_fn5(pr:&str) -> &str {
         }
     }
     &pr[..]
+}
+
+pub fn lft_fn6<'a, T>(x:&'a str, y:&'a str, ann:&T) -> &'a str 
+where T: Display
+{
+    println!("ann is: {ann}");
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
 }
