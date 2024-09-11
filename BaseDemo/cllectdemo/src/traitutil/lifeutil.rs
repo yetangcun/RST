@@ -73,7 +73,8 @@ pub fn lft_fn5(pr:&str) -> &str {
     &pr[..]
 }
 
-pub fn lft_fn6<'a, T>(x:&'a str, y:&'a str, ann:&T) -> &'a str 
+pub fn lft_fn6<'a, T>
+(x:&'a str, y:&'a str, ann:&T) -> &'a str 
 where T: Display
 {
     println!("ann is: {ann}");
