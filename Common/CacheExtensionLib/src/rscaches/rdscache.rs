@@ -1,3 +1,4 @@
+extern crate redis;
 use redis::{Commands,Connection};
 use lazy_static::lazy_static;
 use std::sync::{Mutex, MutexGuard};
@@ -29,12 +30,24 @@ pub struct RdsCache {}
 
 impl RdsCache {
     pub fn new() -> Connection {
-        let client = redis::Client::open("redis://192.168.30.166/").unwrap();
-        let mut con = client.get_connection().unwrap();
+        let client = redis::Client::open("redis://:xiaoxiao@192.168.30.166:6379/2").unwrap();
+        let con = client.get_connection().unwrap();
+        // con.auth("xiaoxiao").unwrap();
+        // con.set("rs_ky", "rs_vl").unwrap();
         con
     }
 
     pub fn get_conn<'a>() -> MutexGuard<'a, Connection> {
         RDS_CACHE.lock().unwrap()
+    }
+
+    // pub fn set_str(ky:String, vl:String) {
+    //     let mut conn = Self::get_conn();
+    //     conn.set(ky, vl).unwrap();
+    // }
+
+    pub fn get_str(key:&str) -> String {
+        let mut conn = Self::get_conn();
+        conn.get(key).unwrap()
     }
 }

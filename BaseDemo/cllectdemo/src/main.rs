@@ -9,8 +9,16 @@ use std::fmt::Display;
 use traitutil::{larger_num, largest_num1};
 use traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5,trait_fn7};
 use traitutil::lifeutil::{lft_fn,lft_fn1,lft_fn2,lft_fn3,lft_fn4,lft_fn6};
+use CacheExtensionLib::{rscaches::rdscache};
 
 fn main() {
+
+    let ky = String::from("uid:000000");
+    let vl = String::from("rs_vl");
+    // let rds_conn = rdscache::RdsCache::set_str(ky, vl);
+    let rs_vl = rdscache::RdsCache::get_str(&ky);
+    println!("rs_rds_vl is : {rs_vl}");
+
     lft_fn2();
     lft_fn3();
     lft_fn4();
