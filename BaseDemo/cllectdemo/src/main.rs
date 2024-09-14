@@ -4,20 +4,35 @@ mod vectorutil;
 mod hashmaputil;
 mod cllectutil;
 mod traitutil;
+use std::future::Future;
 use std::fmt::Display;
+
+// use tokio::runtime::Runtime;
+use tokio::runtime::Runtime;
 
 use traitutil::{larger_num, largest_num1};
 use traitutil::traitimpl::{NewsArticle,Tweet,Summary,trait_func,trait_func2,trait_fn5,trait_fn7};
 use traitutil::lifeutil::{lft_fn,lft_fn1,lft_fn2,lft_fn3,lft_fn4,lft_fn6};
 use CacheExtensionLib::{rscaches::rdscache};
 
-fn main() {
+#[tokio::main]
+async fn main() {
 
     let ky = String::from("uid:000000");
-    let vl = String::from("66");
-    let rds_conn = rdscache::RdsCache::set_str(&ky, vl);
-    let rs_vl = rdscache::RdsCache::get_str(&ky);
-    println!("rs_rds_vl is : {rs_vl}");
+    let vl = String::from("666666");
+    // let rds_conn = rdscache::RdsCache::set_str(&ky, vl);
+    // let rs_vl = rdscache::RdsCache::get_str(&ky);
+    // println!("rs_rds_vl is : {rs_vl}");
+
+    // 创建一个 Tokio 运行时
+    // let runtime = Runtime::new().unwrap();
+    // let rds_pool_set = runtime.block_on(rdscache::RdsPool::set_str(&ky, vl));
+    // let rds_pool_get = runtime.block_on(rdscache::RdsPool::get_str(&ky));
+    // println!("rds_pool_get is : {rds_pool_get}");
+    
+    let rds_pool_set = rdscache::RdsPool::set_str(&ky, vl).await;
+    let rds_pool_get = rdscache::RdsPool::get_str(&ky).await;
+    println!("rds_pool_get is : {rds_pool_get}");
 
     lft_fn2();
     lft_fn3();
@@ -58,5 +73,4 @@ fn main() {
 
     // io::stdout().flush().unwrap(); // 确保“按回车键退出程序...”被立即打印
     io::stdin().read_line(&mut String::new()).unwrap();
-
 }
