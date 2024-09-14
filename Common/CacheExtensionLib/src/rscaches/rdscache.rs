@@ -32,7 +32,6 @@ impl RdsCache {
     pub fn new() -> Connection {
         let client = redis::Client::open("redis://:xiaoxiao@192.168.30.166:6379/2").unwrap();
         let mut con = client.get_connection().unwrap();
-        // con.auth("xiaoxiao").unwrap();
         con
     }
 
@@ -40,9 +39,9 @@ impl RdsCache {
         RDS_CACHE.lock().unwrap()
     }
 
-    pub fn set_str(ky:String, vl:String) -> bool{
+    pub fn set_str(ky:&str, vl:String) -> bool{
         let mut conn = Self::get_conn();
-        let res = conn.set::<String, String, bool>(ky, vl).unwrap();
+        let res = conn.set::<&str, String, bool>(ky, vl).unwrap();
         res
     }
 
