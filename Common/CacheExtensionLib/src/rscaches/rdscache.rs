@@ -22,6 +22,7 @@ use std::sync::{Mutex, MutexGuard};
 //     }
 // }
 
+// 复用连接对象--单例模式
 lazy_static! {
     static ref RDS_CACHE: Mutex<Connection> = Mutex::new(RdsCache::new());
 }
