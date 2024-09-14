@@ -14,8 +14,8 @@ use CacheExtensionLib::{rscaches::rdscache};
 fn main() {
 
     let ky = String::from("uid:000000");
-    let vl = String::from("rs_vl");
-    // let rds_conn = rdscache::RdsCache::set_str(ky, vl);
+    let vl = String::from("66");
+    let rds_conn = rdscache::RdsCache::set_str(&ky, vl);
     let rs_vl = rdscache::RdsCache::get_str(&ky);
     println!("rs_rds_vl is : {rs_vl}");
 
