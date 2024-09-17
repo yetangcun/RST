@@ -18,7 +18,7 @@ use CacheExtensionLib::{rscaches::rdscache};
 #[tokio::main]
 async fn main() {
 
-    let ky = String::from("uid:000000");
+    let ky = String::from("uid:99999999");
     let vl = String::from("666666");
     // let rds_conn = rdscache::RdsCache::set_str(&ky, vl);
     // let rs_vl = rdscache::RdsCache::get_str(&ky);

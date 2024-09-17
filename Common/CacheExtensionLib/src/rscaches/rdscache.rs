@@ -7,10 +7,12 @@ use deadpool_redis::{redis::AsyncCommands,Config as RedisConfig, Pool, Runtime,C
 // 复用连接对象--单例模式
 lazy_static! {
     static ref RDS_CACHE: Mutex<Connection> = Mutex::new(
-        RdsCache::new("redis://:xiaoxiao@192.168.30.166:6379/2")
+        // RdsCache::new("redis://:xiaoxiao@192.168.30.166:6379/2")
+        RdsCache::new("redis://127.0.0.1:6379/2")
     );
     static ref RDS_POOL_CACHE: Mutex<Pool> = Mutex::new(
-        RdsPool::new("redis://:xiaoxiao@192.168.30.166:6379/2")
+        // RdsPool::new("redis://:xiaoxiao@192.168.30.166:6379/2")
+        RdsPool::new("redis://127.0.0.1:6379/2")
     );
 }
 
