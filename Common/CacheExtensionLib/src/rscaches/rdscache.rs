@@ -44,6 +44,28 @@ impl RdsPool {
         let mut conn:PoolConnection = Self::get_conn().await;
         conn.get(key).await.unwrap()
     }
+    
+    pub async fn set_hash(hash_ky:&str, field_ky:&str, vl:&str) -> bool{
+        let mut conn:PoolConnection = Self::get_conn().await;
+        let res = conn.hset::<&str, &str, &str, bool>(hash_ky, field_ky, vl).await.unwrap();
+        res
+    }
+
+    pub async fn get_hash(hash_ky:&str, field_ky:&str) -> String {
+        let mut conn:PoolConnection = Self::get_conn().await;
+        conn.hget(hash_ky, field_ky).await.unwrap()
+    }
+    
+    pub async fn set_lst(lst_ky:&str, vl:&str) -> bool{
+        let mut conn:PoolConnection = Self::get_conn().await;
+        let res = conn.rpush::<&str, &str, bool>(lst_ky, vl).await.unwrap();
+        res
+    }
+
+    pub async fn get_lst(lst_ky:&str, start:isize, end:isize) -> Vec<String> {
+        let mut conn:PoolConnection = Self::get_conn().await;
+        conn.lrange(lst_ky, start, end).await.unwrap()
+    }
 }
 
 // 引用redis库
@@ -52,7 +74,7 @@ impl RdsCache {
     pub fn tst_rds(&self) { // 方法，第一个参数总是self
         println!("RdsCache::new()");
     }
-    
+
     pub fn bld_conn(url:&str) -> Connection {
         let client = redis::Client::open(url).unwrap();
         let mut con = client.get_connection().unwrap();
@@ -72,5 +94,27 @@ impl RdsCache {
     pub fn get_str(key:&str) -> String {
         let mut conn = Self::get_conn();
         conn.get(key).unwrap()
+    }
+
+    pub fn set_hash(hash_ky:&str, field_ky:&str, vl:String) -> bool{
+        let mut conn = Self::get_conn();
+        let res = conn.hset::<&str, &str, String, bool>(hash_ky, field_ky, vl).unwrap();
+        res
+    }
+
+    pub fn get_hash(hash_ky:&str, field_ky:&str) -> String {
+        let mut conn = Self::get_conn();
+        conn.hget(hash_ky, field_ky).unwrap()
+    }
+    
+    pub fn set_lst(lst_ky:&str, vl:String) -> bool{
+        let mut conn = Self::get_conn();
+        let res = conn.rpush::<&str, String, bool>(lst_ky, vl).unwrap();
+        res
+    }
+
+    pub fn get_lst(lst_ky:&str, start:isize, end:isize) -> Vec<String> {
+        let mut conn = Self::get_conn();
+        conn.lrange(lst_ky,start,end).unwrap()
     }
 }

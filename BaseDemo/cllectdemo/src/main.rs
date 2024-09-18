@@ -38,6 +38,19 @@ async fn main() {
     let rds_pool_get = rdscache::RdsPool::get_str(&ky).await; // 关联函数
     println!("rds_pool_get is : {rds_pool_get}");
 
+    let hsh_vl = String::from("999999");
+    rdscache::RdsPool::set_hash("hsh_ky", "hsh_field1", &hsh_vl).await;
+    rdscache::RdsPool::set_hash("hsh_ky", "hsh_field2", &hsh_vl).await;
+    rdscache::RdsPool::set_hash("hsh_ky", "hsh_field3", &hsh_vl).await;
+    let hsh_vls = rdscache::RdsPool::get_hash("hsh_ky", "hsh_field1").await;
+    println!("hsh_vls is : {hsh_vls}");
+
+    let lst_vl = String::from("888888");
+    rdscache::RdsPool::set_lst("lst_ky", &hsh_vl).await;
+    rdscache::RdsPool::set_lst("lst_ky", &lst_vl).await;
+    let lst_vls = rdscache::RdsPool::get_lst("lst_ky", 0, 1).await;
+    println!("lst_vls is : {0},{1}", &lst_vls[0], &lst_vls[1]);
+
     lft_fn2();
     lft_fn3();
     lft_fn4();
@@ -48,6 +61,7 @@ async fn main() {
         author:String::from("Tom"),
         content:String::from("Hello good friends!")
     };
+    
     let twt_obj = Tweet {
         username:String::from("Tom"),
         content:String::from("Hello my friends"),
