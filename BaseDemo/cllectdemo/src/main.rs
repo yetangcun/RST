@@ -20,6 +20,7 @@ async fn main() {
 
     let ky = String::from("uid:99999999");
     let vl = String::from("666666");
+
     // let rds_conn = rdscache::RdsCache::set_str(&ky, vl);
     // let rs_vl = rdscache::RdsCache::get_str(&ky);
     // println!("rs_rds_vl is : {rs_vl}");
@@ -30,8 +31,11 @@ async fn main() {
     // let rds_pool_get = runtime.block_on(rdscache::RdsPool::get_str(&ky));
     // println!("rds_pool_get is : {rds_pool_get}");
     
-    let rds_pool_set = rdscache::RdsPool::set_str(&ky, vl).await;
-    let rds_pool_get = rdscache::RdsPool::get_str(&ky).await;
+    let rdsPool = rdscache::RdsPool{};
+    let rds_pool_set = rdsPool.tst_pool(); // 对象调用方法
+    
+    let rds_pool_set = rdscache::RdsPool::set_str(&ky, vl).await; // 关联函数
+    let rds_pool_get = rdscache::RdsPool::get_str(&ky).await; // 关联函数
     println!("rds_pool_get is : {rds_pool_get}");
 
     lft_fn2();
