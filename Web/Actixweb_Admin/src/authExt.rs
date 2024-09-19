@@ -54,8 +54,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
         if req_pth.contains("/rst/") || req_pth.contains("/swagger-ui/") || req_pth.contains("/api-docs/") || req_pth.contains("/rsapi/") { // 不需要校验token 
             let rsfut = self.nxt.call(req);
             return Box::pin(async move {
-                let res = rsfut.await?;
-                println!("request end");
+                let res = rsfut.await?; // println!("request end");
                 Ok(res)
             })
         }
