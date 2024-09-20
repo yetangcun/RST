@@ -49,6 +49,8 @@ git branch -a 或 git branch -r
 # https://docs.rs/utoipa/4.2.3/utoipa/index.html swagger ui utoipa api文档生成
 # https://crates.io/
 
+# swagger ui api文档生成 网页地址：http://localhost:8000/swagger-ui/  http://127.0.0.1:8080/swagger-ui/
+
 [dependencies]
 mysql = "*"
 clickhouse_rs = "*"
