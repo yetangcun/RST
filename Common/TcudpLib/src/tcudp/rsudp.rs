@@ -1,32 +1,61 @@
 use std::net::UdpSocket;
-use std::io::{Read,Write};
+// use std::io::{Read, Write};
 use std::thread;
+use std::sync::Mutex;
+use lazy_static::lazy_static;
 
-pub fn start_udp_server(addr: &str) {
-    let sock = UdpSocket::bind(addr).unwrap();
-    println!("Server is listenning on {}", addr);
+lazy_static! {
+    static ref UDP_SOCK: Mutex<Udplib> = Mutex::new(Udplib::init_udp_soc("127.0.0.1:7878"));
+}
+
+pub struct Udplib {
+    addr: String,
+    sock: UdpSocket
+}
+
+impl Udplib {
+    pub fn init_udp_soc(addr: &str) -> Udplib { // 初始化Udp对象
+        let sock = UdpSocket::bind(addr).unwrap();
+        Udplib {
+            addr: addr.to_string(),
+            sock: sock
+        }
+    }
     
-    let mut buf = [0; 512];
-    // SocketAddr, SocketAddr
-    while let (nums, addr) = sock.recv_from(&mut buf).unwrap() {
-        println!("New connection from {}", addr);
+    // Udp接收数据
+    pub fn start_udp_server() { // 开启一个新线程来处理接收到的数据
         thread::spawn(move || {
-            let msg = String::from_utf8_lossy(&buf[..nums]);
-            println!("Received {} bytes from {}, {}", nums, addr, msg);
+            let udp_obj = UDP_SOCK.lock().unwrap();
+            println!("Server is listenning on {}", udp_obj.addr);
+            
+            loop {
+                let mut buf = [0; 512];
+                let (nums, _addr) = udp_obj.sock.recv_from(&mut buf).unwrap();
+                let msg = String::from_utf8_lossy(&buf[..nums]);
+                println!("Received {} bytes from {}, {}", nums, _addr, msg);
+            }
         });
     }
-}
 
-pub fn udp_server(addr: &str) {
-    let sock = UdpSocket::bind(addr).unwrap();
-    println!("Server is listenning on {}", addr);
-    
-    loop {
-        let mut buf = [0; 512];
-        let (nums, addr) = sock.recv_from(&mut buf).unwrap();
-        let msg = String::from_utf8_lossy(&buf[..nums]);
-        println!("Received {} bytes from {}, {}", nums, addr, msg);
-        //sock.send_to(msg.as_bytes(), addr).unwrap();
-        sock.send_to(msg.as_bytes(), "127.0.0.1:7878").unwrap();
+    // Udp接收数据
+    pub fn udp_server() {
+        thread::spawn(move || {
+            let udp_obj = UDP_SOCK.lock().unwrap();
+            println!("Server is listenning on {}", udp_obj.addr);
+            loop {
+                let mut buf = [0; 512];
+                let (nums, _addr) = udp_obj.sock.recv_from(&mut buf).unwrap();
+                let msg = String::from_utf8_lossy(&buf[..nums]);
+                println!("Received {} bytes from {}, {}", nums, _addr, msg);
+                // udp_obj.sock.send_to(msg.as_bytes(), "127.0.0.1:7878").unwrap();
+            }
+        });
+    }
+
+    // Udp发送数据
+    pub fn udp_clt_send(clt_addr: &str, msg: &str) {
+        let udp_obj = UDP_SOCK.lock().unwrap();
+        udp_obj.sock.send_to(msg.as_bytes(), clt_addr).unwrap();
     }
 }
+
