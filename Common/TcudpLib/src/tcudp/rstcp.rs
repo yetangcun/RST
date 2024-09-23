@@ -29,8 +29,9 @@ impl TcpServer {
         thread::spawn(move || {
             let tcp_server = TCP_SOCK.lock().unwrap();
             loop {
-                if let Ok((mut recv, _addr)) = tcp_server.tcp_sock.accept() {
-                    println!("new client connection from {}", _addr);
+                // recv: TcpStream
+                if let Ok((recv, _addr)) = tcp_server.tcp_sock.accept() {
+                    println!("new client connection from {}, {}, {}", _addr, recv.local_addr().unwrap(), recv.peer_addr().unwrap());
                 }
             }
         });
