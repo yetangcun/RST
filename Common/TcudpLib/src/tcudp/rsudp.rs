@@ -15,7 +15,20 @@ pub struct Udplib {
 
 impl Udplib {
     pub fn init_udp_soc(addr: &str) -> Udplib { // 初始化Udp对象
-        let sock = UdpSocket::bind(addr).unwrap();
+        
+        println!("udp start init on {}", addr);
+
+        let sock_obj = UdpSocket::bind(addr);
+        let sock = match sock_obj {
+            Ok(udp_sock) => udp_sock,
+            Err(e) => {
+                println!("udp start failed: {}", e);
+                panic!("{}", e);
+            }
+        };
+
+        println!("udp start bind on {}", sock.local_addr().unwrap());
+        
         Udplib {
             addr: addr.to_string(),
             sock: sock
