@@ -5,18 +5,21 @@ use std::sync::Mutex;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref TCP_SOCK: Mutex<TcpLib> = Mutex::new(TcpLib::init_tcp_soc("127.0.0.1:7878"));
+    static ref TCP_SOCK: Mutex<Tcplib> = Mutex::new(Tcplib::init_tcp_soc("192.168.30.166:7878"));
 }
 
-pub struct TcpLib {
+pub struct Tcplib {
     addr: String,
     tcp_sock: TcpListener
 }
 
-impl TcpLib {
-    pub fn init_tcp_soc(addr: &str) -> TcpLib { // 初始化Tcp对象
+impl Tcplib {
+    pub fn init_tcp_soc(addr: &str) -> Tcplib { // 初始化Tcp对象
+        println!("tcp start starting init on {}", addr);
         let tcp_sock = TcpListener::bind(addr).unwrap();
-        TcpLib {
+        println!("Tcp Server is listenning on {}", tcp_sock.local_addr().unwrap());
+        
+        Tcplib {
             addr: addr.to_string(),
             tcp_sock
         }
@@ -57,6 +60,7 @@ impl TcpLib {
 
     }
 
+    // Tcp发送数据
     pub fn tcp_send(clt_addr: &str, msg: &str) {
         let mut tcp_sock = TcpStream::connect(clt_addr).unwrap();
         tcp_sock.write(msg.as_bytes()).unwrap();
