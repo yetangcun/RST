@@ -1,11 +1,11 @@
-use std::io;
+// use std::io;
 use TcudpLib::tcudp::{rstcp::Tcplib, rsudp::Udplib};
 
 fn main() {
     
-    // tcp_test();
+    tcp_test();
 
-    udp_test();
+    // udp_test();
     
 }
 
@@ -14,5 +14,6 @@ fn tcp_test() {
 }
 
 fn udp_test() {
+    // Udplib::start_udp_server();
     Udplib::udp_server();
 }
