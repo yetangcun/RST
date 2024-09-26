@@ -1,11 +1,12 @@
 use std::net::{TcpListener, TcpStream};
-use std::io::{Read, Write}; /*  */
+use std::io::{Read, Write};
 use std::thread;
+use std::io::Error;
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref TCP_SOCK: Mutex<Tcplib> = Mutex::new(Tcplib::init_tcp_soc("192.168.30.166:7878"));
+    static ref TCP_SOCK: Mutex<Tcplib> = Mutex::new(Tcplib::init_tcp_soc("127.0.0.1:7878"));
 }
 
 pub struct Tcplib {
@@ -42,7 +43,7 @@ impl Tcplib {
                 }
             };
             
-            println!("tcp server info {}, {}", tcp_server.addr, tcp_server.tcp_sock.local_addr().unwrap());
+            println!("tcp server info {}", tcp_server.tcp_sock.local_addr().unwrap());
             
             for recv in tcp_server.tcp_sock.incoming() {
                 if let Ok(stream) = recv {
@@ -51,7 +52,14 @@ impl Tcplib {
                     
                     // 开启新线程接收数据
                     thread::spawn(move || { 
-                        Self::tcp_hdl_data(stream)
+                        // let _ = Self::tcp_hdl_data(stream);
+                        let hdl_rs = match Self::tcp_hdl_data(stream) {
+                            Ok(_) => "tcp client handle data successfully",
+                            Err(e) => {
+                                eprintln!("Thread failed: {:?}", e);
+                                "Thread failed"
+                            }
+                        };
                     });
                     
                 } else {
@@ -66,7 +74,7 @@ impl Tcplib {
         }
     }
 
-    fn tcp_hdl_data (mut stream: TcpStream) {
+    fn tcp_hdl_data (mut stream: TcpStream) -> Result<(), Error> {
         // 接收数据
         loop {
             let mut buf = [0; 512];
@@ -78,6 +86,8 @@ impl Tcplib {
             stream.write(msg.as_bytes()).unwrap();
             stream.flush().unwrap();
         }
+        
+        Ok(())
     }
 
     // Tcp发送数据
