@@ -3,9 +3,9 @@ use TcudpLib::tcudp::{rstcp::Tcplib, rsudp::Udplib};
 
 fn main() {
     
-    tcp_test();
+    // tcp_test();
 
-    // udp_test();
+    udp_test();
     
 }
 

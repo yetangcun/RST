@@ -54,7 +54,6 @@ impl Udplib {
                 println!("Udp Recv {} bytes from {}, {}", nums, _addr, msg);
             }
         });
-        
         // thread::spawn(move || {
         //     let udp_obj = UDP_SOCK.lock().unwrap();
         //     println!("Udp Server is listenning on {}", udp_obj.addr);
@@ -71,7 +70,6 @@ impl Udplib {
         // if let Err(e) = udp_server_hdl.join() {
         //     eprintln!("Thread failed: {:?}", e);
         // }
-
         // 2: 获取线程结果 上面1也是一样的效果且更简洁
         let _hdl_over = match udp_server_hdl.join() {
             Ok(_) => "Thread completed successfull",
