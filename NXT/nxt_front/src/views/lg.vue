@@ -93,7 +93,7 @@ const lgHdl = () => {
   border-radius: 36px;
   flex-direction: column;
   background-color: white;
-  box-shadow: 0px 0px 11px 0px lightgray inset;
+  box-shadow: 0px 0px 19px 0px lightgray inset;
 }
 
 .panel_title {
@@ -110,7 +110,7 @@ const lgHdl = () => {
   display: flex;
   margin-top: 36px;
   padding: 8px 0px;
-  border-radius: 2px;
+  border-radius: 26px;
   align-items: flex-end;
   border: 1px solid dodgerblue;
 }
@@ -119,7 +119,7 @@ const lgHdl = () => {
   display: flex;
   border: none;
   outline: none;
-  width: 227px;
+  width: 217px;
   padding: 3px;
   font-size: 16px;
   font-weight: 500;
