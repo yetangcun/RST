@@ -4,7 +4,7 @@
       <div
         class="panel_title"
         style="
-          color: #001589;
+          color: gray;
           justify-content: center;
           align-items: center;
           font-size: 26px;
