@@ -60,7 +60,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
         }
 
         let tk0 = req.headers().get("Authorization"); // 获取token
-        let mut tk = String::from("");
+        let tk;
         match tk0 {
             None => {
                 println!("call fn: {0}", "tk none");

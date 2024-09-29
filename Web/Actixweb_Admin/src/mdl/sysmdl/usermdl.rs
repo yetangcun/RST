@@ -126,13 +126,14 @@ impl DbrowMap<SqliteRow, sqlx::Error> for userQuerySimple {
 
 impl test_trat for userQuerySimple {
     fn test_fn(&self) -> String {
-        format!("test_trat");
+        
+        // format!("test_trat");
 
         String::from("test_trat")
     }
 
     fn test_fn2(&self) -> String {
-        format!("test_trat2");
+        // format!("test_trat2");
         String::from("test_trat2")
     }
 }

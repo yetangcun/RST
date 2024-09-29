@@ -73,7 +73,15 @@ pub async fn user_update(req: web::Json<userOptSimplInput>) -> Result<impl Respo
     Ok(web::Json(rsml))
 }
 
-#[get("/rst/user/getuser")]
+use utoipa::{ToSchema, IntoParams, OpenApi, openapi::OpenApiBuilder};
+#[utoipa::path(
+    context_path = "/rsapi",
+    responses(
+        (status = 200, description = "succ", body = String),
+        (status = 400, description = "fail")
+    )
+)]
+#[get("/user/getuser")]
 pub async fn get_user() -> Result<impl Responder> {
 
     let _rt = "hi, i'm user";
@@ -84,13 +92,13 @@ pub async fn get_user() -> Result<impl Responder> {
         role_name:String::from("管理员"),
         org_name:String::from("研究中心"),
         addr:String::from("yetangcun"),
-        age:1,
         phone:String::from("15111111111"),
         add_user:String::from("SUPERADMIN"),
         add_time:String::from("2024-06-12 10:10:10"),
         up_user:String::from("ADMIN"),
         up_time:String::from("2024-06-12 10:10:12"),
-        state:1
+        state:1,
+        age:1
     };
 
     // let rss:Vec<(i32,String,String)> = mysqlLib::do_query();

@@ -1,7 +1,8 @@
 use utoipa::{ToSchema, IntoParams, OpenApi, openapi::OpenApiBuilder};
-use actix_web::{get,post,web,App,Result, HttpResponse,HttpServer,Responder};
 use utoipa_swagger_ui::{SwaggerUi, Url};
 use serde::{Serialize,Deserialize};
+use crate::selfapi::{sys::userapi};
+use actix_web::{get,post,web,App,Result,HttpResponse,HttpServer,Responder};
 
 #[derive(ToSchema, Serialize, Deserialize)]
 pub struct lginput {
@@ -45,8 +46,8 @@ pub async fn lghdl(req_bdy: web::Json<lginput>) -> impl Responder {
 #[post("/reqhdl")]
 pub(super) async fn reqhdl(req_bdy: web::Json<reqinput>) -> impl Responder {
     println!("{:?}", req_bdy.usr);
-    let recv:reqinput = req_bdy.into_inner();
-    let rt = format!("great:{0}, you've request over",recv.usr); //String::from();
+    let recv = req_bdy.into_inner();
+    let rt = format!("great:{}, you've request over", recv.usr); //String::from();
     let obj = reqinput { 
         usr: String::from(recv.usr), 
         pwd: String::from(recv.pwd) 
@@ -89,3 +90,17 @@ pub struct ApiRsDoc;
     )
 )]
 pub struct ApiRsDoc1;
+
+#[derive(OpenApi)]
+#[openapi(
+    paths(
+        userapi::get_user
+    ), 
+    components(
+        schemas()
+    ),
+    tags(
+        (name = "系统管理Apis", description = "sysmanager apis")
+    )
+)]
+pub struct ApiRsDoc2;
