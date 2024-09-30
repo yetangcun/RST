@@ -28,6 +28,7 @@ pub async fn _init() -> MySqlPool {
 pub trait SqlxMysqlMp: Sized {
     fn frm_rw(rw:MySqlRow) -> Result<Self,Error> where Self: Sized;
 }
+
 pub async fn exe_query<T:SqlxMysqlMp>(sql:&str) ->Result<Vec<T>,Error>
 {
     let pl = _init().await;
