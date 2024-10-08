@@ -56,6 +56,7 @@ pub fn query<T:FrmRow>(sql:&str) -> Vec<T> {
     //     },
     //     Err(err) => println!("{:?}",err),
     // };
+    
     if let Ok(rws) = rows {
         for rw in rws {
             let itm = T::from_row(rw).unwrap();
