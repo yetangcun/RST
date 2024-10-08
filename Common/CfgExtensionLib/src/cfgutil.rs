@@ -27,8 +27,11 @@ pub fn rd_full_file(full_file_path: &str) -> String {
 }
 
 pub struct TomlCfgLoader;
+pub struct JsonCfgLoader;
+pub struct YamlCfgLoader;
+
 impl<T> crate::LoadCfg<T> for TomlCfgLoader
-where T:serde::de::DeserializeOwned
+where T:serde::de::DeserializeOwned,
 {
     fn load_cfg(file_path: &str) -> T {
         let _str = fs::read_to_string(file_path)
@@ -44,9 +47,8 @@ where T:serde::de::DeserializeOwned
     }
 }
 
-pub struct JsonCfgLoader;
 impl<T> crate::LoadCfg<T> for JsonCfgLoader
-where T:serde::de::DeserializeOwned 
+where T:serde::de::DeserializeOwned,
 {
     fn load_cfg(file_path: &str) -> T {
         let _str = fs::read_to_string(file_path)
@@ -62,9 +64,8 @@ where T:serde::de::DeserializeOwned
     }
 }
 
-pub struct YamlCfgLoader;
 impl<T> crate::LoadCfg<T> for YamlCfgLoader 
-where T:serde::de::DeserializeOwned 
+where T:serde::de::DeserializeOwned,
 {
     fn load_cfg(file_path: &str) -> T {
         let _str = fs::read_to_string(file_path)

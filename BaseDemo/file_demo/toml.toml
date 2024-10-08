@@ -1,0 +1,11 @@
+[basecfg]
+third_api_addr = "http://localhost:18080"
+time_out = 10
+
+[dbcfg]
+host = "localhost"
+port = 8687
+db = "test"
+user = "usr"
+pwd = "pwd"
+
