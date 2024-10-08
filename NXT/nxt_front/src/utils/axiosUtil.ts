@@ -8,12 +8,12 @@ import router from '@/router'
 class axiosReq {
   static runCounts = 0 // 超时重新登录,重复响应处理方法
   // static ENV:string = 'dev' // 线上、线下运行环境
-  axiosIns: AxiosInstance
+  reqIns: AxiosInstance
 
   constructor(conf: AxiosReqConf) {
-    this.axiosIns = axios.create(conf)
+    this.reqIns = axios.create(conf)
     if (conf.interceptors == null || !conf.interceptors.requestInterceptorHandle)
-      this.axiosIns.interceptors.request.use(
+      this.reqIns.interceptors.request.use(
         (req: InternalAxiosRequestConfig) => {
           const token = localStorage.getItem('curraccesstken')
           if (token) req.headers!.Authorization = `Bearer ${token}`
@@ -23,13 +23,13 @@ class axiosReq {
         (err: any) => err
       )
     else
-      this.axiosIns.interceptors.request.use(
+      this.reqIns.interceptors.request.use(
         conf.interceptors.requestInterceptorHandle,
         conf.interceptors.requestInterceptorCatch
       )
 
     if (conf.interceptors == null || !conf.interceptors.responseInterceptorHandle)
-      this.axiosIns.interceptors.response.use(
+      this.reqIns.interceptors.response.use(
         (res: AxiosResponse) => {
           const data = res.data
           if (data.Code == 401) {
@@ -61,8 +61,16 @@ class axiosReq {
             router.replace('/')
             axiosReq.runCounts += 1
             if (axiosReq.runCounts < 2) {
-              ElMessageBox.alert('登录超时,请重新登录', '登录超时', {
-                confirmButtonText: '确定'
+              // ElMessageBox.alert('登录超时,请重新登录', '登录超时提醒', {
+              //   confirmButtonText: '确定'
+              // })
+              ElMessageBox({
+                type: 'warning',
+                title: '登录超时提醒',
+                message: '登录超时,请重新登录',
+                showCancelButton: false,
+                confirmButtonText: '确定',
+                callback: () => {}
               })
             }
             return
@@ -71,7 +79,7 @@ class axiosReq {
         }
       )
     else
-      this.axiosIns.interceptors.response.use(
+      this.reqIns.interceptors.response.use(
         conf.interceptors.responseInterceptorHandle,
         conf.interceptors.responseInterceptorCatch
       )

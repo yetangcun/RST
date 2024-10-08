@@ -16,8 +16,8 @@ const router = createRouter({
       component: () => lg
     },
     {
-      path: '/index',
-      name: 'index',
+      path: '/main',
+      name: 'main',
       component: () => import('../views/main.vue'),
       children: routes
     }

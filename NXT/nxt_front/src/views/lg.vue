@@ -62,8 +62,12 @@
 </template>
 
 <script setup lang="ts">
-import { ElButton } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { dftReq } from '../utils/reqUtil'
+
+const router = useRouter()
 
 const sts = reactive({
   uname: '',
@@ -73,6 +77,14 @@ const sts = reactive({
 // 登录处理
 const lgHdl = () => {
   console.log('lgHandle')
+  if (!sts.uname) return ElMessage.warning('用户名不能为空')
+  if (!sts.pwd) return ElMessage.warning('密码不能为空')
+
+  dftReq.reqIns.post('/user/login', sts).then((res: any) => {
+    console.log(res)
+  })
+
+  router.push('/main')
 }
 </script>
 
