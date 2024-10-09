@@ -22,7 +22,7 @@
               <span
                 :class="`iconfont ${item.icon}`"
                 :style="{
-                  color: item.isSelected && item.mtype == 1 ? 'red' : 'black',
+                  color: item.isSelected && item.mtype == 1 ? states.selColor : 'black',
                   display: 'flex',
                   fontSize: item.size,
                   margin: '2px 2px 0px 0px'
@@ -32,9 +32,11 @@
                 :key="index"
                 :style="{ display: states.isTxt ? 'flex' : 'none', fontSize: '17px' }"
               >
-                <span v-if="item.mtype == 1 && item.isSelected" style="color: red">{{
-                  item.name
-                }}</span>
+                <span
+                  v-if="item.mtype == 1 && item.isSelected"
+                  :style="{ color: states.selColor }"
+                  >{{ item.name }}</span
+                >
                 <span v-else>{{ item.name }}</span>
               </div>
             </div>
@@ -59,7 +61,7 @@
                   display: 'flex',
                   fontSize: child.size,
                   margin: '0px 2px 0px 11px',
-                  color: child.isSelected ? 'red' : 'black'
+                  color: child.isSelected ? states.selColor : 'black'
                 }"
               ></span>
               <div
@@ -67,7 +69,7 @@
                 :style="{
                   display: states.isTxt ? 'block' : 'none',
                   fontSize: '15px',
-                  color: child.isSelected ? 'red' : 'black'
+                  color: child.isSelected ? states.selColor : 'black'
                 }"
               >
                 {{ child.name }}
@@ -99,6 +101,7 @@ import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const states = reactive({
+  selColor: 'orangered',
   selCode: '',
   dftWd: '211px',
   isTxt: true,
@@ -281,6 +284,8 @@ const expandHdl = () => {
   display: flex;
   flex: 1;
   padding: 10px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   flex-direction: column;
 }
 .menu_item_head {
