@@ -80,9 +80,14 @@ const lgHdl = () => {
   if (!sts.uname) return ElMessage.warning('用户名不能为空')
   if (!sts.pwd) return ElMessage.warning('密码不能为空')
 
-  dftReq.reqIns.post('/user/login', sts).then((res: any) => {
-    console.log(res)
-  })
+  // dftReq.reqIns
+  //   .post('/user/login', sts)
+  //   .then((res: any) => {
+  //     console.log(res)
+  //   })
+  //   .catch((err: any) => {
+  //     console.log(err)
+  //   })
 
   router.push('/main')
 }

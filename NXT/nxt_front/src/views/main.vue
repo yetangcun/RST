@@ -1,8 +1,324 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div>主页</div>
+  <div class="pg_top">
+    <div
+      class="pg_lft"
+      :style="{ display: 'flex', minWidth: states.dftWd, maxWidth: states.dftWd }"
+    >
+      <div class="nav_ico">
+        <img src="/favicon.ico" style="height: 46px; width: 46px" />
+      </div>
+      <div class="nav_menu">
+        <div v-for="(item, index) in states.menus" :key="index">
+          <div
+            style="
+              display: flex;
+              cursor: pointer;
+              align-items: center;
+              justify-content: space-between;
+            "
+            @click="navClkHdl(item)"
+          >
+            <div class="menu_item_head">
+              <span
+                :class="`iconfont ${item.icon}`"
+                :style="{
+                  color: item.isSelected && item.mtype == 1 ? 'red' : 'black',
+                  display: 'flex',
+                  fontSize: item.size,
+                  margin: '2px 2px 0px 0px'
+                }"
+              ></span>
+              <div
+                :key="index"
+                :style="{ display: states.isTxt ? 'flex' : 'none', fontSize: '17px' }"
+              >
+                <span v-if="item.mtype == 1 && item.isSelected" style="color: red">{{
+                  item.name
+                }}</span>
+                <span v-else>{{ item.name }}</span>
+              </div>
+            </div>
+            <span
+              v-if="item.mtype == 0 && states.isTxt"
+              :class="
+                item.isChildVisible ? 'iconfont icon-jiantoushang' : 'iconfont icon-jiantouxia'
+              "
+              style="margin: 2px 11px 0px 0px"
+            ></span>
+          </div>
+          <div v-if="item.isChildVisible" style="background-color: white">
+            <div
+              v-for="(child, index) in item.childs"
+              :key="index"
+              @click="navClkHdl(child)"
+              class="sub_menu_item"
+            >
+              <span
+                :class="`iconfont ${child.icon}`"
+                :style="{
+                  display: 'flex',
+                  fontSize: child.size,
+                  margin: '0px 2px 0px 11px',
+                  color: child.isSelected ? 'red' : 'black'
+                }"
+              ></span>
+              <div
+                :key="index"
+                :style="{
+                  display: states.isTxt ? 'block' : 'none',
+                  fontSize: '15px',
+                  color: child.isSelected ? 'red' : 'black'
+                }"
+              >
+                {{ child.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav_foot" @click="expandHdl">
+        <span
+          :class="
+            states.isTxt
+              ? 'iconfont icon-shuangzhongjiantou'
+              : 'iconfont icon-shuangzhongjiantouyou'
+          "
+          style="font-size: 23px"
+        ></span>
+      </div>
+    </div>
+    <div class="pg_rgt">
+      <div class="main_mds"></div>
+      <div class="main_bdy"></div>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 
-<style scoped></style>
+const states = reactive({
+  selCode: '',
+  dftWd: '211px',
+  isTxt: true,
+  menus: [
+    {
+      name: '系统管理',
+      icon: 'icon-pc',
+      code: 'systemmanager',
+      size: '20px',
+      mtype: 0,
+      isSelected: false,
+      isChildVisible: true,
+      childs: [
+        {
+          name: '用户管理',
+          icon: 'icon-pc',
+          code: 'user',
+          size: '18px',
+          mtype: 1,
+          isSelected: false,
+          childs: []
+        },
+        {
+          name: '权限管理',
+          icon: 'icon-pc',
+          code: 'permission',
+          size: '18px',
+          mtype: 1,
+          isSelected: false,
+          childs: []
+        },
+        {
+          name: '菜单管理',
+          icon: 'icon-pc',
+          code: 'menu',
+          size: '18px',
+          isSelected: false,
+          mtype: 1,
+          childs: []
+        },
+        {
+          name: '组织架构',
+          icon: 'icon-pc',
+          code: 'org',
+          size: '18px',
+          isSelected: false,
+          mtype: 1,
+          childs: []
+        },
+        {
+          name: '系统配置等统一设置',
+          icon: 'icon-pc',
+          code: 'setting',
+          size: '18px',
+          isSelected: false,
+          mtype: 1,
+          childs: []
+        },
+        {
+          name: '系统日志',
+          icon: 'icon-pc',
+          code: 'syslog',
+          size: '18px',
+          isSelected: false,
+          mtype: 1,
+          childs: []
+        }
+      ]
+    },
+    {
+      name: '黑名单管理',
+      icon: 'icon-pc',
+      code: 'blacklist',
+      size: '20px',
+      mtype: 0,
+      isSelected: false,
+      isChildVisible: false,
+      childs: [
+        {
+          name: '号码过滤',
+          icon: 'icon-pc',
+          code: 'blacklist',
+          isSelected: false,
+          size: '18px',
+          mtype: 1,
+          childs: []
+        },
+        {
+          name: '黑名单规则',
+          icon: 'icon-pc',
+          isSelected: false,
+          code: 'blacklistrule',
+          size: '18px',
+          mtype: 1
+        }
+      ]
+    },
+    {
+      name: '智能语音',
+      icon: 'icon-pc',
+      code: 'intelligent',
+      size: '20px',
+      mtype: 1,
+      isSelected: false,
+      isChildVisible: false,
+      childs: []
+    },
+    {
+      name: '达人带货',
+      icon: 'icon-pc',
+      code: 'shopping',
+      size: '20px',
+      mtype: 1,
+      isSelected: false,
+      isChildVisible: false,
+      childs: []
+    }
+  ]
+})
+
+const navClkHdl = (item: any) => {
+  if (item.mtype == 0) {
+    states.menus.forEach((itm: any) => {
+      if (item.code != itm.code) itm.isChildVisible = false
+      else itm.isChildVisible = !itm.isChildVisible
+    })
+  } else {
+    states.menus.forEach((itm: any) => {
+      if (itm.mtype == 0) {
+        itm.childs.forEach((chd: any) => {
+          if (chd.code == item.code) chd.isSelected = true
+          else chd.isSelected = false
+        })
+      } else if (itm.code != item.code) {
+        itm.isSelected = false
+      } else itm.isSelected = true
+    })
+    ElMessage.info(item.name)
+  }
+}
+const expandHdl = () => {
+  states.isTxt = !states.isTxt
+  if (!states.isTxt) {
+    states.menus.forEach((item: any) => {
+      if (item.isChildVisible) states.selCode = item.code
+      item.isChildVisible = false
+    })
+    states.dftWd = '66px'
+    return
+  }
+  states.dftWd = '211px'
+  if (states.selCode) {
+    states.menus.forEach((item: any) => {
+      if (item.code == states.selCode) item.isChildVisible = true
+    })
+  }
+}
+</script>
+
+<style scoped>
+.pg_top {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  background: #f5f5f5;
+}
+.pg_lft {
+  display: flex;
+  flex-direction: column;
+}
+.nav_ico {
+  display: flex;
+  padding: 10px 0px;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid gainsboro;
+}
+.nav_menu {
+  display: flex;
+  flex: 1;
+  padding: 10px 0;
+  flex-direction: column;
+}
+.menu_item_head {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 16px 10px 19px;
+}
+.sub_menu_item {
+  display: flex;
+  cursor: pointer;
+  padding: 10px 10px 10px 20px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.pg_rgt {
+  flex: 1;
+  flex-direction: column;
+  background-color: white;
+}
+.main_mds {
+  display: flex;
+  padding: 10px;
+  min-height: 46px;
+  max-height: 46px;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f5f5f5;
+  border-bottom: 2px solid gainsboro;
+}
+.nav_foot {
+  cursor: pointer;
+  display: flex;
+  padding: 11px 0px;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid gainsboro;
+}
+</style>
