@@ -1,5 +1,5 @@
 use std::io;
-use CfgExtensionLib::{LoadCfg, cfgutil::{TomlCfgLoader, JsonCfgLoader, YamlCfgLoader}};
+use CfgExtensionLib::{cfgutil::{TomlCfgLoader, JsonCfgLoader, YamlCfgLoader, LoadCfg}};
 use serde::{Deserialize, Serialize};
 
 use fs_mod::{cfg_toml, cfg_json, cfg_yaml};
@@ -8,8 +8,8 @@ fn main() {
     let contents = CfgExtensionLib::cfgutil::rd_relativ_file("tst.txt");
     println!("file contents: {}, demo!", contents);
 
-    let toml_cfg:Box<dyn LoadCfg<cfg_toml>> = Box::new(TomlCfgLoader);
-    // let cfg_toml:cfg_toml = toml_cfg.load_cfg("cfg.toml");
+    let toml_cfg = TomlCfgLoader{};
+    let cfg_toml:cfg_toml = TomlCfgLoader::load_cfg::<cfg_toml>("cfg.toml");
     println!("cfg_toml: {:?}", cfg_toml);
 
     // 等待输入, 防止退出
