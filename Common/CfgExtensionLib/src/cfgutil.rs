@@ -26,6 +26,11 @@ pub fn rd_full_file(full_file_path: &str) -> String {
     contents
 }
 
+pub trait LoadCfg<T> {
+    fn load_cfg(cfg_path:&str) -> T;
+    fn load_full_cfg<P: AsRef<Path>>(path: P) -> Result<T, Box<dyn std::error::Error>>;
+}
+
 pub struct TomlCfgLoader;
 pub struct JsonCfgLoader;
 pub struct YamlCfgLoader;
