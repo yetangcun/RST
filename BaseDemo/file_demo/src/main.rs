@@ -8,11 +8,11 @@ fn main() {
     let contents = CfgExtensionLib::cfgutil::rd_relativ_file("tst.txt");
     println!("file contents: {}, demo!", contents);
 
-    let cfg_toml:cfg_toml = CfgLoader::load_cfg::<cfg_toml>("toml.toml"); // println!("cfg_toml: {:?}", cfg_toml);
-    println!("api_addr: {}", cfg_toml.basecfg.third_api_addr);
+    let toml_obj:cfg_toml = CfgLoader::load_cfg::<cfg_toml>("toml.toml"); // println!("cfg_toml: {:?}", cfg_toml);
+    println!("api_addr: {}", toml_obj.basecfg.third_api_addr);
 
-    let cfg_json:cfg_json = CfgLoader::load_cfg::<cfg_json>("json.json");
-    println!("db host: {}", cfg_toml.dbcfg.host);
+    let json_obj:cfg_json = CfgLoader::load_cfg::<cfg_json>("json.json");
+    println!("db host: {}", json_obj.dbcfg.host);
 
     // 等待输入, 防止退出
     let mut inputs = String::new();

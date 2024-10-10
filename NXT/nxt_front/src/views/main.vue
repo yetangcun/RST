@@ -76,8 +76,8 @@
               <div
                 :key="index"
                 :style="{
-                  display: states.isTxt ? 'block' : 'none',
                   fontSize: '15px',
+                  display: states.isTxt ? 'block' : 'none',
                   color: child.isSelected ? states.selColor : states.dftColor
                 }"
               >
@@ -111,8 +111,9 @@ import { ElMessage } from 'element-plus'
 
 //#001f3c
 const states = reactive({
-  dftColor: 'lightgray',
+  isAnimal: true,
   dftBack: '#001f3c',
+  dftColor: 'lightgray',
   dftIco: 'icon-jingying',
   selColor: 'greenyellow',
   selCode: '',
@@ -311,9 +312,9 @@ const expandHdl = () => {
 .sub_menu_item {
   display: flex;
   cursor: pointer;
-  padding: 10px 10px 10px 20px;
   align-items: center;
   justify-content: flex-start;
+  padding: 10px 10px 10px 20px;
 }
 .pg_rgt {
   flex: 1;
