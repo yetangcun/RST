@@ -22,7 +22,8 @@ fn main() {
 }
 
 mod fs_mod {
-    use serde::{Deserialize};
+    // use serde::{Deserialize};
+    use super::*;
     
     #[derive(Debug, Deserialize)]
     pub struct basecfg {
