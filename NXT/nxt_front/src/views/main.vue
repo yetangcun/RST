@@ -2,10 +2,19 @@
   <div class="pg_top">
     <div
       class="pg_lft"
-      :style="{ display: 'flex', minWidth: states.dftWd, maxWidth: states.dftWd }"
+      :style="{
+        display: 'flex',
+        minWidth: states.dftWdth,
+        maxWidth: states.dftWdth,
+        backgroundColor: states.dftBack
+      }"
     >
       <div class="nav_ico">
-        <img src="/favicon.ico" style="height: 46px; width: 46px" />
+        <span
+          :class="`iconfont ${states.dftIco}`"
+          :style="{ color: states.dftColor, fontSize: '54px' }"
+        ></span>
+        <!-- <img src="/favicon.ico" style="height: 46px; width: 46px" /> -->
       </div>
       <div class="nav_menu">
         <div v-for="(item, index) in states.menus" :key="index">
@@ -22,7 +31,7 @@
               <span
                 :class="`iconfont ${item.icon}`"
                 :style="{
-                  color: item.isSelected && item.mtype == 1 ? states.selColor : 'black',
+                  color: item.isSelected && item.mtype == 1 ? states.selColor : states.dftColor,
                   display: 'flex',
                   fontSize: item.size,
                   margin: '2px 2px 0px 0px'
@@ -37,7 +46,7 @@
                   :style="{ color: states.selColor }"
                   >{{ item.name }}</span
                 >
-                <span v-else>{{ item.name }}</span>
+                <span v-else :style="{ color: states.dftColor }">{{ item.name }}</span>
               </div>
             </div>
             <span
@@ -45,10 +54,10 @@
               :class="
                 item.isChildVisible ? 'iconfont icon-jiantoushang' : 'iconfont icon-jiantouxia'
               "
-              style="margin: 2px 11px 0px 0px"
+              :style="{ margin: '2px 11px 0px 0px', color: states.dftColor }"
             ></span>
           </div>
-          <div v-if="item.isChildVisible" style="background-color: white">
+          <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
             <div
               v-for="(child, index) in item.childs"
               :key="index"
@@ -61,7 +70,7 @@
                   display: 'flex',
                   fontSize: child.size,
                   margin: '0px 2px 0px 11px',
-                  color: child.isSelected ? states.selColor : 'black'
+                  color: child.isSelected ? states.selColor : states.dftColor
                 }"
               ></span>
               <div
@@ -69,7 +78,7 @@
                 :style="{
                   display: states.isTxt ? 'block' : 'none',
                   fontSize: '15px',
-                  color: child.isSelected ? states.selColor : 'black'
+                  color: child.isSelected ? states.selColor : states.dftColor
                 }"
               >
                 {{ child.name }}
@@ -85,12 +94,12 @@
               ? 'iconfont icon-shuangzhongjiantou'
               : 'iconfont icon-shuangzhongjiantouyou'
           "
-          style="font-size: 23px"
+          :style="{ color: states.dftColor, fontSize: '23px' }"
         ></span>
       </div>
     </div>
     <div class="pg_rgt">
-      <div class="main_mds"></div>
+      <div class="main_mds" :style="{ backgroundColor: states.dftBack }"></div>
       <div class="main_bdy"></div>
     </div>
   </div>
@@ -100,10 +109,14 @@
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
+//#001f3c
 const states = reactive({
-  selColor: 'orangered',
+  dftColor: 'lightgray',
+  dftBack: '#001f3c',
+  dftIco: 'icon-jingying',
+  selColor: 'greenyellow',
   selCode: '',
-  dftWd: '211px',
+  dftWdth: '211px',
   isTxt: true,
   menus: [
     {
@@ -249,10 +262,10 @@ const expandHdl = () => {
       if (item.isChildVisible) states.selCode = item.code
       item.isChildVisible = false
     })
-    states.dftWd = '66px'
+    states.dftWdth = '66px'
     return
   }
-  states.dftWd = '211px'
+  states.dftWdth = '211px'
   if (states.selCode) {
     states.menus.forEach((item: any) => {
       if (item.code == states.selCode) item.isChildVisible = true
@@ -275,10 +288,10 @@ const expandHdl = () => {
 }
 .nav_ico {
   display: flex;
-  padding: 10px 0px;
+  padding: 6px 0px;
   align-items: center;
   justify-content: center;
-  border-bottom: 2px solid gainsboro;
+  border-bottom: 1px solid lightgray;
 }
 .nav_menu {
   display: flex;
@@ -314,8 +327,7 @@ const expandHdl = () => {
   max-height: 46px;
   align-items: center;
   justify-content: flex-start;
-  background-color: #f5f5f5;
-  border-bottom: 2px solid gainsboro;
+  border-bottom: 1px solid gainsboro;
 }
 .nav_foot {
   cursor: pointer;
@@ -323,6 +335,6 @@ const expandHdl = () => {
   padding: 11px 0px;
   align-items: center;
   justify-content: center;
-  border-top: 2px solid gainsboro;
+  /* border-top: 1px solid lightgray; */
 }
 </style>
