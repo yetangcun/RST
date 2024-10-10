@@ -31,33 +31,23 @@ pub trait LoadCfg {
     // fn load_full_cfg<P: AsRef<Path>>(path: P) -> Result<T, Box<dyn std::error::Error>>;
 }
 
-pub struct TomlCfgLoader;
-pub struct JsonCfgLoader;
-pub struct YamlCfgLoader;
+pub struct CfgLoader;
 
-impl LoadCfg for TomlCfgLoader
+impl LoadCfg for CfgLoader
 {
     fn load_cfg<T:serde::de::DeserializeOwned>(file_path: &str) -> T {
         let _str = fs::read_to_string(file_path)
             .expect("Something went wrong reading the file");
 
-        toml::from_str(&_str).unwrap()
-    }
-
-    // fn load_full_cfg<P: AsRef<Path>>(path: P) -> Result<T, Box<dyn std::error::Error>> {
-    //     let _str = fs::read_to_string(path).expect("Something went wrong reading the file");
-    //     let res: T = from_str(&_str)?;
-    //     Ok(res)
-    // }
-}
-
-impl LoadCfg for JsonCfgLoader
-{
-    fn load_cfg<T:serde::de::DeserializeOwned>(file_path: &str) -> T {
-        let _str = fs::read_to_string(file_path)
-            .expect("Something went wrong reading the file");
-
-        json_from_str(&_str).unwrap()
+        if file_path.ends_with(".toml") {
+            from_str(&_str).unwrap()
+        } else if file_path.ends_with(".json") {
+            json_from_str(&_str).unwrap()
+        } else if file_path.ends_with(".yaml") {
+            yaml_from_str(&_str).unwrap()
+        } else {
+            panic!("Unsupported file type")
+        }
     }
     
     // fn load_full_cfg<P: AsRef<Path>>(path: P) -> Result<T, Box<dyn std::error::Error>> {
@@ -67,19 +57,4 @@ impl LoadCfg for JsonCfgLoader
     // }
 }
 
-impl LoadCfg for YamlCfgLoader 
-{
-    fn load_cfg<T:serde::de::DeserializeOwned>(file_path: &str) -> T {
-        let _str = fs::read_to_string(file_path)
-            .expect("Something went wrong reading the file");
-
-        yaml_from_str(&_str).unwrap()
-    }
-}
-
-// pub fn rd_file<T>(file_path: &str) -> &T {
-//     let contents = fs::read_to_string(file_path)
-//         .expect("Something went wrong reading the file");
-//     &contents
-// }
 
