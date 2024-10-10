@@ -18,15 +18,7 @@
       </div>
       <div class="nav_menu">
         <div v-for="(item, index) in states.menus" :key="index">
-          <div
-            style="
-              display: flex;
-              cursor: pointer;
-              align-items: center;
-              justify-content: space-between;
-            "
-            @click="navClkHdl(item)"
-          >
+          <div class="menu_head" @click="navClkHdl(item)">
             <div class="menu_item_head">
               <span
                 :class="`iconfont ${item.icon}`"
@@ -57,7 +49,11 @@
               :style="{ margin: '2px 11px 0px 0px', color: states.dftColor }"
             ></span>
           </div>
-          <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
+          <div
+            v-if="item.isChildVisible"
+            :id="`menu_head_${item.code}`"
+            :style="{ backgroundColor: states.dftBack }"
+          >
             <div
               v-for="(child, index) in item.childs"
               :key="index"
@@ -242,6 +238,14 @@ const navClkHdl = (item: any) => {
       if (item.code != itm.code) itm.isChildVisible = false
       else itm.isChildVisible = !itm.isChildVisible
     })
+    // var doc_ele: HTMLElement | null = document.getElementById('#menu_head_' + item.code)
+    // console.log(doc_ele)
+    // if (!doc_ele) return
+    // if (doc_ele.style.maxHeight == '' || doc_ele.style.maxHeight == '0px') {
+    //   doc_ele.style.maxHeight = doc_ele.scrollHeight + 'px'
+    // } else {
+    //   doc_ele.style.maxHeight = '0'
+    // }
   } else {
     states.menus.forEach((itm: any) => {
       if (itm.mtype == 0) {
@@ -301,6 +305,12 @@ const expandHdl = () => {
   overflow-y: auto;
   overflow-x: hidden;
   flex-direction: column;
+}
+.menu_head {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
 }
 .menu_item_head {
   display: flex;
