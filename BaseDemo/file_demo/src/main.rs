@@ -12,7 +12,7 @@ fn main() {
     println!("api_addr: {}", toml_obj.basecfg.third_api_addr);
 
     let json_obj:cfg_json = CfgLoader::load_cfg::<cfg_json>("json.json");
-    println!("db host: {}", json_obj.dbcfg.host);
+    println!("db host: {}, port: {}", json_obj.dbcfg.host, json_obj.dbcfg.port);
 
     // 等待输入, 防止退出
     let mut inputs = String::new();

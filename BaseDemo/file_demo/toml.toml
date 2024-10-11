@@ -8,4 +8,3 @@ port = 8687
 db = "test"
 user = "usr"
 pwd = "pwd"
-

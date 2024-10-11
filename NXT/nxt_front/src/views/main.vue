@@ -339,24 +339,24 @@ const expandHdl = () => {
   /* border-top: 1px solid lightgray; */
 }
 
-.sld-enter-active {
+/* .sld-enter-active {
   transition: all 0.4s ease-in;
   height: auto;
   overflow: hidden;
 }
 .sld-leave-active {
-  transition: all 0.1s ease-out;
+  transition: all 0s ease-out;
   overflow: hidden;
   height: 0;
 }
 .sld-enter-from,
 .sld-leave-to {
-  transform: translateY(3px);
+  transform: translateY(1px);
   opacity: 0;
   height: 0;
-}
+} */
 
-/* .sld-enter-active {
+.sld-enter-active {
   animation: slide-down 0.3s ease-in;
 }
 .sld-leave-active {
@@ -381,5 +381,5 @@ const expandHdl = () => {
     transform: translateY(-2%);
     opacity: 0;
   }
-} */
+}
 </style>
