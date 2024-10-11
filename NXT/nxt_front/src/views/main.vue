@@ -49,38 +49,36 @@
               :style="{ margin: '2px 11px 0px 0px', color: states.dftColor }"
             ></span>
           </div>
-          <div
-            v-if="item.isChildVisible"
-            :id="`menu_head_${item.code}`"
-            :style="{ backgroundColor: states.dftBack }"
-          >
-            <div
-              v-for="(child, index) in item.childs"
-              :key="index"
-              @click="navClkHdl(child)"
-              class="sub_menu_item"
-            >
-              <span
-                :class="`iconfont ${child.icon}`"
-                :style="{
-                  display: 'flex',
-                  fontSize: child.size,
-                  margin: '0px 2px 0px 11px',
-                  color: child.isSelected ? states.selColor : states.dftColor
-                }"
-              ></span>
+          <transition name="sld">
+            <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
               <div
+                v-for="(child, index) in item.childs"
                 :key="index"
-                :style="{
-                  fontSize: '15px',
-                  display: states.isTxt ? 'block' : 'none',
-                  color: child.isSelected ? states.selColor : states.dftColor
-                }"
+                @click="navClkHdl(child)"
+                class="sub_menu_item"
               >
-                {{ child.name }}
+                <span
+                  :class="`iconfont ${child.icon}`"
+                  :style="{
+                    display: 'flex',
+                    fontSize: child.size,
+                    margin: '0px 2px 0px 11px',
+                    color: child.isSelected ? states.selColor : states.dftColor
+                  }"
+                ></span>
+                <div
+                  :key="index"
+                  :style="{
+                    fontSize: '15px',
+                    display: states.isTxt ? 'block' : 'none',
+                    color: child.isSelected ? states.selColor : states.dftColor
+                  }"
+                >
+                  {{ child.name }}
+                </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
       </div>
       <div class="nav_foot" @click="expandHdl">
@@ -112,8 +110,8 @@ const states = reactive({
   dftColor: 'lightgray',
   dftIco: 'icon-jingying',
   selColor: 'greenyellow',
-  selCode: '',
   dftWdth: '211px',
+  selCode: '',
   isTxt: true,
   menus: [
     {
@@ -238,14 +236,6 @@ const navClkHdl = (item: any) => {
       if (item.code != itm.code) itm.isChildVisible = false
       else itm.isChildVisible = !itm.isChildVisible
     })
-    // var doc_ele: HTMLElement | null = document.getElementById('#menu_head_' + item.code)
-    // console.log(doc_ele)
-    // if (!doc_ele) return
-    // if (doc_ele.style.maxHeight == '' || doc_ele.style.maxHeight == '0px') {
-    //   doc_ele.style.maxHeight = doc_ele.scrollHeight + 'px'
-    // } else {
-    //   doc_ele.style.maxHeight = '0'
-    // }
   } else {
     states.menus.forEach((itm: any) => {
       if (itm.mtype == 0) {
@@ -348,4 +338,48 @@ const expandHdl = () => {
   justify-content: center;
   /* border-top: 1px solid lightgray; */
 }
+
+.sld-enter-active {
+  transition: all 0.4s ease-in;
+  height: auto;
+  overflow: hidden;
+}
+.sld-leave-active {
+  transition: all 0.1s ease-out;
+  overflow: hidden;
+  height: 0;
+}
+.sld-enter-from,
+.sld-leave-to {
+  transform: translateY(3px);
+  opacity: 0;
+  height: 0;
+}
+
+/* .sld-enter-active {
+  animation: slide-down 0.3s ease-in;
+}
+.sld-leave-active {
+  animation: slide-up 0s ease-out;
+}
+@keyframes slide-down {
+  from {
+    transform: translateY(-2%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-up {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-2%);
+    opacity: 0;
+  }
+} */
 </style>
