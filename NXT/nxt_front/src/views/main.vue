@@ -364,7 +364,7 @@ const expandHdl = () => {
 }
 @keyframes slide-down {
   from {
-    transform: translateY(-2%);
+    transform: translateY(-1%);
     opacity: 0;
   }
   to {
@@ -378,7 +378,7 @@ const expandHdl = () => {
     opacity: 1;
   }
   to {
-    transform: translateY(-2%);
+    transform: translateY(-1%);
     opacity: 0;
   }
 }
