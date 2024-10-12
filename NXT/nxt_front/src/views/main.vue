@@ -357,7 +357,7 @@ const expandHdl = () => {
 } */
 
 .sld-enter-active {
-  animation: slide-down 0.3s ease-in;
+  animation: slide-down 0.4s ease-in;
 }
 .sld-leave-active {
   animation: slide-up 0s ease-out;
