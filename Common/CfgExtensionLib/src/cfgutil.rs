@@ -2,6 +2,7 @@ use std::fs;
 use std::io;
 use std::env;
 use std::path::Path;
+use serde::de::DeserializeOwned;
 
 // use std::io::{self, Read};
 // use serde::{Deserialize, Serialize};
@@ -27,7 +28,7 @@ pub fn rd_full_file(full_file_path: &str) -> String {
 }
 
 pub trait LoadCfg {
-    fn load_cfg<T:serde::de::DeserializeOwned>(cfg_path:&str) -> T;
+    fn load_cfg<T:DeserializeOwned>(cfg_path:&str) -> T;
     // fn load_full_cfg<P: AsRef<Path>>(path: P) -> Result<T, Box<dyn std::error::Error>>;
 }
 
@@ -35,7 +36,7 @@ pub struct CfgLoader;
 
 impl LoadCfg for CfgLoader
 {
-    fn load_cfg<T:serde::de::DeserializeOwned>(file_path: &str) -> T {
+    fn load_cfg<T:DeserializeOwned>(file_path: &str) -> T {
         let _str = fs::read_to_string(file_path)
             .expect("Something went wrong reading the file");
 

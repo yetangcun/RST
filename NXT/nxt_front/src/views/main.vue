@@ -2,6 +2,7 @@
   <div class="pg_top">
     <div
       class="pg_lft"
+      id="pg_lft_nav"
       :style="{
         display: 'flex',
         minWidth: states.dftWdth,
@@ -100,8 +101,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
+import { animalutil } from '../utils/animal'
 
 //#001f3c
 const states = reactive({
@@ -252,15 +254,28 @@ const navClkHdl = (item: any) => {
 }
 const expandHdl = () => {
   states.isTxt = !states.isTxt
+  new animalutil(66, 211, 66)
   if (!states.isTxt) {
     states.menus.forEach((item: any) => {
       if (item.isChildVisible) states.selCode = item.code
       item.isChildVisible = false
     })
-    states.dftWdth = '66px'
+    // states.dftWdth = '66px'
+    animalutil.wdth_shrink()
+    nextTick(() => {
+      states.dftWdth = animalutil.dft_wdth + 'px'
+      console.log(1, states.dftWdth)
+    })
     return
   }
-  states.dftWdth = '211px'
+  // states.dftWdth = '211px'
+
+  animalutil.wdth_expand()
+  nextTick(() => {
+    states.dftWdth = animalutil.dft_wdth + 'px'
+    console.log(2, states.dftWdth)
+  })
+
   if (states.selCode) {
     states.menus.forEach((item: any) => {
       if (item.code == states.selCode) item.isChildVisible = true
