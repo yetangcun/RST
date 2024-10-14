@@ -2,28 +2,36 @@ export class animalutil {
   static stp: number = 1
   static max_wdth: number
   static min_wdth: number
+  static ele: HTMLElement | null
   public static dft_wdth: number
 
-  constructor(dftWdth: number, maxWdth: number, minWdth: number) {
-    animalutil.dft_wdth = dftWdth
+  constructor(eleId: string, maxWdth: number, minWdth: number) {
+    animalutil.dft_wdth = maxWdth
     animalutil.max_wdth = maxWdth
     animalutil.min_wdth = minWdth
+    animalutil.ele = document.getElementById(eleId)
   }
 
   static wdth_expand() {
-    // console.log(animalutil.dft_wdth, animalutil.max_wdth)
+    // console.log(animalutil.dft_wdth)
     if (animalutil.dft_wdth < animalutil.max_wdth) {
-      animalutil.dft_wdth += animalutil.stp
-      // animalutil.ele.style.width = `${animalutil.dft_wdth}px`
+      animalutil.dft_wdth += animalutil.stp * 5
+      if (animalutil.ele) {
+        animalutil.ele.style.maxWidth = `${animalutil.dft_wdth}px`
+        animalutil.ele.style.minWidth = `${animalutil.dft_wdth}px`
+      }
       requestAnimationFrame(animalutil.wdth_expand)
     }
   }
 
   static wdth_shrink() {
-    // console.log(animalutil.dft_wdth, animalutil.min_wdth)
+    // console.log(animalutil.dft_wdth)
     if (animalutil.dft_wdth > animalutil.min_wdth) {
-      animalutil.dft_wdth -= animalutil.stp
-      // animalutil.ele.style.width = `${animalutil.dft_wdth}px`
+      animalutil.dft_wdth -= animalutil.stp * 5
+      if (animalutil.ele) {
+        animalutil.ele.style.minWidth = `${animalutil.dft_wdth}px`
+        animalutil.ele.style.maxWidth = `${animalutil.dft_wdth}px`
+      }
       requestAnimationFrame(animalutil.wdth_shrink)
     }
   }

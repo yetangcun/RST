@@ -50,14 +50,10 @@
               :style="{ margin: '2px 11px 0px 0px', color: states.dftColor }"
             ></span>
           </div>
-          <transition name="sld">
-            <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
-              <div
-                v-for="(child, index) in item.childs"
-                :key="index"
-                @click="navClkHdl(child)"
-                class="sub_menu_item"
-              >
+          <!-- <transition name="sld"> -->
+          <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
+            <div v-for="(child, index) in item.childs" :key="index" @click="navClkHdl(child)">
+              <div v-if="item.isChildVisible" class="sub_menu_item">
                 <span
                   :class="`iconfont ${child.icon}`"
                   :style="{
@@ -79,7 +75,8 @@
                 </div>
               </div>
             </div>
-          </transition>
+          </div>
+          <!-- </transition> -->
         </div>
       </div>
       <div class="nav_foot" @click="expandHdl">
@@ -101,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, nextTick } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { animalutil } from '../utils/animal'
 
@@ -112,7 +109,7 @@ const states = reactive({
   dftColor: 'lightgray',
   dftIco: 'icon-jingying',
   selColor: 'greenyellow',
-  dftWdth: '211px',
+  dftWdth: '212px',
   selCode: '',
   isTxt: true,
   menus: [
@@ -236,7 +233,10 @@ const navClkHdl = (item: any) => {
   if (item.mtype == 0) {
     states.menus.forEach((itm: any) => {
       if (item.code != itm.code) itm.isChildVisible = false
-      else itm.isChildVisible = !itm.isChildVisible
+      else {
+        itm.isChildVisible = !itm.isChildVisible
+        if (!itm.isChildVisible) states.selCode = ''
+      }
     })
   } else {
     states.menus.forEach((itm: any) => {
@@ -252,36 +252,35 @@ const navClkHdl = (item: any) => {
     ElMessage.info(item.name)
   }
 }
-const expandHdl = () => {
+const expandHdl = async () => {
   states.isTxt = !states.isTxt
-  new animalutil(66, 211, 66)
+
   if (!states.isTxt) {
     states.menus.forEach((item: any) => {
       if (item.isChildVisible) states.selCode = item.code
       item.isChildVisible = false
     })
+
     // states.dftWdth = '66px'
     animalutil.wdth_shrink()
-    nextTick(() => {
-      states.dftWdth = animalutil.dft_wdth + 'px'
-      console.log(1, states.dftWdth)
-    })
+
     return
   }
+
   // states.dftWdth = '211px'
 
-  animalutil.wdth_expand()
-  nextTick(() => {
-    states.dftWdth = animalutil.dft_wdth + 'px'
-    console.log(2, states.dftWdth)
-  })
-
+  console.log(states.selCode, states.menus)
   if (states.selCode) {
     states.menus.forEach((item: any) => {
       if (item.code == states.selCode) item.isChildVisible = true
     })
   }
+  animalutil.wdth_expand()
 }
+
+onMounted(() => {
+  new animalutil('pg_lft_nav', 211, 66)
+})
 </script>
 
 <style scoped>
@@ -371,8 +370,8 @@ const expandHdl = () => {
   height: 0;
 } */
 
-.sld-enter-active {
-  animation: slide-down 0.4s ease-in;
+/* .sld-enter-active {
+  animation: slide-down 0.3s ease-in;
 }
 .sld-leave-active {
   animation: slide-up 0s ease-out;
@@ -396,5 +395,5 @@ const expandHdl = () => {
     transform: translateY(-1%);
     opacity: 0;
   }
-}
+} */
 </style>
