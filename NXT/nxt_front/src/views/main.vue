@@ -19,7 +19,7 @@
       </div>
       <div class="nav_menu">
         <div v-for="(item, index) in states.menus" :key="index">
-          <div class="menu_head" @click="navClkHdl(item)">
+          <div v-if="states.islded" class="menu_head" @click="navClkHdl(item)">
             <div class="menu_item_head">
               <span
                 :class="`iconfont ${item.icon}`"
@@ -50,33 +50,33 @@
               :style="{ margin: '2px 11px 0px 0px', color: states.dftColor }"
             ></span>
           </div>
-          <!-- <transition name="sld"> -->
-          <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
-            <div v-for="(child, index) in item.childs" :key="index" @click="navClkHdl(child)">
-              <div v-if="item.isChildVisible" class="sub_menu_item">
-                <span
-                  :class="`iconfont ${child.icon}`"
-                  :style="{
-                    display: 'flex',
-                    fontSize: child.size,
-                    margin: '0px 2px 0px 11px',
-                    color: child.isSelected ? states.selColor : states.dftColor
-                  }"
-                ></span>
-                <div
-                  :key="index"
-                  :style="{
-                    fontSize: '15px',
-                    display: states.isTxt ? 'block' : 'none',
-                    color: child.isSelected ? states.selColor : states.dftColor
-                  }"
-                >
-                  {{ child.name }}
+          <transition name="sld">
+            <div v-if="item.isChildVisible" :style="{ backgroundColor: states.dftBack }">
+              <div v-for="(child, index) in item.childs" :key="index" @click="navClkHdl(child)">
+                <div class="sub_menu_item">
+                  <span
+                    :class="`iconfont ${child.icon}`"
+                    :style="{
+                      display: 'flex',
+                      fontSize: child.size,
+                      margin: '0px 2px 0px 11px',
+                      color: child.isSelected ? states.selColor : states.dftColor
+                    }"
+                  ></span>
+                  <div
+                    :key="index"
+                    :style="{
+                      fontSize: '15px',
+                      display: states.isTxt ? 'block' : 'none',
+                      color: child.isSelected ? states.selColor : states.dftColor
+                    }"
+                  >
+                    {{ child.name }}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- </transition> -->
+          </transition>
         </div>
       </div>
       <div class="nav_foot" @click="expandHdl">
@@ -104,6 +104,7 @@ import { animalutil } from '../utils/animal'
 
 //#001f3c
 const states = reactive({
+  islded: true,
   isAnimal: true,
   dftBack: '#001f3c',
   dftColor: 'lightgray',
@@ -252,30 +253,50 @@ const navClkHdl = (item: any) => {
     ElMessage.info(item.name)
   }
 }
+
+const times = 160
 const expandHdl = async () => {
   states.isTxt = !states.isTxt
 
   if (!states.isTxt) {
+    states.islded = true
     states.menus.forEach((item: any) => {
       if (item.isChildVisible) states.selCode = item.code
       item.isChildVisible = false
     })
 
-    // states.dftWdth = '66px'
-    animalutil.wdth_shrink()
+    animalutil.wdth_shrink() // states.dftWdth = '66px'
 
     return
   }
 
-  // states.dftWdth = '211px'
+  states.islded = false // states.dftWdth = '211px'
 
-  console.log(states.selCode, states.menus)
+  animalutil.wdth_expand() // 菜单栏横向展开
+
+  // 第二级菜单可视化重置
+  states.menus.forEach((itm: any) => {
+    itm.isChildVisible = false
+  })
+
+  //  第一级菜单展开
+  let timer = setTimeout(() => {
+    states.islded = true
+    clearTimeout(timer)
+  }, times)
+
+  // 第二级菜单延迟展开,提升体验
   if (states.selCode) {
-    states.menus.forEach((item: any) => {
-      if (item.code == states.selCode) item.isChildVisible = true
-    })
+    let timer1 = setTimeout(() => {
+      states.menus.forEach((itm: any) => {
+        if (states.selCode == itm.code) {
+          itm.isChildVisible = true
+          return
+        }
+      })
+      clearTimeout(timer1)
+    }, times + 100)
   }
-  animalutil.wdth_expand()
 }
 
 onMounted(() => {
@@ -353,8 +374,8 @@ onMounted(() => {
   /* border-top: 1px solid lightgray; */
 }
 
-/* .sld-enter-active {
-  transition: all 0.4s ease-in;
+.sld-enter-active {
+  transition: all 0.1s ease-in;
   height: auto;
   overflow: hidden;
 }
@@ -365,10 +386,10 @@ onMounted(() => {
 }
 .sld-enter-from,
 .sld-leave-to {
-  transform: translateY(1px);
+  transform: translateY(-10px);
   opacity: 0;
   height: 0;
-} */
+}
 
 /* .sld-enter-active {
   animation: slide-down 0.3s ease-in;
