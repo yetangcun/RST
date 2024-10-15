@@ -254,7 +254,7 @@ const navClkHdl = (item: any) => {
   }
 }
 
-const times = 160
+const times = 130
 const expandHdl = async () => {
   states.isTxt = !states.isTxt
 
@@ -266,12 +266,10 @@ const expandHdl = async () => {
     })
 
     animalutil.wdth_shrink() // states.dftWdth = '66px'
-
     return
   }
 
   states.islded = false // states.dftWdth = '211px'
-
   animalutil.wdth_expand() // 菜单栏横向展开
 
   // 第二级菜单可视化重置
@@ -375,7 +373,7 @@ onMounted(() => {
 }
 
 .sld-enter-active {
-  transition: all 0.1s ease-in;
+  transition: all 0.2s ease-in;
   height: auto;
   overflow: hidden;
 }
@@ -386,7 +384,7 @@ onMounted(() => {
 }
 .sld-enter-from,
 .sld-leave-to {
-  transform: translateY(-10px);
+  transform: translateY(-6px);
   opacity: 0;
   height: 0;
 }
