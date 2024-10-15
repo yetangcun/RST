@@ -91,7 +91,31 @@
       </div>
     </div>
     <div class="pg_rgt">
-      <div class="main_mds" :style="{ backgroundColor: states.dftBack }"></div>
+      <div class="main_nav" :style="{ backgroundColor: states.dftBack }">
+        <div class="main_mds"></div>
+        <div style="display: flex; align-items: center; padding: 0px 10px; cursor: pointer">
+          <el-dropdown placement="bottom-start" :size="'default'">
+            <span
+              class="iconfont icon-usericon"
+              style="
+                display: flex;
+                color: white;
+                font-size: 41px;
+                font-weight: 100;
+                outline: none;
+                margin-top: 4px;
+              "
+            />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>退出系统</el-dropdown-item>
+                <el-dropdown-item>修改密码</el-dropdown-item>
+                <el-dropdown-item>个人中心</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </div>
       <div class="main_bdy"></div>
     </div>
   </div>
@@ -269,21 +293,22 @@ const expandHdl = async () => {
     return
   }
 
+  // 菜单栏横向展开
+  animalutil.wdth_expand()
   states.islded = false // states.dftWdth = '211px'
-  animalutil.wdth_expand() // 菜单栏横向展开
 
-  // 第二级菜单可视化重置
+  // 1、第二级菜单可视化重置为不可见
   states.menus.forEach((itm: any) => {
     itm.isChildVisible = false
   })
 
-  //  第一级菜单展开
+  // 2、第一级菜单展开
   let timer = setTimeout(() => {
     states.islded = true
     clearTimeout(timer)
   }, times)
 
-  // 第二级菜单延迟展开,提升体验
+  // 3、第二级菜单延迟展开,提升体验
   if (states.selCode) {
     let timer1 = setTimeout(() => {
       states.menus.forEach((itm: any) => {
@@ -293,7 +318,7 @@ const expandHdl = async () => {
         }
       })
       clearTimeout(timer1)
-    }, times + 100)
+    }, times + 80)
   }
 }
 
@@ -316,7 +341,9 @@ onMounted(() => {
 }
 .nav_ico {
   display: flex;
-  padding: 6px 0px;
+  min-height: 46px;
+  max-height: 46px;
+  padding: 10px 0px;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid lightgray;
@@ -354,14 +381,21 @@ onMounted(() => {
   flex-direction: column;
   background-color: white;
 }
-.main_mds {
+.main_nav {
   display: flex;
   padding: 10px;
   min-height: 46px;
   max-height: 46px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   border-bottom: 1px solid gainsboro;
+}
+.main_mds {
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
+  padding: 0px 10px;
+  align-items: center;
 }
 .nav_foot {
   cursor: pointer;
@@ -373,7 +407,7 @@ onMounted(() => {
 }
 
 .sld-enter-active {
-  transition: all 0.2s ease-in;
+  transition: all 0.3s ease-in;
   height: auto;
   overflow: hidden;
 }
@@ -384,7 +418,7 @@ onMounted(() => {
 }
 .sld-enter-from,
 .sld-leave-to {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   opacity: 0;
   height: 0;
 }
