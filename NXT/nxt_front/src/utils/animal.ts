@@ -13,7 +13,6 @@ export class animalutil {
   }
 
   static wdth_expand() {
-    // console.log(animalutil.dft_wdth)
     if (animalutil.dft_wdth < animalutil.max_wdth) {
       animalutil.dft_wdth += animalutil.stp * 5
       if (animalutil.ele) {
@@ -25,7 +24,6 @@ export class animalutil {
   }
 
   static wdth_shrink() {
-    // console.log(animalutil.dft_wdth)
     if (animalutil.dft_wdth > animalutil.min_wdth) {
       animalutil.dft_wdth -= animalutil.stp * 5
       if (animalutil.ele) {

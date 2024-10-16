@@ -96,21 +96,47 @@
         <div style="display: flex; align-items: center; padding: 0px 10px; cursor: pointer">
           <el-dropdown placement="bottom-start" :size="'default'">
             <span
-              class="iconfont icon-usericon"
+              class="iconfont icon-personal"
               style="
                 display: flex;
-                color: white;
-                font-size: 41px;
-                font-weight: 100;
                 outline: none;
+                font-size: 41px;
                 margin-top: 4px;
+                font-weight: 100;
+                color: lightgray;
               "
             />
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>退出系统</el-dropdown-item>
-                <el-dropdown-item>修改密码</el-dropdown-item>
-                <el-dropdown-item>个人中心</el-dropdown-item>
+                <el-dropdown-item>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      color: #001f3c;
+                    "
+                    @click="logoutHdl"
+                  >
+                    <span class="iconfont icon-off" style="padding-right: 6px"></span>
+                    退出系统
+                  </div>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <div style="display: flex; align-items: center; color: #001f3c" @click="mdyPwd">
+                    <span class="iconfont icon-key" style="padding-right: 6px"></span>
+                    修改密码
+                  </div>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <div
+                    style="display: flex; align-items: center; color: #001f3c"
+                    @click="showPersonal"
+                  >
+                    <span class="iconfont icon-zhanghaozhongxin" style="padding-right: 6px"></span>
+                    个人中心
+                  </div>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -123,8 +149,12 @@
 
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { dftReq } from '../utils/reqUtil'
 import { animalutil } from '../utils/animal'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const router = useRouter()
 
 //#001f3c
 const states = reactive({
@@ -184,7 +214,7 @@ const states = reactive({
           childs: []
         },
         {
-          name: '系统配置等统一设置',
+          name: '系统配置',
           icon: 'icon-pc',
           code: 'setting',
           size: '18px',
@@ -246,13 +276,18 @@ const states = reactive({
       icon: 'icon-pc',
       code: 'shopping',
       size: '20px',
-      mtype: 1,
+      mtype: 0,
       isSelected: false,
       isChildVisible: false,
       childs: []
     }
   ]
 })
+
+const getPermissions = async () => {
+  // const res = await dftReq.reqIns.get('/api/system/Menu/GetUserMenuAsync')
+  // states.menus = res.data
+}
 
 const navClkHdl = (item: any) => {
   if (item.mtype == 0) {
@@ -278,7 +313,7 @@ const navClkHdl = (item: any) => {
   }
 }
 
-const times = 130
+const times = 130 // 130毫秒
 const expandHdl = async () => {
   states.isTxt = !states.isTxt
 
@@ -318,11 +353,26 @@ const expandHdl = async () => {
         }
       })
       clearTimeout(timer1)
-    }, times + 80)
+    }, times + 70)
   }
 }
+const logoutHdl = () => {
+  ElMessageBox.confirm('您确定退出系统?', '退出系统', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      localStorage.removeItem('curraccesstken')
+      router.replace('/')
+    })
+    .catch(() => {})
+}
+const mdyPwd = () => {}
+const showPersonal = () => {}
 
-onMounted(() => {
+onMounted(async () => {
+  await getPermissions()
   new animalutil('pg_lft_nav', 211, 66)
 })
 </script>
