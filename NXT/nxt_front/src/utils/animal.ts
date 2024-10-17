@@ -33,4 +33,9 @@ export class animalutil {
       requestAnimationFrame(animalutil.wdth_shrink)
     }
   }
+
+  tst(): string {
+    console.log('test')
+    return 'test'
+  }
 }
