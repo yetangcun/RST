@@ -3,6 +3,8 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 use CfgExtensionLib::cfgutil::{CfgLoader, LoadCfg};
 
+use CommonExtensionLib::{utils::{logutil}};
+
 use fs_mod::{cfg_toml, cfg_json, cfg_yaml};
 
 fn main() {
@@ -15,8 +17,14 @@ fn main() {
     let json_obj:cfg_json = CfgLoader::load_cfg::<cfg_json>("json.json");
     println!("db host: {}, port: {}", json_obj.dbcfg.host, json_obj.dbcfg.port);
 
-    let rd_str = fs_mod::rd_relative_file_info("cfgs", "/cfg.json");
+    // let rd_str = fs_mod::rd_relative_file_info("cfgs", "/cfg.json");
 
+    let _ = logutil::init_logger();
+    logutil::info("this is info log");
+    logutil::warn("here is warn log");
+    logutil::err("these are error log");
+    logutil::debug("those are debug log");
+    
     // 等待输入, 防止退出
     let mut inputs = String::new();
     io::stdin()
@@ -48,7 +56,9 @@ mod fs_mod {
         }
 
         pre_path.push_str(file_path); 
+        
         println!("full file path: {}", pre_path);
+        
         // 判断文件是否存在, 不存在则创建
         if fs::metadata(&pre_path).is_err() { 
             fs::File::create(&pre_path).expect("create file failed");
