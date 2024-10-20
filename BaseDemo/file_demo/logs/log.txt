@@ -1,4 +1,0 @@
-[2024-10-19 19:03:29.427] INFO CommonExtensionLib::utils::logutil:76: this is info log
-[2024-10-19 19:03:29.428] WARN CommonExtensionLib::utils::logutil:72: here is warn log
-[2024-10-19 19:03:29.428] ERROR CommonExtensionLib::utils::logutil:68: these are error log
-[2024-10-19 19:03:29.428] DEBUG CommonExtensionLib::utils::logutil:80: those are debug log
