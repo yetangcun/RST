@@ -20,10 +20,10 @@ fn main() {
     // let rd_str = fs_mod::rd_relative_file_info("cfgs", "/cfg.json");
 
     let _ = logutil::init_logger();
-    logutil::info("this is info log");
-    logutil::warn("here is warn log");
-    logutil::err("these are error log");
-    logutil::debug("those are debug log");
+    logutil::info("attention please, this is an info log");
+    logutil::warn("attention please, here is a warn log");
+    logutil::err("attention please, these are an error log");
+    logutil::debug("attention please, those are a debug log");
     
     // 等待输入, 防止退出
     let mut inputs = String::new();

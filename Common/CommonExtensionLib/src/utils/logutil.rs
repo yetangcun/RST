@@ -23,9 +23,9 @@ pub fn init_logger() -> Result<(), Error>{
             .basename("log")
             .suffix("txt")
     )
-    // .append()  // 日志信息追加到一个文件里面了
+    .append()  // 日志信息追加到一个文件里面了
     .rotate(
-        Criterion::AgeOrSize(Age::Day, 1024*1024*10), // 日志文件交替周期 每天|大小超过10
+        Criterion::AgeOrSize(Age::Day, 1024*1024*6), // 日志文件交替周期 每天|大小超过10
         // Criterion::Size(1024*1024*100), // 100MB 按大小切割
         // Naming::Timestamps,   // 文件命名
         Naming::TimestampsCustomFormat { 
@@ -35,7 +35,7 @@ pub fn init_logger() -> Result<(), Error>{
         Cleanup::KeepLogFiles(30), // 保留30个文件 Cleanup::Never 保留所有文件
     )
     .append()
-    .format_for_files(custom_format)
+    .format_for_files(custom_format) // .format(custom_format)
     // .format_for_files(flexi_logger::detailed_format)
     // .duplicate_to_stdout(Duplicate::Trace)
     .write_mode(WriteMode::Direct)  // BufferAndFlush
