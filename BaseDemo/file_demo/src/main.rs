@@ -3,7 +3,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 use CfgExtensionLib::cfgutil::{CfgLoader, LoadCfg};
 
-use CommonExtensionLib::{utils::{logutil}};
+use CommonExtensionLib::{rslogs::{flexilog,ftaillog}};
 
 use fs_mod::{cfg_toml, cfg_json, cfg_yaml};
 
@@ -19,11 +19,15 @@ fn main() {
 
     // let rd_str = fs_mod::rd_relative_file_info("cfgs", "/cfg.json");
 
-    let _ = logutil::init_logger();
-    logutil::info("attention please, this is an info log");
-    logutil::warn("attention please, here is a warn log");
-    logutil::err("attention please, these are an error log");
-    logutil::debug("attention please, those are a debug log");
+    // let _ = flexilog::init_logger();
+    // flexilog::info("attention please, this is an info log");
+    // flexilog::warn("attention please, here is a warn log");
+    // flexilog::err("attention please, these are an error log");
+    // flexilog::debug("attention please, those are a debug log");
+    
+    ftaillog::init_logger();
+    ftaillog::info("attention please, this is an info log.");
+    
     
     // 等待输入, 防止退出
     let mut inputs = String::new();
