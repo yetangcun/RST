@@ -2,17 +2,17 @@ use std::{io, fs, env};
 use std::io::Write;
 use std::fs::OpenOptions;
 use chrono::{Local, DateTime, Utc};
-use log::{Record};
+// use log::{Record};
 
 pub fn write_info(msg: &str) -> Result<bool, std::io::Error> {
-    let mut log_path = env::current_dir().unwrap().display().to_string(); // 获取当前所在目录
-    log_path.push_str("/logs");
-    if fs::metadata(&log_path).is_err() { 
-        fs::create_dir(&log_path).expect("create file failed");
+    let mut curr_dir = env::current_dir().unwrap().display().to_string(); // 获取当前所在目录
+    curr_dir.push_str("/logs");
+    if fs::metadata(&curr_dir).is_err() { 
+        fs::create_dir(&curr_dir).expect("create file failed");
     }
 
     let now_tm = Local::now();
-    let file_path = format!("{}/log{}.log", log_path, now_tm.format("%Y%m%d")); // 每天一个文件
+    let file_path = format!("{}/log{}.log", curr_dir, now_tm.format("%Y%m%d")); // 每天一个文件
     
     if fs::metadata(&file_path).is_err() { 
         fs::File::create(&file_path).expect("create file failed");
@@ -38,14 +38,14 @@ pub fn write_info(msg: &str) -> Result<bool, std::io::Error> {
 
 
 pub fn write_err(err: &str) -> Result<bool, std::io::Error> {
-    let mut log_path = env::current_dir().unwrap().display().to_string(); // 获取当前所在目录
-    log_path.push_str("/logs");
-    if fs::metadata(&log_path).is_err() { 
-        fs::create_dir(&log_path).expect("create file failed");
+    let mut curr_dir = env::current_dir().unwrap().display().to_string(); // 获取当前所在目录
+    curr_dir.push_str("/logs");
+    if fs::metadata(&curr_dir).is_err() { 
+        fs::create_dir(&curr_dir).expect("create file failed");
     }
 
     let now_tm = Local::now();
-    let file_path = format!("{}/log{}.log", log_path, now_tm.format("%Y%m%d"));
+    let file_path = format!("{}/log{}.log", curr_dir, now_tm.format("%Y%m%d"));
     
     if fs::metadata(&file_path).is_err() { 
         fs::File::create(&file_path).expect("create file failed");
