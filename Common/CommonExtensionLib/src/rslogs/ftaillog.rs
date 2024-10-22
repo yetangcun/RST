@@ -28,7 +28,7 @@ struct CustmLogger {
     config: Config,
 }
 
-impl log::Log for CustmLogger {
+impl Log for CustmLogger {
     fn enabled(&self, metadata: &log::Metadata) -> bool {
         if self.config.level_filter == LevelFilter::Off {
             return true;
