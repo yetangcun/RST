@@ -4,7 +4,7 @@ use std::fs::OpenOptions;
 use chrono::{Local, DateTime, Utc};
 // use log::{Record};
 
-pub fn write_info(msg: &str) -> Result<bool, std::io::Error> {
+pub fn log_info(msg: &str) -> Result<bool, std::io::Error> {
     let mut curr_dir = env::current_dir().unwrap().display().to_string(); // 获取当前所在目录
     curr_dir.push_str("/logs");
     if fs::metadata(&curr_dir).is_err() { 
@@ -37,7 +37,7 @@ pub fn write_info(msg: &str) -> Result<bool, std::io::Error> {
 }
 
 
-pub fn write_err(err: &str) -> Result<bool, std::io::Error> {
+pub fn log_err(err: &str) -> Result<bool, std::io::Error> {
     let mut curr_dir = env::current_dir().unwrap().display().to_string(); // 获取当前所在目录
     curr_dir.push_str("/logs");
     if fs::metadata(&curr_dir).is_err() { 
