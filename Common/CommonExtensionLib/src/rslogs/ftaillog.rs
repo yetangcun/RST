@@ -1,23 +1,23 @@
-use ftail::{Config,Ftail};
+use ftail::{ansi_escape::TextStyling, Config, Ftail};
 use log::{Level, LevelFilter, Log};
-use ftail::ansi_escape::TextStyling;
 
 pub fn init_logger() {
+    let tz:ftail::Tz = "Asia/Shanghai".parse().unwrap();
     Ftail::new()
-    .timezone(ftail::Tz::UTC)
-    .datetime_format("%Y-%d-%m %H:%M:%S%.3f")
-    .console(LevelFilter::Off)
-    .filter_levels(vec![
-        Level::Trace,
-        Level::Debug,
-        Level::Info,
-        Level::Error,
-    ])
+    .timezone(tz)
+    // .console(LevelFilter::Error)
+    // .filter_levels(vec![
+    //     Level::Trace,
+    //     Level::Debug,
+    //     Level::Info,
+    //     Level::Error,
+    //     Level::Warn
+    // ])
     .custom(
         |config: ftail::Config| Box::new(CustmLogger { config }) as Box<dyn Log + Send + Sync>,
         LevelFilter::Trace,
     )
-    // .filter_targets(vec!["foo"])
+    // .datetime_format("%Y-%m-%d %H:%M:%S%.3f")
     .daily_file("ftlogs", LevelFilter::Trace)
     .init()
     .unwrap();
@@ -30,9 +30,9 @@ struct CustmLogger {
 
 impl Log for CustmLogger {
     fn enabled(&self, metadata: &log::Metadata) -> bool {
-        if self.config.level_filter == LevelFilter::Off {
-            return true;
-        }
+        // if self.config.level_filter == LevelFilter::Off {
+        //     return true;
+        // }
 
         metadata.level() <= self.config.level_filter
     }
@@ -43,7 +43,7 @@ impl Log for CustmLogger {
         }
 
         let time = chrono::Local::now()
-            .format(&self.config.datetime_format)
+            .format("%Y-%m-%d %H:%M:%S%.3f")  // &self.config.datetime_format
             .to_string();
 
         println!(

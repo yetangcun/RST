@@ -25,11 +25,11 @@ fn main() {
     // flexilog::err("attention please, these are an error log");
     // flexilog::debug("attention please, those are a debug log");
     
-    // ftaillog::init_logger();
-    // ftaillog::info("attention please, this is an info log.");
+    ftaillog::init_logger();
+    ftaillog::info("attention please, this is an info log.");
 
-    let _ = selflog::write_info("this is a info log");
-    let _ = selflog::write_err("this is a error log");
+    // let _ = selflog::log_info("this is a info log");
+    // let _ = selflog::log_err("this is a error log");
     
     
     // 等待输入, 防止退出
