@@ -3,9 +3,8 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 use CfgExtensionLib::cfgutil::{CfgLoader, LoadCfg};
 
-use CommonExtensionLib::{rslogs::{flexilog,ftaillog,selflog}};
-
 use fs_mod::{cfg_toml, cfg_json, cfg_yaml};
+use CommonExtensionLib::{rslogs::{flexilog,ftaillog,selflog}};
 
 fn main() {
     let contents = CfgExtensionLib::cfgutil::rd_relativ_file("tst.txt");
@@ -26,7 +25,8 @@ fn main() {
     // flexilog::debug("attention please, those are a debug log");
     
     ftaillog::init_logger();
-    ftaillog::info("attention please, this is an info log.");
+    log::info!("attention please, this is an info log...");
+    // ftaillog::info("attention please, this is an info log.");
 
     // let _ = selflog::log_info("this is a info log");
     // let _ = selflog::log_err("this is a error log");

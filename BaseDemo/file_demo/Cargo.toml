@@ -8,4 +8,5 @@ edition = "2021"
 [dependencies]
 CfgExtensionLib = { path = "../../Common/CfgExtensionLib" }
 CommonExtensionLib = { path = "../../Common/CommonExtensionLib" }
+log = "0.4.22"
 serde = { version = "1.0.210", features = ["derive"] }
