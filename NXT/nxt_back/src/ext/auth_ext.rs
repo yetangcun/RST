@@ -46,9 +46,9 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
         let req_pth:&str = req.path();
-        println!("request router addr: {0}", req_pth);
+        println!("req api addr: {0}", req_pth);
 
-        if req_pth.contains("/rst/") || req_pth.contains("/swagger-ui/") || req_pth.contains("/api-docs/") || req_pth.contains("/rsapi/") { // 不需要校验token 
+        if req_pth.contains("/no_auth/") || req_pth.contains("/swagger-ui/") || req_pth.contains("/api-docs/") || req_pth.contains("/rsapi/") { // 不需要校验token 
             let rsfut = self.nxt.call(req);
             return Box::pin(async move {
                 let res = rsfut.await?; // println!("request end");

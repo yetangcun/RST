@@ -3,19 +3,27 @@ use utoipa_swagger_ui::{SwaggerUi, Url};
 use serde::{Serialize,Deserialize};
 use actix_web::{get,post,web,App,Result,HttpResponse,HttpServer,Responder};
 
-// use crate::selfapi::{sys::userapi};
+use crate::mdl::{
+    sysmdl::{
+        usermdl
+    }
+};
+
+use crate::rsapi::{
+    sysapi::{
+        user
+    }
+};
 
 
 #[derive(OpenApi)]
 #[openapi(
     paths(  // 对应接口
-        // lghdl,
-        // reqhdl
+        user::lghdl //, reqhdl
     ), 
     components(
-        schemas( // 对应mdl
-            //lginput,
-            //reqinput
+        schemas( // 对应mdl请求入参模型
+            usermdl::lginput // , menumdl
         )
     ),
     tags(
@@ -24,13 +32,13 @@ use actix_web::{get,post,web,App,Result,HttpResponse,HttpServer,Responder};
 )]
 pub struct SysApiDoc;
 
+
 #[derive(OpenApi)]
 #[openapi(
     paths(), 
     components(
         schemas(
-            //lginput,
-            //reqinput
+            //lginput, reqinput
         )
     ),
     tags(
@@ -38,6 +46,7 @@ pub struct SysApiDoc;
     )
 )]
 pub struct BlkApiDoc;
+
 
 #[derive(OpenApi)]
 #[openapi(
@@ -52,6 +61,7 @@ pub struct BlkApiDoc;
     )
 )]
 pub struct AsrApiDoc;
+
 
 #[derive(OpenApi)]
 #[openapi(
