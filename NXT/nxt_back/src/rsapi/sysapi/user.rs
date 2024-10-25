@@ -3,10 +3,15 @@ use actix_web::{get,post,web,App,HttpResponse,HttpServer,Responder,Result};
 use utoipa::{ToSchema, IntoParams, OpenApi, openapi::OpenApiBuilder};
 use CommonExtensionLib::utils::{secutil, jwtutil};
 use crate::mdl::sysmdl::usermdl::{
-    lginput,usr_permissions
+    lginput,
+    usr_page_input,
+    usr_permissions
+    
 };
 use crate::mdl::basemdl::{
-    resmdl,req_pg,res_pg
+    resmdl,
+    req_pg,
+    res_pg
 };
 
 const CURR_MD:&str = "/sys";
@@ -36,8 +41,8 @@ pub async fn lghdl(req: web::Json<lginput>) -> Result<impl Responder> {
         (status = 200, description = "succ", body = String),
         (status = 400, description = "fail"))
 )]
-#[get("/user/permissions")]
-pub async fn get_permissions() -> Result<impl Responder> {
+#[get("/user/permissions/{id}")]
+pub async fn get_permissions(id: web::Path<i32>) -> Result<impl Responder> {
     let data = usr_permissions {
         tk: String::from("token")
     };
@@ -52,7 +57,7 @@ pub async fn get_permissions() -> Result<impl Responder> {
         (status = 400, description = "fail"))
 )]
 #[get("/user/get_by_pages")]
-pub async fn get_by_pages() -> Result<impl Responder> {
+pub async fn get_by_pages(ipt:web::Json<req_pg<usr_page_input>>) -> Result<impl Responder> {
     Ok(web::Json(String::from("get_by_pages")))
 }
 

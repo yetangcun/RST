@@ -11,6 +11,14 @@ pub struct lginput {
     pub code: String
 }
 
+#[derive(ToSchema,Serialize,Deserialize)]
+pub struct usr_page_input {
+    pub name: String,
+    pub employee_no: String,
+    pub org_id: String,
+    pub phone: String
+}
+
 #[derive(ToSchema,Deserialize,Serialize)]
 pub struct usr_permissions {
     pub tk: String

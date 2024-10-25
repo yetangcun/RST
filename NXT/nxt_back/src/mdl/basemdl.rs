@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use utoipa::{ToSchema};
 
 // 统一响应结果结构
 #[derive(Serialize)]
@@ -29,7 +30,7 @@ impl<T> resmdl<T> where T: Serialize {
 }
 
 // 分页查询入参
-#[derive(Deserialize)]
+#[derive(ToSchema, Deserialize)]
 pub struct req_pg<T> where T: Serialize  {
     pub page: i32,
     pub size: i32,
@@ -37,7 +38,7 @@ pub struct req_pg<T> where T: Serialize  {
  }
  
  // 分页查询结果
- #[derive(Serialize)]
+ #[derive(ToSchema, Serialize)]
  pub struct res_pg<T> where T: Serialize  {
      pub is_succ: bool,
      pub msg: String,
