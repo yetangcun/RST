@@ -19,7 +19,7 @@ use crate::rsapi::{
 #[derive(OpenApi)]
 #[openapi(
     paths(  // 对应接口
-        user::lghdl //, reqhdl
+        user::lghdl, user::get_user
     ), 
     components(
         schemas( // 对应mdl请求入参模型
