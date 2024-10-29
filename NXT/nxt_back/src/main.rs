@@ -15,7 +15,7 @@ use actix_web::{get, post, web, services, App, HttpResponse, HttpServer, Respond
 use ext::{swag_ui::*, auth_ext::*};
 use rsapi::{
     sysapi::{
-        user::{lghdl,get_user}
+        user::{lghdl,get_user,get_permissions,get_by_pages}
     }
 };
 
@@ -53,6 +53,26 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
         .service(
             web::scope("/sys")
             .service(get_user)
+            .service(get_by_pages)
+            .service(get_permissions)
+        )
+        .service(
+            web::scope("/blk")
+            .service(get_user)
+            .service(get_by_pages)
+            .service(get_permissions)
+        )
+        .service(
+            web::scope("/ai")
+            .service(get_user)
+            .service(get_by_pages)
+            .service(get_permissions)
+        )
+        .service(
+            web::scope("/asr")
+            .service(get_user)
+            .service(get_by_pages)
+            .service(get_permissions)
         )
     })
     .bind(("127.0.0.1", 8086))?
