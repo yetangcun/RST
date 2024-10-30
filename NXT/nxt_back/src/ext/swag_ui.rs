@@ -19,11 +19,11 @@ use crate::rsapi::{
 #[derive(OpenApi)]
 #[openapi(
     paths(  // 对应接口
-        user::lghdl, user::get_user
+        user::lghdl, user::get_user, user::get_permissions, user::get_by_pages
     ), 
     components(
         schemas( // 对应mdl请求入参模型
-            usermdl::lginput // , menumdl
+            usermdl::lginput, // , menumdl
         )
     ),
     tags(

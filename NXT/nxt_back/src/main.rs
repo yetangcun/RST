@@ -10,6 +10,7 @@ use utoipa::{
         OpenApiBuilder
     }
 };
+use actix_cors::Cors;
 use actix_web::{get, post, web, services, App, HttpResponse, HttpServer, Responder};
 
 use ext::{swag_ui::*, auth_ext::*};
@@ -24,6 +25,19 @@ use rsapi::{
 async fn main()->std::io::Result<()> { // println!("Hello, world!");
 
     println!("web服务127.0.0.1:8086侦听启动!");
+    let dfCors = Cors::default()
+    // .allow_any_origin()
+    .allowed_origin("http://192.168.30.166")
+    .allowed_origin("*") //.send_wildcard()
+    .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"])
+    .allowed_headers(vec!["Access-Control-Allow-Headers", 
+        "Authorization", "authorization", "X-Requested-With",
+        "Content-Type", "content-type", "Origin", "Client-id",
+        "user-agent", "User-Agent", "Accept", "Referer","referer",
+        "Nonce", "signature", "Timestamp","AppKey","x-super-properties",
+        "X-Super-Properties"])
+    .max_age(3600);
+
     HttpServer::new(move || {
         App::new()
         .wrap(TkAuth)
@@ -75,7 +89,7 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
             .service(get_permissions)
         )
     })
-    .bind(("127.0.0.1", 8086))?
+    .bind(("192.168.30.166", 8086))?
     .run()
     .await
 }

@@ -28,7 +28,7 @@
           type="text"
           class="input_stl"
           placeholder="请输入用户名"
-          v-model="sts.uname"
+          v-model="sts.lg_req.usr"
           @keydown.enter="lgHdl"
         />
       </div>
@@ -47,7 +47,7 @@
           type="password"
           class="input_stl"
           placeholder="请输入密码"
-          v-model="sts.pwd"
+          v-model="sts.lg_req.pwd"
           @keydown.enter="lgHdl"
         />
       </div>
@@ -69,25 +69,30 @@ import { dftReq } from '../utils/reqUtil'
 
 const router = useRouter()
 
-const sts = reactive({
-  uname: '',
-  pwd: ''
+const sts = reactive<{
+  lg_req: any
+}>({
+  lg_req: {
+    usr: '',
+    pwd: '',
+    code: '999'
+  }
 })
 
 // 登录处理
 const lgHdl = () => {
-  console.log('lgHandle')
-  if (!sts.uname) return ElMessage.warning('用户名不能为空')
-  if (!sts.pwd) return ElMessage.warning('密码不能为空')
-
-  // dftReq.reqIns
-  //   .post('/user/login', sts)
-  //   .then((res: any) => {
-  //     console.log(res)
-  //   })
-  //   .catch((err: any) => {
-  //     console.log(err)
-  //   })
+  if (!sts.lg_req.usr) return ElMessage.warning('用户名不能为空')
+  if (!sts.lg_req.pwd) return ElMessage.warning('密码不能为空')
+  console.log(sts.lg_req)
+  dftReq.reqIns
+    .post('no_auth/user/dologin', sts.lg_req)
+    .then((res: any) => {
+      // localStorage.setItem('token', res.data.token)
+      console.log(res)
+    })
+    .catch((err: any) => {
+      console.log(err)
+    })
 
   router.push('/main')
 }
