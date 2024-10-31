@@ -83,18 +83,16 @@ const sts = reactive<{
 const lgHdl = () => {
   if (!sts.lg_req.usr) return ElMessage.warning('用户名不能为空')
   if (!sts.lg_req.pwd) return ElMessage.warning('密码不能为空')
-  console.log(sts.lg_req)
   dftReq.reqIns
     .post('no_auth/user/dologin', sts.lg_req)
     .then((res: any) => {
-      // localStorage.setItem('token', res.data.token)
       console.log(res)
+      localStorage.setItem('curr_tken', res)
+      router.replace('/main')
     })
     .catch((err: any) => {
       console.log(err)
     })
-
-  router.push('/main')
 }
 </script>
 
