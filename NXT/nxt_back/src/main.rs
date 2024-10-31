@@ -23,23 +23,31 @@ use rsapi::{
 
 #[actix_web::main]
 async fn main()->std::io::Result<()> { // println!("Hello, world!");
-
-    println!("web服务127.0.0.1:8086侦听启动!");
-    let dfCors = Cors::default()
-    // .allow_any_origin()
-    .allowed_origin("http://192.168.30.166")
-    .allowed_origin("*") //.send_wildcard()
-    .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"])
-    .allowed_headers(vec!["Access-Control-Allow-Headers", 
-        "Authorization", "authorization", "X-Requested-With",
-        "Content-Type", "content-type", "Origin", "Client-id",
-        "user-agent", "User-Agent", "Accept", "Referer","referer",
-        "Nonce", "signature", "Timestamp","AppKey","x-super-properties",
-        "X-Super-Properties"])
-    .max_age(3600);
-
+    println!("web服务192.168.30.166:8086侦听启动!");
     HttpServer::new(move || {
+        let dfCors = Cors::default()
+        //.allow_any_origin() // 允许所有来源的请求
+        .allowed_origin("http://192.168.30.166:6111")
+        .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"]) // 允许指定的HTTP方法 
+        .allowed_headers(
+            vec!["Authorization", "Content-Type", "Accept", 
+            "Access-Control-Allow-Origin", "Access-Control-Allow-Headers","Access-Control-Allow-Methods"]) // 允许更多CORS相关的请求头
+        .supports_credentials() // 允许携带认证信息(cookies等)
+        .max_age(3600); // 预检请求缓存时间
+        // .allow_any_origin()
+        // .allowed_origin("http://192.168.30.166")
+        // .allowed_origin("*") //.send_wildcard()
+        // .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"])
+        // .allowed_headers(vec!["Access-Control-Allow-Headers", 
+        //     "Authorization", "authorization", "X-Requested-With",
+        //     "Content-Type", "content-type", "Origin", "Client-id",
+        //     "user-agent", "User-Agent", "Accept", "Referer","referer",
+        //     "Nonce", "signature", "Timestamp","AppKey","x-super-properties",
+        //     "X-Super-Properties"])
+        // .max_age(3600);
+
         App::new()
+        .wrap(dfCors)
         .wrap(TkAuth)
         .service(web::scope("/no_auth")
            .service(lghdl) //.service(get_user)
