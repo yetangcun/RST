@@ -14,6 +14,8 @@ use crate::mdl::basemdl::{
     res_pg
 };
 
+use crate::bll::sysbll::usrbll;
+
 const CURR_MD:&str = "/sys";
 
 #[utoipa::path(
@@ -30,6 +32,9 @@ pub async fn lghdl(req: web::Json<lginput>) -> Result<impl Responder> {
     //     pwd: req.pwd.clone(),
     //     code: req.code.clone()
     // };
+    let usr = &req.usr;
+    let pwd = secutil::md5_hash(&req.pwd);
+    println!("usr:{}, pwd:{}", usr, pwd);
     let tk_str = jwtutil::create_tken();
     Ok(web::Json(tk_str))
     

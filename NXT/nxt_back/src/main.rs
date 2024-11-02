@@ -23,11 +23,11 @@ use rsapi::{
 
 #[actix_web::main]
 async fn main()->std::io::Result<()> { // println!("Hello, world!");
-    println!("web服务192.168.30.166:8086侦听启动!");
+    println!("WebAPI服务127.0.0.1:8086侦听启动!");
     HttpServer::new(move || {
         let dfCors = Cors::default()
         //.allow_any_origin() // 允许所有来源的请求
-        .allowed_origin("http://192.168.30.166:6111")
+        .allowed_origin("http://127.0.0.1:6111")
         .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"]) // 允许指定的HTTP方法 
         .allowed_headers(
             vec!["Authorization", "Content-Type", "Accept", 
@@ -97,7 +97,7 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
             .service(get_permissions)
         )
     })
-    .bind(("192.168.30.166", 8086))?
+    .bind(("127.0.0.1", 8086))?
     .run()
     .await
 }

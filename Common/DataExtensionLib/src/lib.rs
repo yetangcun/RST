@@ -1,9 +1,9 @@
 pub mod mysqlLib;
 mod cfg;
-mod mssqlLib;
-mod pgsqlLib;
-mod mongodbLib;
-mod clkhouseLib;
+pub mod mssqlLib;
+pub mod pgsqlLib;
+pub mod mongodbLib;
+pub mod clkhouseLib;
 pub mod datasqlx;   
 use sqlx::sqlite::{SqliteRow};
 
