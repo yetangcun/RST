@@ -5,9 +5,9 @@ use std::{
 };
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
-    FromRequest,
-    HttpResponse, 
-    web::{Data, ServiceConfig},
+    // FromRequest,
+    // HttpResponse, 
+    // web::{Data, ServiceConfig},
     Error, error::ErrorUnauthorized
 };
 use CommonExtensionLib::utils::jwtutil;
@@ -48,12 +48,16 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
         let req_pth:&str = req.path();
         println!("req api addr: {0}", req_pth);
 
-        if req_pth.contains("/no_auth/") || req_pth.contains("/swagger-ui/") || req_pth.contains("/api-docs/") || req_pth.contains("/rsapi/") { // 不需要校验token 
+        if req_pth.contains("/no_auth/") || 
+           req_pth.contains("/swagger-ui/") || 
+           req_pth.contains("/api-docs/") || 
+           req_pth.contains("/rsapi/") 
+        { // 不需要校验token 
             let rsfut = self.nxt.call(req);
             return Box::pin(async move {
                 let res = rsfut.await?; // println!("request end");
                 Ok(res)
-            })
+            });
         }
 
         let tk0 = req.headers().get("Authorization"); // 获取token
