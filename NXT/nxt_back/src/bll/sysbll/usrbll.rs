@@ -1,18 +1,27 @@
-use DataExtensionLib::{mysqlLib, pgsqlLib, mssqlLib, mongodbLib, clkhouseLib, datasqlx};
+use DataExtensionLib::{mysqlLib, pgsqlLib, mssqlLib, mongodbLib, clkhouseLib, datasqlx::{mysqlx}};
 use crate::mdl::sysmdl::usermdl::{
+    usrs,
     lginput,
     usr_page_input,
     usr_permissions
-    
 };
+
 use crate::mdl::basemdl::{
     resmdl,
     req_pg,
     res_pg
 };
 
-pub fn dologin(usr:&str) -> String {
-    String::from("dologin")
+pub async fn dologin(usr:&str) -> String {
+    let sql = format!("select Passwd from sys_user where Account='{}'", usr);
+    let pwd = mysqlx::query_scalar(&sql).await;
+    match pwd {
+        Ok(pwd) => pwd,
+        Err(e) => {
+            println!("err: {}", e);  // panic!("{}", e)
+            e.to_string()
+        }
+    }
 }
 
 pub fn get_permissions (uid:i32) -> String {
