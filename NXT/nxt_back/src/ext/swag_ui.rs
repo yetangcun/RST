@@ -15,7 +15,6 @@ use crate::rsapi::{
     }
 };
 
-
 #[derive(OpenApi)]
 #[openapi(
     paths(  // 对应接口
