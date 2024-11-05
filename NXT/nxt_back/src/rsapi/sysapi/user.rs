@@ -5,15 +5,13 @@ use CommonExtensionLib::utils::{secutil, jwtutil};
 use crate::mdl::sysmdl::usermdl::{
     lginput,
     usr_page_input,
-    usr_permissions
-    
+    usr_permissions  
 };
 use crate::mdl::basemdl::{
     resmdl,
     req_pg,
     res_pg
 };
-
 use crate::bll::sysbll::{usrbll,menubll,orgbll,permissionbll,settingbll};
 
 const CURR_MD:&str = "/sys";
@@ -60,6 +58,9 @@ pub async fn get_permissions(id: web::Path<i32>) -> Result<impl Responder> {
     responses(
         (status = 200, description = "succ", body = String),
         (status = 400, description = "fail"))
+    // ,security(
+    //     ("bearer_auth" = [])
+    // )
 )]
 #[post("/user/get_by_pages")]
 pub async fn get_by_pages(ipt:web::Json<req_pg<usr_page_input>>) -> Result<impl Responder> {

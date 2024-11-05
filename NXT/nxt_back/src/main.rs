@@ -72,25 +72,25 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
                 )
             ])
         )
-        .service(
+        .service( // 系统管理模块
             web::scope("/sys")
             .service(get_user)
             .service(get_by_pages)
             .service(get_permissions)
         )
-        .service(
+        .service( // 黑名单管理模块
             web::scope("/blk")
             .service(get_user)
             .service(get_by_pages)
             .service(get_permissions)
         )
-        .service(
+        .service( // AI智能模块
             web::scope("/ai")
             .service(get_user)
             .service(get_by_pages)
             .service(get_permissions)
         )
-        .service(
+        .service( // Asr模块
             web::scope("/asr")
             .service(get_user)
             .service(get_by_pages)
