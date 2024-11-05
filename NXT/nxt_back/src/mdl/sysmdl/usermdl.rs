@@ -1,6 +1,8 @@
 use serde::{Serialize,Deserialize};
 use utoipa::{ToSchema, IntoParams};
+use sqlx::{FromRow};
 use utoipa::openapi::{schema::Schema, ObjectBuilder, Object};
+use chrono::{NaiveDateTime};
 
 
 #[derive(ToSchema,IntoParams,Deserialize,Serialize)]
@@ -24,16 +26,15 @@ pub struct usr_permissions {
     pub tk: String
 }
 
-#[derive(ToSchema,Deserialize,Serialize)]
+#[derive(
+    Deserialize,
+    Serialize,
+    FromRow
+  )
+]
 pub struct usrs {
-    pub uid: i32,
-    pub name: String,
-    pub employee_no: String,
-    pub org_id: String,
-    pub phone: String,
-    pub email: String,
-    pub address: String,
-    pub status: i32,
-    pub in_time: String, // 创建时间
-    pub up_time: String  // 更新时间
+    pub Id: String,
+    pub Account: String,
+    pub Status: i32,
+    pub CreateTime: NaiveDateTime
 }

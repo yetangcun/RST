@@ -90,10 +90,42 @@ T: for<'r> sqlx::decode::Decode<'r, sqlx::MySql>
         .await
 }
 
-// pub async fn query_page<T:DbrowMap<MySqlRow,Error>>(sql:&str, page:i32, size:i32) ->Result<Vec<T>,Error>
-// {
+pub async fn query_page<T>(pgsql:&str, sql:&str) -> Result<(i32, Vec<T>), Error>
+where
+    T: for<'r> FromRow<'r, sqlx::mysql::MySqlRow> 
+    + Send 
+    + Unpin
+{
+    let pl = _init().await;
+    let mut ts:Vec<T> = Vec::new();
+    let count = sqlx::query_scalar::<_, i32>(pgsql) // 获取总记录数
+    .fetch_one(&pl)
+    .await
+    .unwrap();
 
-// }
+    let rws = sqlx::query_as::<_,T>(sql) // 获取记录
+    .fetch_all(&pl)
+    .await;
+
+    match rws {
+        Ok(rws) => {
+            for rw in rws {
+                ts.push(rw);
+            }
+        },
+        Err(e) => {
+            println!("err: {}", e);  // panic!("{}", e)
+            return Err(e);
+        }
+    }
+
+    // Ok(match count {
+    //     Ok(count) => (count, ts), // rws.unwrap()
+    //     Err(e) => panic!("{}", e)
+    // })
+
+    Ok((count, ts))
+}
 
 pub async fn do_query<T:DbrowMap<MySqlRow,Error>>(sql:&str) ->Result<Vec<T>,Error> // 查询满足条件的数据列表
 {

@@ -36,6 +36,25 @@ pub fn get_user(id:i32) -> lginput {
     }
 }
 
-pub fn get_by_pages(ipt:&req_pg<usr_page_input>) -> String {
-    String::from("get_by_pages")
+pub async fn get_by_pages(ipt:&req_pg<usr_page_input>) -> (i32, Vec<usrs>) {
+    let mut whr = String::from("1=1");
+    if ipt.params.name != "" {
+        whr += &format!(" and Account like '%{}%'", ipt.params.name);
+    }
+    let data_sql = format!("select * from sys_user where {} limit {} offset {}", whr, ipt.size, (ipt.page - 1) * ipt.size);
+    println!("data_sql: {}", &data_sql);
+    
+    let pg_res = mysqlx::query_page::<usrs>(
+        "select count(1) from sys_user", 
+        &data_sql)
+        .await;
+
+    match pg_res {
+        Ok(pg_res) => pg_res,
+        Err(e) => {
+            println!("err: {}", e.to_string());
+            let datas: Vec<usrs> = vec![];
+            (0, datas)
+        }
+    }
 }

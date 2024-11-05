@@ -61,10 +61,21 @@ pub async fn get_permissions(id: web::Path<i32>) -> Result<impl Responder> {
         (status = 200, description = "succ", body = String),
         (status = 400, description = "fail"))
 )]
-#[get("/user/get_by_pages")]
+#[post("/user/get_by_pages")]
 pub async fn get_by_pages(ipt:web::Json<req_pg<usr_page_input>>) -> Result<impl Responder> {
-    let rs = usrbll::get_by_pages(&ipt);
-    Ok(web::Json(String::from("get_by_pages")))
+    let rs = usrbll::get_by_pages(&ipt).await;
+    
+    let mut pgs = 0;
+
+    if rs.0 % ipt.size == 0 {
+        pgs = rs.0 / ipt.size;
+    } else {
+        pgs = rs.0 / ipt.size + 1;
+    }
+
+    let rs_obj = res_pg::succ(rs.0, pgs, rs.1);
+
+    Ok(web::Json(rs_obj))
 }
 
 
