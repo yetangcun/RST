@@ -97,3 +97,16 @@ pub async fn get_user(id: web::Path<i32>) -> Result<impl Responder> {
     
     Ok(web::Json(res_obj))
 }
+
+#[utoipa::path(
+    context_path = CURR_MD,
+    responses(
+        (status = 200, description = "succ", body = String),
+        (status = 400, description = "fail"))
+)]
+#[post("/user/opt")]
+pub async fn user_opt(req: web::Json<lginput>) -> Result<impl Responder> {
+    let rs = usrbll::usr_opt();
+    let rs_obj = resmdl::succ(200.to_string(), String::from(""), rs);
+    Ok(web::Json(rs_obj))
+}

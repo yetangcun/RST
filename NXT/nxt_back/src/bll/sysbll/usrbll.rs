@@ -29,12 +29,16 @@ pub fn get_permissions (uid:i32) -> String {
 }
 
 pub fn get_user(id:i32) -> lginput {
+    let sql = format!("select Id, Account, Status from sys_user where Id={}", id);
+    let rs = mysqlx::query_row(&sql).await;
     lginput {
         usr: String::from("xiaoxiao"),
         pwd: String::from("666666"),
         code: String::from("666666")
     }
 }
+
+pub fn usr_opt () -> bool { true }
 
 pub async fn get_by_pages(ipt:&req_pg<usr_page_input>) -> (i32, Vec<usrs>) {
     let mut whr = String::from("1=1");

@@ -19,9 +19,9 @@ const AUD: &str = "gapi.tken";
 
 // 生成token
 pub fn create_tken() -> String {
-    let dt_zone = Tz::Asia__Shanghai;
-    let now_tm = Utc::now().with_timezone(&dt_zone); // let now_tm = Local::now();
-
+    let dt_zone = Tz::Asia__Shanghai; // Asia__Shanghai
+    // let now_tm = Utc::now().with_timezone(&dt_zone); // 等同下面一句
+    let now_tm = Local::now().with_timezone(&dt_zone);  // 等同上面一句
     let now_tms = now_tm.timestamp();
 
     // 过期时间 60分钟
