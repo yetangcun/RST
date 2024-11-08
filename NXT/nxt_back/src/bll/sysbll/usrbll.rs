@@ -28,9 +28,9 @@ pub fn get_permissions (uid:i32) -> String {
     String::from("get_permissions")
 }
 
-pub fn get_user(id:i32) -> lginput {
+pub async fn get_user(id:i32) -> lginput {
     let sql = format!("select Id, Account, Status from sys_user where Id={}", id);
-    let rs = mysqlx::query_row(&sql).await;
+    let rs = mysqlx::query_lst::<usrs>(&sql).await;
     lginput {
         usr: String::from("xiaoxiao"),
         pwd: String::from("666666"),
