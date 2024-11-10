@@ -25,7 +25,7 @@ pub fn create_tken() -> String {
     let now_tms = now_tm.timestamp();
 
     // 过期时间 60分钟
-    let exp_tm = now_tm + Duration::minutes(60);
+    let exp_tm = now_tm + Duration::minutes(120);
     let exp_tms = exp_tm.timestamp();
 
     let claims = Claims {
