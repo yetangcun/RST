@@ -87,8 +87,12 @@ const lgHdl = () => {
     .post('no_auth/user/dologin', sts.lg_req)
     .then((res: any) => {
       console.log(res)
-      localStorage.setItem('curr_tken', res)
-      router.replace('/main')
+      if (res.is_succ) {
+        localStorage.setItem('curr_tken', res.data)
+        router.replace('/main')
+        return
+      }
+      ElMessage.error(res.msg)
     })
     .catch((err: any) => {
       console.log(err)
