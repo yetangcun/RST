@@ -285,8 +285,8 @@ const states = reactive({
 })
 
 const getPermissions = async () => {
-  // const res = await dftReq.reqIns.get('/api/system/Menu/GetUserMenuAsync')
-  // states.menus = res.data
+  const res = await dftReq.reqIns.get('/sys/user/permissions/{id}')
+  states.menus = res.data
 }
 
 const navClkHdl = (item: any) => {
@@ -372,7 +372,8 @@ const mdyPwd = () => {}
 const showPersonal = () => {}
 
 onMounted(async () => {
-  await getPermissions()
+  console.log(router)
+  // await getPermissions()
   new animalutil('pg_lft_nav', 211, 66)
 })
 </script>

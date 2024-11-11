@@ -2,6 +2,7 @@ use DataExtensionLib::{mysqlLib, pgsqlLib, mssqlLib, mongodbLib, clkhouseLib, da
 use crate::mdl::sysmdl::usermdl::{
     usrs,
     lginput,
+    lg_res,
     usr_page_input,
     usr_permissions
 };
@@ -12,14 +13,22 @@ use crate::mdl::basemdl::{
     res_pg
 };
 
-pub async fn dologin(usr:&str) -> String {
-    let sql = format!("select Passwd from sys_user where Account='{}'", usr);
-    let pwd = mysqlx::query_scalar(&sql).await;
-    match pwd {
-        Ok(pwd) => pwd,
+pub async fn dologin(usr:&str) -> (String, String) {
+    let sql = format!("select Id,Passwd from sys_user where Account='{}'", usr);
+    let res = mysqlx::query_lst::<lg_res>(&sql).await;
+    match res {
+        Ok(res) => {
+            let _lens = res.len();
+            println!("_lens:{}, {}", _lens, &sql);
+            if _lens == 0 {
+                return (String::from("-1"), String::from(""));
+            }
+            let f_res = res.get(0).unwrap();
+            (f_res.Id.clone(), f_res.Passwd.clone())
+        },
         Err(e) => {
             println!("err: {}", e);  // panic!("{}", e)
-            e.to_string()
+            (String::from(""), String::from(""))
         }
     }
 }

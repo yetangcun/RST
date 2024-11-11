@@ -18,6 +18,24 @@ pub struct lginput {
     pub code: String
 }
 
+#[derive(ToSchema,Serialize,FromRow)]
+pub struct lg_res {
+    /// 用户名
+    pub Id: String,
+
+    /// 密码
+    pub Passwd: String,
+}
+
+#[derive(ToSchema,Serialize)]
+pub struct lgoutput {
+    /// 用户名
+    pub tken: String,
+
+    /// 密码
+    pub uid: String,
+}
+
 /// 用户分页查询入参
 #[derive(ToSchema,Serialize,Deserialize)]
 pub struct usr_page_input {

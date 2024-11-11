@@ -88,8 +88,8 @@ const lgHdl = () => {
     .then((res: any) => {
       console.log(res)
       if (res.is_succ) {
-        localStorage.setItem('curr_tken', res.data)
-        router.replace('/main')
+        localStorage.setItem('curr_tken', res.data.tken)
+        router.replace({ path: '/main', query: { uid: res.data.uid } })
         return
       }
       ElMessage.error(res.msg)

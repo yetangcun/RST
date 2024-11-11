@@ -4,6 +4,7 @@ use utoipa::{ToSchema, IntoParams, OpenApi, openapi::OpenApiBuilder};
 use CommonExtensionLib::utils::{secutil, jwtutil};
 use crate::mdl::sysmdl::usermdl::{
     lginput,
+    lgoutput,
     usr_page_input,
     usr_permissions  
 };
@@ -24,19 +25,26 @@ const CURR_MD:&str = "/sys";
 )]
 #[post("/user/dologin")]
 pub async fn lghdl(req: web::Json<lginput>) -> Result<impl Responder> {
-    // HttpResponse::Ok().body(format!("congratulations:{0}, you've logined success!",req.usr))
     let usr = &req.usr;
     let pwd = secutil::md5_hash(&req.pwd);
-    let query_pwd = usrbll::dologin(usr).await; // 获取数据库中的密码
+    let login_res = usrbll::dologin(usr).await; // 获取数据库中的密码
 
-    println!("usr:{}, pwd:{}, query_pwd:{}", usr, pwd, query_pwd);
+    println!("usr:{}, pwd:{}, query_pwd:{}", usr, pwd, login_res.1);
 
-    if pwd != query_pwd { // 匹配失败, 则返回错误
-        let err_obj = resmdl::fail(400.to_string(), String::from("账号或密码错误"), String::from(""));
+    if pwd != login_res.1 { // 匹配失败, 则返回错误
+        let err_obj = resmdl::fail(
+            400.to_string(), 
+            String::from("账号或密码错误"), 
+            lgoutput { tken: String::from(""), uid: String::from("") }
+        );
         return Ok(web::Json(err_obj)); // actix_web::error::ErrorUnauthorized("账号或密码错误")
     }
 
-    let res_obj = resmdl::succ(200.to_string(), String::from("success"), jwtutil::create_tken());
+    let res_obj = resmdl::succ(
+        200.to_string(), 
+        String::from("success"), 
+        lgoutput { tken: jwtutil::create_tken(), uid: login_res.0 } 
+    );
     Ok(web::Json(res_obj))
 }
 
