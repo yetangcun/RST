@@ -7,9 +7,14 @@ use chrono::{NaiveDateTime};
 /// 登录入参
 #[derive(ToSchema,IntoParams,Deserialize,Serialize)]
 pub struct lginput {
+    /// 用户名
     // #[param(ignore)]
     pub usr: String,
+
+    /// 密码
     pub pwd: String,
+
+    /// 验证码
     pub code: String
 }
 
