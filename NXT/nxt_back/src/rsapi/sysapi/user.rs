@@ -32,10 +32,12 @@ pub async fn lghdl(req: web::Json<lginput>) -> Result<impl Responder> {
     println!("usr:{}, pwd:{}, query_pwd:{}", usr, pwd, query_pwd);
 
     if pwd != query_pwd { // 匹配失败, 则返回错误
-        return Err(actix_web::error::ErrorUnauthorized(query_pwd));
+        let err_obj = resmdl::fail(400.to_string(), String::from("账号或密码错误"), String::from(""));
+        return Ok(web::Json(err_obj)); // actix_web::error::ErrorUnauthorized("账号或密码错误")
     }
-    let tk_str = jwtutil::create_tken();
-    Ok(web::Json(tk_str))
+
+    let res_obj = resmdl::succ(200.to_string(), String::from("success"), jwtutil::create_tken());
+    Ok(web::Json(res_obj))
 }
 
 #[utoipa::path(

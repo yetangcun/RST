@@ -18,7 +18,6 @@ impl<T> resmdl<T> where T: Serialize {
             data
         }
     }
-
     pub fn fail(code: String, msg: String, data: T) -> resmdl<T> {
         resmdl {
             code,
@@ -30,13 +29,19 @@ impl<T> resmdl<T> where T: Serialize {
 }
 
 // 分页查询入参
-#[derive(ToSchema, Deserialize)]
+#[derive(ToSchema, Deserialize, Default)]
 pub struct req_pg<T> where T: Serialize  {
+    /// 页码
+    #[schema(default = 1, example = 1)]
     pub page: i32,
+    
+    /// 页面数
+    #[schema(default = 20, example = 20)]
     pub size: i32,
+
     pub params: T
  }
- 
+
  // 分页查询结果
  #[derive(ToSchema, Serialize)]
  pub struct res_pg<T> where T: Serialize  {
