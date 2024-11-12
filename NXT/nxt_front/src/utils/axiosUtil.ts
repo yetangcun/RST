@@ -1,7 +1,6 @@
 import axios from 'axios'
 import type { InternalAxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios'
 import type { AxiosReqConf } from './interceptorUtil'
-// import { Modal, message } from 'ant-design-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import router from '@/router'
 
@@ -15,9 +14,10 @@ class axiosReq {
     if (conf.interceptors == null || !conf.interceptors.requestInterceptorHandle)
       this.reqIns.interceptors.request.use(
         (req: InternalAxiosRequestConfig) => {
-          const token = localStorage.getItem('curraccesstken')
+          const token = localStorage.getItem('curr_tken')
           if (token) req.headers!.Authorization = `Bearer ${token}`
-          else if (req.url != 'api/system/User/LgHdleAsync') router.replace('/')
+          else if (req.url != 'no_auth/user/dologin') router.replace('/') // console.log() req.headers['Authorization']
+          // console.log(req.headers['Authorization'])
           return req
         },
         (err: any) => err
@@ -44,7 +44,7 @@ class axiosReq {
           }
 
           const newToken = res.headers['fresh_token']
-          if (newToken) localStorage.setItem('curraccesstken', newToken)
+          if (newToken) localStorage.setItem('curr_tken', newToken)
 
           return res.data
         },

@@ -154,7 +154,7 @@ import { dftReq } from '../utils/reqUtil'
 import { animalutil } from '../utils/animal'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-const router = useRouter()
+const router = useRouter() // 操作
 
 //#001f3c
 const states = reactive({
@@ -284,9 +284,17 @@ const states = reactive({
   ]
 })
 
-const getPermissions = async () => {
-  const res = await dftReq.reqIns.get('/sys/user/permissions/{id}')
-  states.menus = res.data
+const getPermissions = () => {
+  let uky = localStorage.getItem('curr_uky')
+  dftReq.reqIns
+    .get(`sys/user/permissions/${uky}`)
+    .then((res: any) => {
+      console.log(res)
+    })
+    .catch((err: any) => {
+      console.log(err)
+    })
+  // states.menus = res.data
 }
 
 const navClkHdl = (item: any) => {
@@ -369,11 +377,15 @@ const logoutHdl = () => {
     .catch(() => {})
 }
 const mdyPwd = () => {}
-const showPersonal = () => {}
+const showPersonal = () => {
+  const uky = localStorage.getItem('curr_uky')
+  dftReq.reqIns.get(`sys/user/${uky}`).then((res: any) => {
+    console.log(res)
+  })
+}
 
-onMounted(async () => {
-  console.log(router)
-  // await getPermissions()
+onMounted(() => {
+  getPermissions()
   new animalutil('pg_lft_nav', 211, 66)
 })
 </script>
