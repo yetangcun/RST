@@ -23,7 +23,8 @@ use rsapi::{
 
 #[actix_web::main]
 async fn main()->std::io::Result<()> { // println!("Hello, world!");
-    println!("WebAPI服务127.0.0.1:8086侦听启动!");
+    let server_url = "127.0.0.1";
+    println!("WebAPI服务{server_url}:8086侦听启动!");
     HttpServer::new(move || {
         // let cors = Cors::permissive();
         let _cors = Cors::default()
@@ -100,7 +101,7 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
             .service(get_permissions)
         )
     })
-    .bind(("127.0.0.1", 8086))?
+    .bind((server_url, 8086))?
     .run()
     .await
 }
