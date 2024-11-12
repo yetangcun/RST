@@ -11,7 +11,7 @@ use utoipa::{
     }
 };
 use actix_cors::Cors;
-use actix_web::{get, post, web, services, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, web, services, App, HttpResponse, HttpServer, Responder, http::header};
 
 use ext::{swag_ui::*, auth_ext::*};
 use rsapi::{
@@ -25,14 +25,17 @@ use rsapi::{
 async fn main()->std::io::Result<()> { // println!("Hello, world!");
     println!("WebAPI服务127.0.0.1:8086侦听启动!");
     HttpServer::new(move || {
-        let dfCors = Cors::default()
-        //.allow_any_origin() // 允许所有来源的请求
+        // let cors = Cors::permissive();
+        let _cors = Cors::default()
+        // .allow_any_origin()
+        // .allow_any_method()
+        // .allow_any_header()
         .allowed_origin("http://127.0.0.1:6111")
-        .allowed_methods(vec!["GET", "POST", "DELETE", "PUT"]) // 允许指定的HTTP方法 
-        .allowed_headers(
-            vec!["Authorization", "Content-Type", "Accept", 
-            "Access-Control-Allow-Origin", "Access-Control-Allow-Headers","Access-Control-Allow-Methods"]) // 允许更多CORS相关的请求头
-        .supports_credentials() // 允许携带认证信息(cookies等)
+        .allowed_methods(vec!["GET", "POST", "DELETE", "PUT", "OPTIONS"])  // 允许指定的HTTP方法 
+        .allowed_headers(vec!["Authorization", "Content-Type", "Accept", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers","Access-Control-Allow-Methods"]) // 允许更多CORS相关的请求头 
+        // .expose_headers(vec!["Authorization"])
+        .expose_headers(vec!["Authorization"])
+        // .supports_credentials() // 允许携带认证信息(cookies等)
         .max_age(3600); // 预检请求缓存时间
         // .allow_any_origin()
         // .allowed_origin("http://192.168.30.166")
@@ -47,7 +50,7 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
         // .max_age(3600);
 
         App::new()
-        .wrap(dfCors)
+        .wrap(_cors)
         .wrap(TkAuth)
         .service(web::scope("/no_auth")
            .service(lghdl) //.service(get_user)

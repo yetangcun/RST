@@ -1,12 +1,13 @@
 use std::io::Error;
-use actix_web::{get,post,web,App,HttpResponse,HttpServer,Responder,Result};
+use actix_web::{get,post,options,web,App,HttpResponse,HttpServer,Responder,Result};
 use utoipa::{ToSchema, IntoParams, OpenApi, openapi::OpenApiBuilder};
 use CommonExtensionLib::utils::{secutil, jwtutil};
 use crate::mdl::sysmdl::usermdl::{
     lginput,
     lgoutput,
     usr_page_input,
-    usr_permissions  
+    usr_permissions,
+    permissions_input
 };
 use crate::mdl::basemdl::{
     resmdl,
@@ -32,30 +33,31 @@ pub async fn lghdl(req: web::Json<lginput>) -> Result<impl Responder> {
     println!("usr:{}, pwd:{}, query_pwd:{}", usr, pwd, login_res.1);
 
     if pwd != login_res.1 { // 匹配失败, 则返回错误
-        let err_obj = resmdl::fail(
+        let err_mdl = resmdl::fail(
             400.to_string(), 
             String::from("账号或密码错误"), 
             lgoutput { tken: String::from(""), uid: String::from("") }
         );
-        return Ok(web::Json(err_obj)); // actix_web::error::ErrorUnauthorized("账号或密码错误")
+        return Ok(web::Json(err_mdl)); // actix_web::error::ErrorUnauthorized("账号或密码错误")
     }
 
-    let res_obj = resmdl::succ(
+    let res_mdl = resmdl::succ(
         200.to_string(), 
         String::from("success"), 
         lgoutput { tken: jwtutil::create_tken(), uid: login_res.0 } 
     );
-    Ok(web::Json(res_obj))
+    
+    Ok(web::Json(res_mdl))
 }
 
 #[utoipa::path(
     context_path = CURR_MD,
     responses(
-        (status = 200, description = "succ", body = String),
+        (status = 200, description = "succ", body = usr_permissions),
         (status = 400, description = "fail"))
 )]
 #[get("/user/permissions/{id}")]
-pub async fn get_permissions(id: web::Path<i32>) -> Result<impl Responder> {
+pub async fn get_permissions(id: web::Path<String>) -> Result<impl Responder> {
     let data = usr_permissions {
         tk: String::from("token")
     };

@@ -50,6 +50,11 @@ pub struct usr_permissions {
     pub tk: String
 }
 
+#[derive(ToSchema,Deserialize,Serialize)]
+pub struct permissions_input {
+    pub id: String
+}
+
 #[derive(
     Deserialize,
     Serialize,

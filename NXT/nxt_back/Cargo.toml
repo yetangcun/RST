@@ -11,10 +11,10 @@ CfgExtensionLib = {path = "../../Common/CfgExtensionLib"}
 DataExtensionLib = {path = "../../Common/DataExtensionLib"}
 CacheExtensionLib = {path = "../../Common/CacheExtensionLib"}
 CommonExtensionLib = {path = "../../Common/CommonExtensionLib"}
-serde = {version="1.0.213", features = ["derive"]}
+serde = {version="1.0.215", features = ["derive"]}
+serde_json = { version = "1.0.132", default-features = false, features = ["alloc"] }
 utoipa = {version="5.1.1", features = ["actix_extras"]}
 utoipa-swagger-ui = {version="8.0.2", features = ["actix-web"]}
 actix-cors = "0.7.0"
 sqlx = { version = "0.8.2", features = ["mysql", "sqlite", "chrono", "runtime-tokio", "tls-native-tls"] }
-serde_json = "1.0.132"
 
