@@ -50,10 +50,10 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
         println!("req api addr: {0}, {1}", req_pth, req_method);
 
         // 打印所有headers信息
-        println!("请求头信息:");
-        for (name, value) in req.headers().iter() {
-            println!("{}: {:?}", name, value);
-        }
+        // println!("请求头信息:");
+        // for (name, value) in req.headers().iter() {
+        //    println!("{}: {:?}", name, value);
+        // }
 
         if req_pth.contains("/no_auth/") || 
            req_pth.contains("/swagger-ui/") || 
@@ -98,8 +98,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
 
         let fut = self.nxt.call(req); // token校验通过，继续调用下一个服务
         Box::pin(async move {
-            let res = fut.await?;
-            println!("call fn end");
+            let res = fut.await?; // println!("call fn end");
             Ok(res)
         })
     }
