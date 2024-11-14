@@ -58,8 +58,8 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
         if req_pth.contains("/no_auth/") || 
            req_pth.contains("/swagger-ui/") || 
            req_pth.contains("/api-docs/") || 
-           req_pth.contains("/rsapi/") || 
-           req_method == "OPTIONS"  // 不需要校验token的情况 
+           req_pth.contains("/rsapi/")
+           || req_method == "OPTIONS"  // 不需要校验token的情况 
         {
             let rsfut = self.nxt.call(req);
             return Box::pin(async move {
