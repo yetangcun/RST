@@ -1,3 +1,3 @@
-pub mod rsmqtt;
-pub mod rskafka;
-pub mod rsrabbitmq;
+pub mod rs_mqtt;
+pub mod rs_kfk;
+pub mod rs_rabbitmq;
