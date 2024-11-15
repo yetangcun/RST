@@ -66,7 +66,7 @@ pub fn verify_tken(tken: &String) -> (bool, String) {
     // let real_tk = tken.get(7..).unwrap(); // 提取真实token串
     let real_tk = &tken[7..]; // 提取真实token串
     
-    println!("real token: {0}", real_tk);
+    // println!("real token: {0}", real_tk);
 
     let tken_data = decode::<Claims>(real_tk, &secu_key, &validt);
     match tken_data {

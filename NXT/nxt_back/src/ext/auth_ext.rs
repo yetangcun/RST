@@ -81,7 +81,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
             },
             Some(tk1) => {
                 let tk_sr:&str = tk1.to_str().unwrap();
-                println!("get req tk: {0}", tk_sr);
+                println!("req tk: {0}", tk_sr);
                 tk = tk_sr.to_string();
             }
         }
