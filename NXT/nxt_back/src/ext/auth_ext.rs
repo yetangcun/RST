@@ -47,7 +47,7 @@ where S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     fn call(&self, req: ServiceRequest) -> Self::Future {
         let req_pth:&str = req.path();
         let req_method:&str = req.method().as_str();
-        println!("req api addr: {0}, {1}", req_pth, req_method);
+        println!("req api: {0}, {1}", req_pth, req_method);
 
         // 打印所有headers信息
         // println!("请求头信息:");
