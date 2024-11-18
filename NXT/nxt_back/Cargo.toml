@@ -11,6 +11,7 @@ CfgExtensionLib = {path = "../../Common/CfgExtensionLib"}
 DataExtensionLib = {path = "../../Common/DataExtensionLib"}
 CacheExtensionLib = {path = "../../Common/CacheExtensionLib"}
 CommonExtensionLib = {path = "../../Common/CommonExtensionLib"}
+MQExtensionLib = {path = "../../Common/MQExtensionLib"}
 serde = {version="1.0.215", features = ["derive"]}
 serde_json = { version = "1.0.132", default-features = false, features = ["alloc"] }
 utoipa = {version="5.1.1", features = ["actix_extras"]}
