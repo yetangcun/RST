@@ -48,29 +48,41 @@ pub async fn query_lst<T>(sql:&str) ->Result<Vec<T>,Error>
 where
     T: for<'r> FromRow<'r, sqlx::mysql::MySqlRow> 
     + Send 
-    + Unpin,
+    + Unpin
 {
-    let pl = _init().await;
-    let mut ts:Vec<T> = Vec::new();
+    let pl = _init().await; // let mut ts:Vec<T> = Vec::new();
     let rws = sqlx::query_as::<_, T>(sql).fetch_all(&pl).await;
 
-    match rws {
-        Ok(rws) => {
-            for rw in rws {
-                ts.push(rw);
-            }
-        },
-        Err(e) => {
-            println!("err: {}", e);  // panic!("{}", e)
-            return Err(e);
-        }
-    }
-    Ok(ts)
-
-    // rws
+    Ok(rws.unwrap())
+    
+    // match rws {
+    //     Ok(rws) => {
+    //         for rw in rws {
+    //             ts.push(rw);
+    //         }
+    //     },
+    //     Err(e) => {
+    //         println!("err: {}", e);  // panic!("{}", e)
+    //         return Err(e);
+    //     }
+    // }
+    // Ok(ts)
 }
 
-pub async fn query_one<T:SqlxMysqlMp>(sql:&str) ->Result<T,Error> // 查询一条记录
+
+pub async fn query_one<T>(sql:&str) ->Result<T,Error> // 查询一条记录
+where
+    T: for<'r> FromRow<'r, sqlx::mysql::MySqlRow> 
+    + Send 
+    + Unpin
+{
+    let pl = _init().await;
+    let rw = sqlx::query_as::<_, T>(sql).fetch_one(&pl).await;
+    Ok(rw.unwrap())
+}
+
+
+pub async fn query_line<T:SqlxMysqlMp>(sql:&str) ->Result<T,Error> // 查询一条记录
 {
     let pl = _init().await;
     let rw = sqlx::query(sql).fetch_one(&pl).await.unwrap();
@@ -97,8 +109,7 @@ where
     + Send 
     + Unpin
 {
-    let pl = _init().await;
-    let mut ts:Vec<T> = Vec::new();
+    let pl = _init().await; // let mut ts:Vec<T> = Vec::new();
     let count = sqlx::query_scalar::<_, i32>(pgsql) // 获取总记录数
     .fetch_one(&pl)
     .await
@@ -108,24 +119,26 @@ where
     .fetch_all(&pl)
     .await;
 
-    match rws {
-        Ok(rws) => {
-            for rw in rws {
-                ts.push(rw);
-            }
-        },
-        Err(e) => {
-            println!("err: {}", e);  // panic!("{}", e)
-            return Err(e);
-        }
-    }
+    return Ok((count, rws.unwrap()));
+
+    // match rws {
+    //     Ok(rws) => {
+    //         for rw in rws {
+    //             ts.push(rw);
+    //         }
+    //     },
+    //     Err(e) => {
+    //         println!("err: {}", e);  // panic!("{}", e)
+    //         return Err(e);
+    //     }
+    // }
 
     // Ok(match count {
     //     Ok(count) => (count, ts), // rws.unwrap()
     //     Err(e) => panic!("{}", e)
     // })
 
-    Ok((count, ts))
+    // Ok((count, ts))
 }
 
 pub async fn do_query<T:DbrowMap<MySqlRow,Error>>(sql:&str) ->Result<Vec<T>,Error> // 查询满足条件的数据列表
@@ -151,16 +164,17 @@ pub async fn do_opt (sql:&str) -> Result<bool, Error> { // 执行sql语句，返
     .execute(&pl)
     .await;
 
-    match rs {
-        Ok(rst) => {
-            println!("Query succeeded: {:?}", rst);
-            return Ok(true);
-        },
-        Err(e) => {
-            println!("Query failed: {:?}", e);
-            return Ok(false);
-        }
-    }
+    Ok(rs.is_ok())
 
-    Ok(false)
+    // match rs {
+    //     Ok(rst) => {
+    //         println!("Query succeeded: {:?}", rst);
+    //         return Ok(true);
+    //     },
+    //     Err(e) => {
+    //         println!("Query failed: {:?}", e);
+    //         return Ok(false);
+    //     }
+    // }
+    // Ok(false)
 }

@@ -47,7 +47,19 @@ pub async fn get_user(id:i32) -> lginput {
     }
 }
 
-pub fn usr_opt () -> bool { true }
+pub async fn usr_opt (input:&lginput) -> bool { 
+    let time = chrono::Local::now(); // 获取当前时间
+    let _now = time.format("%y-%m-%d %H:%M:%S");
+    let sql = format!("insert into sys_user(Id,Account,Passwd,Status,IsDeleted,CreateTime,CreateUserId) values('{0}','{1}','{2}',1,0,'{3}','{4}');",99999991, input.usr, input.pwd, _now, 99999998);
+    let rs = mysqlx::do_opt(&sql).await;
+    match rs {
+        Ok(rs) => rs,
+        Err(e) => {
+            println!("err: {}", e);  // panic!("{}", e)
+            false
+        }
+    }
+}
 
 pub async fn get_by_pages(ipt:&req_pg<usr_page_input>) -> (i32, Vec<usrs>) {
     let mut whr = String::from("1=1");

@@ -16,7 +16,7 @@ use actix_web::{get, post, web, services, App, HttpResponse, HttpServer, Respond
 use ext::{swag_ui::*, auth_ext::*};
 use rsapi::{
     sysapi::{
-        user::{lghdl,get_user,get_permissions,get_by_pages}
+        user::{lghdl,get_user,get_permissions,get_by_pages,user_opt}
     }
 };
 
@@ -78,6 +78,7 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
         )
         .service( // 系统管理模块
             web::scope("/sys")
+            .service(user_opt)
             .service(get_user)
             .service(get_by_pages)
             .service(get_permissions)

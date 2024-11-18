@@ -118,7 +118,14 @@ pub async fn get_user(id: web::Path<i32>) -> Result<impl Responder> {
 )]
 #[post("/user/opt")]
 pub async fn user_opt(req: web::Json<lginput>) -> Result<impl Responder> {
-    let rs = usrbll::usr_opt();
-    let rs_obj = resmdl::succ(200.to_string(), String::from(""), rs);
-    Ok(web::Json(rs_obj))
+    let rs = usrbll::usr_opt(&req).await;
+    
+    if rs {
+        let rs_obj = resmdl::succ(200.to_string(), String::from(""), rs);
+        Ok(web::Json(rs_obj))
+    }
+    else {
+        let rs_obj = resmdl::fail(400.to_string(), String::from(""), rs);
+        Ok(web::Json(rs_obj))
+    }
 }
