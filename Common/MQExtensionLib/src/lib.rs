@@ -1,4 +1,4 @@
-pub mod rsmqs;
+pub mod mqs;
 
 
 pub fn add(left: usize, right: usize) -> usize {
