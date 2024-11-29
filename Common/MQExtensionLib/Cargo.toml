@@ -7,3 +7,5 @@ edition = "2021"
 lazy_static = "1.5.0"
 tokio = { version = "1.40.1", features = ["full"] }
 rdkafka = { version = "0.37.0", features = ["cmake-build"] }
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = { version = "1.0.133", default-features = false, features = ["alloc"] }
