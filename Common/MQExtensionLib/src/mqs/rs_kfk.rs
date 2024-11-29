@@ -36,9 +36,15 @@ impl KfkProducer {
     + Serialize 
     {
         let _prd = KFK_PRD.lock().await;
-        let topic = msg.topic;
-        let msg = serde_json::to_string(&msg.msg).unwrap();
-        _prd.send(FutureRecord::to(&topic).payload(&msg), Duration::from_secs(0)).await.unwrap();
+        let topic = msg.topic.clone();
+        let msg_json = serde_json::to_string(&msg.msg).unwrap();
+        _prd.send(
+            FutureRecord::<(), String>::to(&topic).
+            payload(&msg_json).
+            partition(msg.partition), 
+            Duration::from_secs(0)).
+            await.
+            unwrap();
     }
 }
 
