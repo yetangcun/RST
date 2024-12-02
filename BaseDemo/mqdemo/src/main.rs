@@ -5,8 +5,8 @@ use std::io;
 #[tokio::main]
 async fn main() {
 
-    mqs::rs_kfk::KfkConsumer::recv("192.168.30.111:9092", &["hyp_kfk_tpc"]).await;
-    // mqs::rs_kfk::KfkConsumer::recv("192.168.30.111:9092", &["test_topic"]);
+    mqs::rs_kfk::KfkConsumer::recv("192.168.3.101:9092", &["hyp_kfk_tpc"]).await;
+    // mqs::rs_kfk::KfkConsumer::recv("192.168.30.111:9092", &["hyp_kfk_tpc"]).await;
 
     println!("Hello, world!");
 
