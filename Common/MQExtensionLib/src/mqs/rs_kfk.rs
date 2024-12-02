@@ -4,8 +4,10 @@ use std::time::Duration;
 use serde::{Deserialize, Serialize};
 
 use rdkafka::error::KafkaResult;
-use rdkafka::config::ClientConfig;
+use rdkafka::client::ClientContext;
 use rdkafka::message::{Header,Message};
+use rdkafka::config::{ClientConfig, RDKafkaLogLevel};
+use rdkafka::topic_partition_list::TopicPartitionList;
 
 use rdkafka::producer::{FutureProducer,FutureRecord};
 
@@ -17,7 +19,6 @@ lazy_static! {
 }
 
 pub struct KfkProducer {
-    pub producer: FutureProducer,
 }
 impl KfkProducer {
     pub fn _init(kfk_server:&str) -> FutureProducer {
@@ -48,15 +49,63 @@ impl KfkProducer {
     }
 }
 
+struct CustomContext;
+
+impl ClientContext for CustomContext {}
+
+impl ConsumerContext for CustomContext {
+    fn pre_rebalance(&self, _: &BaseConsumer<Self>, rebalance: &Rebalance) {
+        // info!("Pre rebalance {:?}", rebalance);
+    }
+
+    fn post_rebalance(&self, _: &BaseConsumer<Self>, rebalance: &Rebalance) {
+        // info!("Post rebalance {:?}", rebalance);
+    }
+
+    fn commit_callback(&self, result: KafkaResult<()>, _offsets: &TopicPartitionList) {
+        // info!("Committing offsets: {:?}", result);
+    }
+}
+type LoggingConsumer = StreamConsumer<CustomContext>;
 pub struct KfkConsumer {
 }
 impl KfkConsumer {
-    pub fn new() -> Self {
-        KfkConsumer { }
-    }
+    pub async fn recv(brokers: &str, topic: &[&str]) {
+        let context = CustomContext;
 
-    pub fn recv(&self, topic: &str) -> String {
-        String::from("")
+        let consumer: LoggingConsumer = ClientConfig::new()
+        .set("group.id", "console-consumer-80757")
+        .set("bootstrap.servers", brokers) // "192.168.30.111:9092"
+        .set("enable.partition.eof", "false")
+        .set("session.timeout.ms", "6000")
+        .set("enable.auto.commit", "true")
+        //.set("auto.offset.reset", "earliest")
+        .set_log_level(RDKafkaLogLevel::Debug)
+        .create_with_context(context)
+        .expect("Consumer creation failed");
+
+        consumer.
+        subscribe(&topic.to_vec()).
+        expect("Can not subscribe to specified topic");
+
+        println!("Kfk consumer waiting for messages...");
+        loop {
+            match consumer.recv().await {
+                Err(e) => println!("Kafka error: {}", e),
+                Ok(m) => {
+                    // println!("Recvd Messages:");
+                    println!("key: {:?}, payload: {:?}, topic: {:?}, partition: {:?}, offset: {:?}, timestamp: {:?}",
+                        m.key(),
+                        m.payload_view::<str>().unwrap(),
+                        m.topic(),
+                        m.partition(),
+                        m.offset(),
+                        m.timestamp());
+                    
+                    consumer.commit_message(&m, CommitMode::Async).unwrap();
+                }
+            }
+        }
     }
 }
 
@@ -67,7 +116,7 @@ for<'a> Deserialize<'a>
 {
     pub partition: i32,
     pub topic: String,
-    pub msg_id: i64,
-    pub msg_type: i32,
+    // pub msg_id: i64, // 消息ID
+    // pub msg_tp: i32, // 消息类型
     pub msg: T
 }
