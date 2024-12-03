@@ -49,10 +49,10 @@ impl KfkProducer {
     }
 }
 
+
+/*---------------------------消费者-----------------------------------*/
 struct CustomContext;
-
 impl ClientContext for CustomContext {}
-
 impl ConsumerContext for CustomContext {
     fn pre_rebalance(&self, _: &BaseConsumer<Self>, rebalance: &Rebalance) {
         // info!("Pre rebalance {:?}", rebalance);
@@ -78,8 +78,7 @@ impl KfkConsumer {
         .set("bootstrap.servers", brokers) // "192.168.30.111:9092"
         .set("enable.partition.eof", "false")
         .set("session.timeout.ms", "6000")
-        .set("enable.auto.commit", "true")
-        //.set("auto.offset.reset", "earliest")
+        .set("enable.auto.commit", "true") //.set("auto.offset.reset", "earliest")
         .set_log_level(RDKafkaLogLevel::Debug)
         .create_with_context(context)
         .expect("Consumer creation failed");
@@ -93,10 +92,39 @@ impl KfkConsumer {
             match consumer.recv().await {
                 Err(e) => println!("Kafka error: {}", e),
                 Ok(m) => {
-                    // println!("Recvd Messages:");
-                    println!("key: {:?}, payload: {:?}, topic: {:?}, partition: {:?}, offset: {:?}, timestamp: {:?}",
+
+                    let payload = match m.payload_view::<str>() {
+                        None => "",
+                        Some(Ok(s)) => s,
+                        Some(Err(e)) => {
+                            println!("Error while deserializing message payload: {:?}", e);
+                            ""
+                        }
+                    };
+
+                    if payload.len() == 0 {
+                        continue;
+                    }
+
+                    let _msg:msg_mdl = serde_json::from_str::<msg_mdl>(payload).unwrap();  // m.payload_view::<str>().unwrap().unwrap()
+                    match _msg.msg_tp {
+                        1 => {
+                            let msg_data:usr_msg = serde_json::from_str::<usr_msg>(&_msg.msg).unwrap();
+                            println!("usr name: {:?}, ph: {:?}", msg_data.name, msg_data.ph);
+                        },
+                        _ => {
+                            println!("unknown msg_tp");
+                        }
+                    }
+                    // if _msg.msg_tp == 1 {
+                    //     let msg_data:usr_msg = serde_json::from_str::<usr_msg>(&_msg.msg).unwrap();
+                    //     println!("usr name: {:?}, ph: {:?}", msg_data.name, msg_data.ph);
+                    // }
+                    println!("key: {:?}, msg_id: {:?}, msg_tp: {:?}, msg: {:?}, topic: {:?}, partition: {:?}, offset: {:?}, timestamp: {:?}",
                         m.key(),
-                        m.payload_view::<str>().unwrap(),
+                        _msg.msg_id,
+                        _msg.msg_tp,
+                        _msg.msg, // m.payload_view::<str>().unwrap(),
                         m.topic(),
                         m.partition(),
                         m.offset(),
@@ -116,7 +144,20 @@ for<'a> Deserialize<'a>
 {
     pub partition: i32,
     pub topic: String,
-    // pub msg_id: i64, // 消息ID
-    // pub msg_tp: i32, // 消息类型
     pub msg: T
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct msg_mdl
+{
+    pub msg_id: i64, // 消息ID
+    pub msg_tp: i32, // 消息类型
+    pub msg: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct usr_msg
+{
+    pub name: String,
+    pub ph: String
 }
