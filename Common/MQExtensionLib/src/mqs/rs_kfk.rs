@@ -105,30 +105,45 @@ impl KfkConsumer {
                     if payload.len() == 0 {
                         continue;
                     }
+                    // let _msg:msg_mdl = serde_json::from_str::<msg_mdl>(payload).unwrap();  // m.payload_view::<str>().unwrap().unwrap()
+                    match serde_json::from_str::<msg_mdl>(payload) {
+                        Ok(msg) => {
+                            match msg.msg_tp {
+                                1 => {
+                                    match serde_json::from_str::<usr_msg>(&msg.msg) {
+                                        Ok(msg_data) => {
+                                            println!("usr name: {:?}, ph: {:?}", msg_data.name, msg_data.ph);
+                                        },
+                                        Err(e) => {
+                                            println!("Error while deserializing msg: {:?}", e);
+                                        }
+                                    }
+                                },
+                                _ => {
+                                    println!("unknown msg_tp");
+                                }
+                            }
+                            
+                            // if _msg.msg_tp == 1 {
+                            //     let msg_data:usr_msg = serde_json::from_str::<usr_msg>(&_msg.msg).unwrap();
+                            //     println!("usr name: {:?}, ph: {:?}", msg_data.name, msg_data.ph);
+                            // }
 
-                    let _msg:msg_mdl = serde_json::from_str::<msg_mdl>(payload).unwrap();  // m.payload_view::<str>().unwrap().unwrap()
-                    match _msg.msg_tp {
-                        1 => {
-                            let msg_data:usr_msg = serde_json::from_str::<usr_msg>(&_msg.msg).unwrap();
-                            println!("usr name: {:?}, ph: {:?}", msg_data.name, msg_data.ph);
+                            println!("key: {:?}, msg_id: {:?}, msg_tp: {:?}, msg: {:?}, topic: {:?}, partition: {:?}, offset: {:?}, timestamp: {:?}",
+                            m.key(),
+                            msg.msg_id,
+                            msg.msg_tp,
+                            msg.msg, // m.payload_view::<str>().unwrap(),
+                            m.topic(),
+                            m.partition(),
+                            m.offset(),
+                            m.timestamp());
                         },
-                        _ => {
-                            println!("unknown msg_tp");
+                        Err(e) => {
+                            println!("Error while deserializing message payload: {:?}", e);
+                            continue;
                         }
-                    }
-                    // if _msg.msg_tp == 1 {
-                    //     let msg_data:usr_msg = serde_json::from_str::<usr_msg>(&_msg.msg).unwrap();
-                    //     println!("usr name: {:?}, ph: {:?}", msg_data.name, msg_data.ph);
-                    // }
-                    println!("key: {:?}, msg_id: {:?}, msg_tp: {:?}, msg: {:?}, topic: {:?}, partition: {:?}, offset: {:?}, timestamp: {:?}",
-                        m.key(),
-                        _msg.msg_id,
-                        _msg.msg_tp,
-                        _msg.msg, // m.payload_view::<str>().unwrap(),
-                        m.topic(),
-                        m.partition(),
-                        m.offset(),
-                        m.timestamp());
+                    };
                     
                     consumer.commit_message(&m, CommitMode::Async).unwrap();
                 }
