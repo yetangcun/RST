@@ -84,7 +84,7 @@ impl KfkConsumer {
         .expect("Consumer creation failed");
 
         consumer.
-        subscribe(&topic.to_vec()).
+        subscribe(&topic.to_vec()).   // 指定要订阅的主题: 数组
         expect("Can not subscribe to specified topic");
 
         println!("Kfk consumer waiting for messages...");
