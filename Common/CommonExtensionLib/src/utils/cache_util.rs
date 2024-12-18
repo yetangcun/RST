@@ -42,7 +42,7 @@ pub mod cache_moka_mod {
     static CACHE_MOKA: Lazy<Cache<String, CacheValue>> = Lazy::new(|| {
         Cache::builder()
             .max_capacity(100000) // 设置最大容量为10万,如果不设置则是无限制
-            .time_to_live(Duration::from_secs(60)) // 设置过期时间为 60 秒
+            //.time_to_live(Duration::from_secs(60)) // 设置过期时间为 60 秒
             .build()
     });
     
@@ -91,11 +91,13 @@ pub mod cache_moka_mod {
         CACHE_MOKA.insert(key, cache_val).await;
     }
 
+    // 清空所有缓存
     pub fn clear() {
         CACHE_MOKA.invalidate_all();
     }
 
-    pub fn get_all() -> u64 {
+    // 获取缓存数
+    pub fn get_counts() -> u64 {
         CACHE_MOKA.entry_count()
     }
 }
