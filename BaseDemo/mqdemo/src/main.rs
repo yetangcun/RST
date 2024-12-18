@@ -1,5 +1,6 @@
 use MQExtensionLib::mqs::rs_kfk;
 use CommonExtensionLib::utils::cache_util;
+use CommonExtensionLib::utils::cache_util::{cache_moka};
 use MQExtensionLib::mqs::rs_kfk::{kfk_msg, msg_mdl};
 use std::io;
 
@@ -27,6 +28,14 @@ async fn main() {
     };
 
     println!("get local cache val: {:?}", cache_val);
+
+    cache_moka::set("ky2".to_string(), "vl2".to_string()).await;
+    let _val = cache_moka::get("ky2").await;
+    println!("get moka cache val2: {:?}", _val);
+
+    cache_moka::set_expire("ky3".to_string(), "vl3".to_string(), 10).await;
+    let _val1 = cache_moka::get("ky3").await;
+    println!("get moka cache val3: {:?}", _val1);
 }
 
 async fn prd_msg() {

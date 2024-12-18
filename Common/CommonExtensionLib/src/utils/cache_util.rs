@@ -24,7 +24,7 @@ pub fn get_str_cache(key: &str) -> Option<String> {
     // STR_CACHES.lock().unwrap().get(&key).map(|val| val.clone())
 }
 
-pub mod cache_moka_mod {
+pub mod cache_moka {
     use tokio;
     use std::future::Future;
     use moka::future::Cache;
