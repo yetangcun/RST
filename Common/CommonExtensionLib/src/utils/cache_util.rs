@@ -32,33 +32,70 @@ pub mod cache_moka_mod {
     use once_cell::sync::Lazy;
     use std::{sync::{Arc, Mutex}, collections::HashMap};
 
-    static CACHE_MOKA: Lazy<Cache<String, String>> = Lazy::new(|| {
+    // 添加一个包含值和过期时间的结构体
+    #[derive(Clone)]
+    struct CacheValue {
+        value: String,
+        expire_at: Option<u64>,
+    }
+
+    static CACHE_MOKA: Lazy<Cache<String, CacheValue>> = Lazy::new(|| {
         Cache::builder()
-            //.max_capacity(100000) // 设置最大容量为10万
-            //.time_to_live(Duration::from_secs(60)) // 设置 TTL 为 60 秒
+            .max_capacity(100000) // 设置最大容量为10万,如果不设置则是无限制
+            .time_to_live(Duration::from_secs(60)) // 设置过期时间为 60 秒
             .build()
     });
+    
+    pub async fn get(key: &str) -> Option<String> {
+        let cache = CACHE_MOKA.clone();
+        if let Some(cache_val) = cache.get(key).await {
+            // 检查是否设置了过期时间
+            if let Some(expire_at) = cache_val.expire_at {
+                let now = std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .unwrap()
+                    .as_secs();
 
-    pub struct CacheMoka {
+                // 如果已过期，删除并返回 None
+                if now > expire_at {
+                    cache.invalidate(key).await;
+                    return None;
+                }
+            }
+            return Some(cache_val.value);
+        }
+        None
+    }
+    
+    pub async fn set(key: String, val: String) {
+        let cache_val = CacheValue {
+            value: val,
+            expire_at: None,
+        };
+        CACHE_MOKA.insert(key, cache_val).await;
     }
 
-    impl CacheMoka {
-
-        pub async fn get(key: &str) -> Option<String> {
-            let cache = CACHE_MOKA.clone();
-            return cache.get(key).await;
-        }
-
-        pub async fn set(key: String, val: String){
-            CACHE_MOKA.insert(key, val).await;
-        }
-        
-        fn async_value<V>(value: V) -> impl Future<Output = V> 
-        where V: Send + 'static,
-        {
-            Box::pin(async move { value })
-        }
-
+    pub async fn del(key: String){
+        CACHE_MOKA.invalidate(&key).await;
     }
 
+    pub async fn set_expire(key: String, val: String, expire: u64) {
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        let cache_val = CacheValue {
+            value: val,
+            expire_at: Some(now + expire), // 计算过期时间点
+        };
+        CACHE_MOKA.insert(key, cache_val).await;
+    }
+
+    pub fn clear() {
+        CACHE_MOKA.invalidate_all();
+    }
+
+    pub fn get_all() -> u64 {
+        CACHE_MOKA.entry_count()
+    }
 }
