@@ -24,6 +24,7 @@ pub fn get_str_cache(key: &str) -> Option<String> {
     // STR_CACHES.lock().unwrap().get(&key).map(|val| val.clone())
 }
 
+// 定义一个缓存结构体
 pub mod cache_moka {
     use tokio;
     use std::future::Future;
@@ -46,6 +47,7 @@ pub mod cache_moka {
             .build()
     });
     
+    // 获取缓存
     pub async fn get(key: &str) -> Option<String> {
         let cache = CACHE_MOKA.clone();
         if let Some(cache_val) = cache.get(key).await {
@@ -67,6 +69,7 @@ pub mod cache_moka {
         None
     }
     
+    // 设置缓存
     pub async fn set(key: String, val: String) {
         let cache_val = CacheValue {
             value: val,
@@ -75,10 +78,12 @@ pub mod cache_moka {
         CACHE_MOKA.insert(key, cache_val).await;
     }
 
+    // 删除缓存
     pub async fn del(key: String){
         CACHE_MOKA.invalidate(&key).await;
     }
 
+    // 设置缓存并设置过期时间
     pub async fn set_expire(key: String, val: String, expire: u64) {
         let now = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
