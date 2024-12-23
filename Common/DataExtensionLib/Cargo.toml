@@ -6,11 +6,11 @@ edition = "2021"
 [dependencies]
 mysql = "25.0.1"  # mysql driver , "macros"
 sqlx = { version = "0.8.2", features = ["mysql", "sqlite", "runtime-tokio", "tls-native-tls"] }
-mongodb = "2.8.2" # mongodb driver
-clickhouse = "0.11.6" # clickhouse driver
-tiberius = "0.12.2"  # SQL Server
-tokio = { version = "1.40.0", features = ["full"] } # async runtime
-tokio-postgres = "0.7.11"  # postgres driver
-serde = { version = "1.0", features = ["derive"] }
-toml = "0.8.14"
+mongodb = "3.1.1" # mongodb driver
+clickhouse = "0.13.1" # clickhouse driver
+tiberius = "0.12.3"  # SQL Server
+tokio = { version = "1.42.0", features = ["full"] } # async runtime
+tokio-postgres = "0.7.12"  # postgres driver
+serde = { version = "1.0.216", features = ["derive"] }
+toml = "0.8.19"
 # rusqlite = { version = "0.31.0", features = ["bundled"] }  # sqlite driver

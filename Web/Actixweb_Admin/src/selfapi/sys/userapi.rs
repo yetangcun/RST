@@ -137,7 +137,7 @@ pub async fn add_usr(req: web::Json<userQuerySimple>) -> Result<impl Responder> 
 #[get("/sys/user/search")]
 pub async fn search() -> Result<impl Responder> {
 
-    let rs:Vec<userQuerySimple> = datasqlx::mysqlx::exe_query::<userQuerySimple>("select Id,Account,Passwd from sys_user").await.unwrap();
+    let rs:Vec<userQuerySimple> = datasqlx::mysqlx::do_query::<userQuerySimple>("select Id,Account,Passwd from sys_user").await.unwrap();
 
     Ok(web::Json(rs))
 }
