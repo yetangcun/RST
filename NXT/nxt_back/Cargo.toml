@@ -14,8 +14,8 @@ CommonExtensionLib = {path = "../../Common/CommonExtensionLib"}
 MQExtensionLib = {path = "../../Common/MQExtensionLib"}
 serde = {version="1.0.215", features = ["derive"]}
 serde_json = { version = "1.0.132", default-features = false, features = ["alloc"] }
-utoipa = {version="5.1.1", features = ["actix_extras"]}
-utoipa-swagger-ui = {version="8.0.2", features = ["actix-web"]}
+utoipa = {version="5.3.0", features = ["actix_extras"]}
+utoipa-swagger-ui = {version="8.1.0", features = ["actix-web"]}
 actix-cors = "0.7.0"
 sqlx = { version = "0.8.2", features = ["mysql", "sqlite", "chrono", "runtime-tokio", "tls-native-tls"] }
 
