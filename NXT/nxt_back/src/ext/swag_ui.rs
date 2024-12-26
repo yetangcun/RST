@@ -70,9 +70,11 @@ pub struct SysApiDoc;
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        dial_record::get_by_pages, 
+        dial_record::get_by_pgs, 
         dial_record::rcd_opt, 
         dial_record::get, 
+        dial_record::rcd_del,
+        dial_record::rcd_inserts
     ), 
     components(
         schemas(

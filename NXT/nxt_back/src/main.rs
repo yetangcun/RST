@@ -17,6 +17,9 @@ use ext::{swag_ui::*, auth_ext::*};
 use rsapi::{
     sysapi::{
         user::{lghdl,get_user,get_permissions,get_by_pages,user_opt}
+    },
+    blkapi::{
+        dial_record::{get_by_pgs,get,rcd_del,rcd_inserts,rcd_opt}
     }
 };
 
@@ -85,9 +88,11 @@ async fn main()->std::io::Result<()> { // println!("Hello, world!");
         )
         .service( // 黑名单管理模块
             web::scope("/blk")
-            .service(get_user)
-            .service(get_by_pages)
-            .service(get_permissions)
+            .service(get)
+            .service(rcd_del)
+            .service(rcd_opt)
+            .service(get_by_pgs)
+            .service(rcd_inserts)
         )
         .service( // AI智能模块
             web::scope("/ai")

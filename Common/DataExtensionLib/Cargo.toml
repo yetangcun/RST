@@ -7,7 +7,7 @@ edition = "2021"
 mysql = "25.0.1"  # mysql driver , "macros"
 sqlx = { version = "0.8.2", features = ["mysql", "sqlite", "runtime-tokio", "tls-native-tls"] }
 mongodb = "3.1.1" # mongodb driver
-clickhouse = "0.13.1" # clickhouse driver
+clickhouse = { version = "0.13.1", features = ["test-util"] } # clickhouse driver
 tiberius = "0.12.3"  # SQL Server
 tokio = { version = "1.42.0", features = ["full"] } # async runtime
 tokio-postgres = "0.7.12"  # postgres driver

@@ -1,5 +1,6 @@
 use std::error::Error;
 use clickhouse::{Client, Row};
+use clickhouse::sql::Identifier;
 use serde::{Deserialize, Serialize};
 
 pub struct ClkHouseClient {
@@ -8,7 +9,14 @@ pub struct ClkHouseClient {
 
 impl ClkHouseClient {
     pub fn new(db_url: &str) -> Self {
-        let client = Client::default().with_url(db_url); // db_url:http://localhost:8123
+        // 连接clickhouse的详细字符串示例，带账号密码和具体的数据库名称 
+        // 连接示例: http://default:xiaoxiao@localhost:8123/blkdb
+        // default: 账号
+        // xiaoxiao: 密码 
+        // localhost: 主机地址
+        // 8123: 端口号
+        // blkdb: 数据库名称
+        let client = Client::default().with_url(db_url); // db_url格式: http://username:password@localhost:8123/dbname
         ClkHouseClient { client }
     }
 
@@ -21,7 +29,7 @@ impl ClkHouseClient {
     }
 
     // 批量插入
-    pub async fn inserts<T>(&self, sql:&str, rows: Vec<T>) -> Result<(), Box<dyn Error>> 
+    pub async fn inserts<T>(&self, sql:&str, rows: Vec<T>) -> Result<bool, Box<dyn Error>> 
     where T: Row + Serialize,
     {
         let mut insert = self.client.insert(sql)?;
@@ -29,7 +37,7 @@ impl ClkHouseClient {
             insert.write(&row).await?;
         }
         insert.end().await?;
-        Ok(())
+        Ok(true)
     }
 
     // 更新
@@ -42,10 +50,10 @@ impl ClkHouseClient {
     }
 
     // 删除
-    pub async fn del(&self, sql:&str) -> Result<(), Box<dyn Error>>
+    pub async fn del(&self, sql:&str) -> Result<bool, Box<dyn Error>>
     {
         let _ = self.client.query(sql).execute().await?;
-        Ok(())
+        Ok(true)
     }
 
     // 查询列表
@@ -73,18 +81,27 @@ impl ClkHouseClient {
         
         // 构建分页SQL
         let page_sql = format!("{} LIMIT {} OFFSET {}", sql, sizes, offset);
-        let count_sql = format!("SELECT count(*) as total FROM ({}) as t", sql);
+        // let count_sql = format!("SELECT count(*) as total FROM ({}) as t", sql);
 
         // 获取总记录数
-        let total: i32 = self.client.query(&count_sql)
-            .fetch_one()
-            .await?;
+        // let total: i32 = self.client.query(&count_sql)
+        //     .fetch_one()
+        //     .await?;
 
         // 获取分页数据
-        let data: Vec<T> = self.client.query(&page_sql)
-            .fetch_all()
-            .await?;
+        // let data: Vec<T> = self.client.query(&page_sql)
+        //     .fetch_all()
+        //     .await?;
+        
+        println!("{}", &page_sql);
+        let data: Vec<T> = match self.client.query(&page_sql).fetch_all().await {
+            Ok(result) => result,
+            Err(e) => {
+                println!("分页查询失败: {}, 请检查URL是否正确,例如:http://default:xiaoxiao@192.168.30.111:8123", e);
+                return Err(Box::new(e));
+            }
+        };
 
-        Ok((total,data))
+        Ok((111,data))
     }
 }
