@@ -17,11 +17,17 @@ use actix_web::{get,post,web,App,Result,HttpResponse,HttpServer,Responder};
 use crate::mdl::{
     sysmdl::{
         usermdl
+    },
+    blkmdl::{
+        recordmdl
     }
 };
 use crate::rsapi::{
     sysapi::{
         user
+    },
+    blkapi::{
+        dial_record
     }
 };
 
@@ -64,14 +70,14 @@ pub struct SysApiDoc;
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        user::lghdl, 
-        user::get_user, 
-        user::get_by_pages, 
-        user::get_permissions
+        dial_record::get_by_pages, 
+        dial_record::rcd_opt, 
+        dial_record::get, 
     ), 
     components(
         schemas(
-            usermdl::lginput
+            recordmdl::dial_page_input,
+            recordmdl::dial_rcd_input
         )
     ),
     tags(
