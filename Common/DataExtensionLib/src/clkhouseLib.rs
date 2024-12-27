@@ -3,11 +3,11 @@ use clickhouse::{Client, Row};
 use clickhouse::sql::Identifier;
 use serde::{Deserialize, Serialize};
 
-pub struct ClkHouseClient {
+pub struct ClkHouseHdl {
     client: Client,
 }
 
-impl ClkHouseClient {
+impl ClkHouseHdl {
     pub fn new(db_url: &str) -> Self {
         // 连接clickhouse的详细字符串示例，带账号密码和具体的数据库名称 
         // 连接示例: http://default:xiaoxiao@localhost:8123/blkdb
@@ -16,8 +16,9 @@ impl ClkHouseClient {
         // localhost: 主机地址
         // 8123: 端口号
         // blkdb: 数据库名称
-        let client = Client::default().with_url(db_url); // db_url格式: http://username:password@localhost:8123/dbname
-        ClkHouseClient { client }
+        // let client = Client::default().with_url(db_url); // db_url格式: http://username:password@localhost:8123/dbname
+        let client = Client::default().with_url(format!("{}", db_url));
+        ClkHouseHdl { client }
     }
 
     // 插入
@@ -73,7 +74,7 @@ impl ClkHouseClient {
     }
 
     // 分页查询
-    pub async fn query_page<T>(&self, sql: &str, pages: u32, sizes: u32) -> Result<(i32,Vec<T>), Box<dyn Error>>
+    pub async fn query_page<T>(&self, sql: &str, pages: i32, sizes: i32) -> Result<(i32,Vec<T>), Box<dyn Error>>
     where T: for<'b> Deserialize<'b> + Serialize + Row,
     {
         // 计算偏移量
@@ -81,12 +82,22 @@ impl ClkHouseClient {
         
         // 构建分页SQL
         let page_sql = format!("{} LIMIT {} OFFSET {}", sql, sizes, offset);
-        // let count_sql = format!("SELECT count(*) as total FROM ({}) as t", sql);
+        let count_sql = format!("SELECT count(*) as total FROM ({}) as t", sql);
+
+        println!("{} \r\n {}", &page_sql, &count_sql);
 
         // 获取总记录数
         // let total: i32 = self.client.query(&count_sql)
         //     .fetch_one()
         //     .await?;
+        
+        let total: i32 = match self.client.query(&count_sql).fetch_one().await {
+            Ok(result) => result,
+            Err(e) => {
+                println!("总记录数查询失败: {}, \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@192.168.30.111:8123", e);
+                return Err(Box::new(e));
+            }
+        };
 
         // 获取分页数据
         // let data: Vec<T> = self.client.query(&page_sql)
@@ -97,11 +108,11 @@ impl ClkHouseClient {
         let data: Vec<T> = match self.client.query(&page_sql).fetch_all().await {
             Ok(result) => result,
             Err(e) => {
-                println!("分页查询失败: {}, 请检查URL是否正确,例如:http://default:xiaoxiao@192.168.30.111:8123", e);
+                println!("分页查询失败: {}, \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@192.168.30.111:8123", e);
                 return Err(Box::new(e));
             }
         };
 
-        Ok((111,data))
+        Ok((total,data))
     }
 }
