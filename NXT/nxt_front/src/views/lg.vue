@@ -115,10 +115,10 @@ const lgHdl = () => {
 .lg_panel {
   display: flex;
   padding: 60px 30px;
-  border-radius: 36px;
+  border-radius: 16px;
   flex-direction: column;
   background-color: white;
-  box-shadow: 0px 0px 19px 0px lightgray inset;
+  box-shadow: 0px 0px 19px 0px dodgerblue;
 }
 
 .panel_title {
