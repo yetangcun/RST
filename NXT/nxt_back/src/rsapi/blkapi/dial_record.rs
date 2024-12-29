@@ -14,6 +14,8 @@ use crate::mdl::basemdl::{
 };
 
 const CURR_MD:&str = "/blk";
+// const clk_url:&str = "http://default:xiaoxiao@192.168.30.111:8123/blklogs";
+const clk_url:&str = "http://default:xiaoxiao@192.168.3.101:8123/blklogs";
 
 // 分页查询
 #[utoipa::path(
@@ -24,10 +26,7 @@ const CURR_MD:&str = "/blk";
 )]
 #[post("/rcd/get_by_pgs")]
 pub async fn get_by_pgs(req:web::Json<req_pg<dial_page_input>>) -> Result<impl Responder> {
-
-    // let clk: ClkHouseHdl = ClkHouseHdl::new("http://default:xiaoxiao@192.168.30.111:8123/blklogs");
-    
-    let clk: ClkHouseHdl = ClkHouseHdl::new("http://default:xiaoxiao@192.168.30.111:8123/blklogs");
+    let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let sql = "select id,name,age,intime from my_table";
     let rs = clk.query_page::<dial_record>(sql, req.page, req.size).await.unwrap();
 
@@ -54,7 +53,7 @@ pub async fn get_by_pgs(req:web::Json<req_pg<dial_page_input>>) -> Result<impl R
 #[get("/rcd/{id}")]
 pub async fn get(id: web::Path<u64>) -> Result<impl Responder> {
     
-    let clk: ClkHouseHdl = ClkHouseHdl::new("http://192.168.30.111:8123");
+    let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let sql = format!("select * from my_table where id = {}", id);
     let rs = clk.query::<dial_record>(&sql).await.unwrap();
 
@@ -72,7 +71,7 @@ pub async fn get(id: web::Path<u64>) -> Result<impl Responder> {
 pub async fn rcd_opt(req:web::Json<dial_rcd_input>) -> Result<impl Responder> {
 
     let _now = chrono::Local::now().naive_local();
-    let clk: ClkHouseHdl = ClkHouseHdl::new("http://192.168.30.111:8123");
+    let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let mut sql = format!("insert into my_table values ({},'{}',{},'{}')", req.id, req.name, req.age, _now);
     if req.id > 0 {
         sql = format!("update my_table set name = '{}', age = {}, intime = '{}' where id = {}", req.name, req.age, _now, req.id);
@@ -101,7 +100,7 @@ pub async fn rcd_opt(req:web::Json<dial_rcd_input>) -> Result<impl Responder> {
 )]
 #[post("/rcd/inserts")]
 pub async fn rcd_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Responder> {
-    let clk: ClkHouseHdl = ClkHouseHdl::new("http://");
+    let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let mut sql = "insert into my_table values ";
     let mut rows = Vec::new();
     let _now = chrono::Local::now().naive_local();
@@ -127,7 +126,7 @@ pub async fn rcd_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Resp
 )]
 #[put("/rcd/del/{id}")]
 pub async fn rcd_del(id: web::Path<u64>) -> Result<impl Responder> {
-    let clk: ClkHouseHdl = ClkHouseHdl::new("http://192.168.30.111:8123");
+    let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let sql = format!("delete from my_table where id = {}", id);
     let rs = clk.del(&sql).await.unwrap();
     Ok(web::Json(rs))

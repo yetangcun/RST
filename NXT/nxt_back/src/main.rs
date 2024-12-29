@@ -23,6 +23,7 @@ use rsapi::{
     }
 };
 
+// 访问地址：http://127.0.0.1:8086/swagger-ui/index.html 或 http://127.0.0.1:8086/swagger-ui/
 
 #[actix_web::main]
 async fn main()->std::io::Result<()> { // println!("Hello, world!");
