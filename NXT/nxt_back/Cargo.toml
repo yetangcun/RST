@@ -12,7 +12,7 @@ DataExtensionLib = {path = "../../Common/DataExtensionLib"}
 CacheExtensionLib = {path = "../../Common/CacheExtensionLib"}
 CommonExtensionLib = {path = "../../Common/CommonExtensionLib"}
 MQExtensionLib = {path = "../../Common/MQExtensionLib"}
-serde = {version="1.0.216", features = ["derive"]}
+serde = {version="1.0.217", features = ["derive"]}
 serde_json = { version = "1.0.134", default-features = false, features = ["alloc"] }
 utoipa = {version="5.3.0", features = ["actix_extras"]}
 utoipa-swagger-ui = {version="8.1.0", features = ["actix-web"]}

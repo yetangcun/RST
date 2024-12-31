@@ -11,6 +11,7 @@ clickhouse = { version = "0.13.1", features = ["test-util"] } # clickhouse drive
 tiberius = "0.12.3"  # SQL Server
 tokio = { version = "1.42.0", features = ["full"] } # async runtime
 tokio-postgres = "0.7.12"  # postgres driver
-serde = { version = "1.0.216", features = ["derive"] }
+serde = { version = "1.0.217", features = ["derive"] }
 toml = "0.8.19"
+chrono = {version="0.4.39", features = ["serde"]}
 # rusqlite = { version = "0.31.0", features = ["bundled"] }  # sqlite driver

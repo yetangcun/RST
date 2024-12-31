@@ -15,7 +15,9 @@ use crate::mdl::basemdl::{
 
 const CURR_MD:&str = "/blk";
 // const clk_url:&str = "http://default:xiaoxiao@192.168.30.111:8123/blklogs";
-const clk_url:&str = "http://default:xiaoxiao@192.168.3.101:8123/blklogs";
+// const clk_url:&str = "http://default:xiaoxiao@192.168.3.101:8123/blklogs";
+// const clk_url:&str = "http://192.168.3.101:8123";
+const clk_url:&str = "http://192.168.30.111:8123";
 
 // 分页查询
 #[utoipa::path(

@@ -17,8 +17,8 @@ pub async fn _init() -> MySqlPool {
     // let db_url = format!("mysql://root:99999999@localhost:3306/dsweb");
     // MySqlPool::connect(&db_url).await.unwrap()
     
-    let db_url = "mysql://root:xiaoxiaojun@localhost:3306/blackweb";
-    // let db_url = "mysql://root:99999999@localhost:3306/dsweb";
+    // let db_url = "mysql://root:xiaoxiaojun@localhost:3306/blackweb";
+    let db_url = "mysql://root:99999999@localhost:3306/dsweb";
     MySqlPool::connect(db_url).await.unwrap()
 
     // 执行一个查询来创建表，这将隐式创建数据库文件x
