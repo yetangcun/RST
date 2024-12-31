@@ -1,4 +1,5 @@
 use std::error::Error;
+use chrono::{DateTime,Utc,Local, TimeZone};
 use clickhouse::{Client, Row};
 use clickhouse::sql::Identifier;
 use serde::{Deserialize, Serialize};
@@ -114,10 +115,10 @@ impl ClkHouseHdl {
         //     println!("row is: {row:?}");
         // }
 
-        let rst: String = self.client.query("select name from my_table limit 1")
-            .fetch_one::<String>()
-            .await?;
-        println!("name is: {rst:?}");
+        // let rst: NaiveDateTime = self.client.query("select intime from my_table limit 1")
+        //     .fetch_one::<NaiveDateTime>()
+        //     .await?;
+        // println!("name is: {rst:?}");
         
         println!("{}, {}", &pg_sql, total);
         let data: Vec<T> = match self.client.query(&pg_sql).fetch_all().await {

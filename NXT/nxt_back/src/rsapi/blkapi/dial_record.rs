@@ -12,6 +12,7 @@ use crate::mdl::basemdl::{
     req_pg,
     res_pg
 };
+use chrono::{DateTime,Utc,Local, TimeZone};
 
 const CURR_MD:&str = "/blk";
 // const clk_url:&str = "http://default:xiaoxiao@192.168.30.111:8123/blklogs";
@@ -105,7 +106,10 @@ pub async fn rcd_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Resp
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let mut sql = "insert into my_table values ";
     let mut rows = Vec::new();
-    let _now = chrono::Local::now().naive_local();
+    // let _now = chrono::Local::now().naive_local();
+    let _now:DateTime<Utc> = Utc::now();
+    // let tm_str = _now.to_string();
+    // println!("tm_str: {}", tm_str);
     for r in req.iter() {
         let row = dial_record {
             id: r.id,
