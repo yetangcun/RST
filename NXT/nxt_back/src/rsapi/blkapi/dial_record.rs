@@ -107,7 +107,7 @@ pub async fn rcd_opt(req:web::Json<dial_rcd_input>) -> Result<impl Responder> {
     }
 }
 
-// 批量写入拨打记录
+// 批量写入拨打记录 不适用表中有DateTime字段的情况
 #[utoipa::path(
     context_path = CURR_MD,
     responses(
