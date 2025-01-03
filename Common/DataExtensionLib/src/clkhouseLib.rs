@@ -1,5 +1,5 @@
 use std::error::Error;
-use chrono::{DateTime,Utc,Local, TimeZone};
+use chrono::{DateTime,Utc,Local, TimeZone,NaiveDateTime};
 use clickhouse::{Client, Row};
 use clickhouse::sql::Identifier;
 use serde::{Deserialize, Serialize};
@@ -54,8 +54,28 @@ impl ClkHouseHdl {
         // 完成写入
         match insert.end().await {
             Ok(_) => Ok(true),
-            Err(e) => Err(e.into())
+            Err(e) => {
+                println!("批量插入失败: ({}), \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@", e);
+                Err(Box::new(e))
+            }
         }
+    }
+
+    
+    // 批量插入, 用于数据表中有DateTime字段的情况
+    pub async fn batch_insert<T>(&self, sql:&str) -> Result<bool, Box<dyn Error>> 
+    where T: Row + Serialize,
+    {
+        // 批量写入
+        let insert = match self.client.query(sql).execute().await {
+            Ok(rst) => rst,
+            Err(e) => {
+                println!("批量插入失败: {}, \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@", e);
+                return Err(Box::new(e));
+            }
+        };
+
+        Ok(true)
     }
 
     // 批量插入
@@ -77,7 +97,10 @@ impl ClkHouseHdl {
         // 完成写入
         match insert.end().await {
             Ok(_) => Ok(true),
-            Err(e) => Err(e.into())
+            Err(e) => {
+                println!("批量插入失败: ({}), \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@", e);
+                Err(Box::new(e))
+            }
         }
     }
 
@@ -109,6 +132,18 @@ impl ClkHouseHdl {
     pub async fn query<T>(&self, sql: &str) -> Result<T, Box<dyn Error>> 
     where T: for<'b> Deserialize<'b> + Serialize + Row,
     {
+        // println!("单个查询SQL: {}", sql);
+        let rest = match self.client.query("select toString(intime) as tm from my_table limit 1").fetch_one::<String>().await {
+            Ok(rst) => {
+                println!("rst is: {:?}", rst);
+                rst
+            },
+            Err(e) => {
+                println!("查询失败: {}, \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@", e);
+                return Err(Box::new(e));
+            }
+        };
+
         let res: T = match self.client.query(sql).fetch_one().await {
             Ok(rst) => rst,
             Err(e) => {

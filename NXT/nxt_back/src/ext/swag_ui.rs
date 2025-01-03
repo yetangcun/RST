@@ -75,7 +75,8 @@ pub struct SysApiDoc;
         dial_record::rcd_opt, 
         dial_record::get, 
         dial_record::rcd_del,
-        dial_record::rcd_inserts
+        dial_record::rcd_inserts,
+        dial_record::rcd_batch_inserts
     ), 
     components(
         schemas(
