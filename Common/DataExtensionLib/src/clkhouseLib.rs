@@ -4,6 +4,7 @@ use clickhouse::{Client, Row};
 use clickhouse::sql::Identifier;
 use serde::{Deserialize, Serialize};
 
+use std::time::Duration;
 pub struct ClkHouseHdl {
     client: Client,
 }
@@ -30,23 +31,54 @@ impl ClkHouseHdl {
     }
 
     // 插入
-    pub fn insert<T>(&self, sql:&str) -> Result<(), Box<dyn Error>> 
+    pub async fn insert<T>(&self, sql:&str) -> Result<(), Box<dyn Error>> 
     where T: Row,
     {
-        let _ = self.client.insert::<T>(sql);
+        // 直接执行SQL语句而不是使用insert builder
+        let _ = self.client.query(sql).execute().await?;
+        println!("执行SQL: {}", sql);    
         Ok(())
     }
-
+    
     // 批量插入
-    pub async fn inserts<T>(&self, sql:&str, rows: Vec<T>) -> Result<bool, Box<dyn Error>> 
+    pub async fn add_batch<T>(&self, tb_name:&str, rows: Vec<T>) -> Result<bool, Box<dyn Error>> 
     where T: Row + Serialize,
     {
-        let mut insert = self.client.insert(sql)?;
+        // 批量写入
+        let mut insert = self.client.insert(tb_name)?;
+
         for row in rows {
             insert.write(&row).await?;
         }
-        insert.end().await?;
-        Ok(true)
+
+        // 完成写入
+        match insert.end().await {
+            Ok(_) => Ok(true),
+            Err(e) => Err(e.into())
+        }
+    }
+
+    // 批量插入
+    pub async fn inserts<T>(&self, tb_name:&str, rows: Vec<T>) -> Result<bool, Box<dyn Error>> 
+    where T: Row + Serialize,
+    {
+        // 批量写入
+        let mut insert = self.client.inserter(tb_name)?
+        .with_timeouts(Some(Duration::from_secs(5)), Some(Duration::from_secs(20)))
+        .with_max_rows(30000)
+        .with_max_bytes(10_485_760);
+
+        for row in rows {
+            insert.write(&row)?;
+        }
+
+        let stats = insert.commit().await?;
+        
+        // 完成写入
+        match insert.end().await {
+            Ok(_) => Ok(true),
+            Err(e) => Err(e.into())
+        }
     }
 
     // 更新
@@ -74,10 +106,17 @@ impl ClkHouseHdl {
     }
 
     // 查询单个
-    pub async fn query<T>(&self, query: &str) -> Result<T, Box<dyn Error>> 
+    pub async fn query<T>(&self, sql: &str) -> Result<T, Box<dyn Error>> 
     where T: for<'b> Deserialize<'b> + Serialize + Row,
     {
-        let res: T = self.client.query(query).fetch_one().await?;
+        let res: T = match self.client.query(sql).fetch_one().await {
+            Ok(rst) => rst,
+            Err(e) => {
+                println!("查询失败: {}, \r\n 请检查URL是否正确,例如:http://default:xiaoxiao@", e);
+                return Err(Box::new(e));
+            }
+        };
+
         Ok(res)
     }
 

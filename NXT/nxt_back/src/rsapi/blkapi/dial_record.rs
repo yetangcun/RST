@@ -12,7 +12,7 @@ use crate::mdl::basemdl::{
     req_pg,
     res_pg
 };
-use chrono::{DateTime,Utc,Local, TimeZone};
+use chrono::{Local, DateTime, TimeZone, Utc};
 
 const CURR_MD:&str = "/blk";
 // const clk_url:&str = "http://default:xiaoxiao@192.168.30.111:8123/blklogs";
@@ -30,7 +30,7 @@ const clk_url:&str = "http://192.168.30.111:8123";
 #[post("/rcd/get_by_pgs")]
 pub async fn get_by_pgs(req:web::Json<req_pg<dial_page_input>>) -> Result<impl Responder> {
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
-    let sql = "select id,name,age,intime from my_table";
+    let sql = "select id,name,age from my_tb";
     let rs = clk.query_page::<dial_record>(sql, req.page, req.size).await.unwrap();
 
     let mut pgs = 0;
@@ -57,7 +57,7 @@ pub async fn get_by_pgs(req:web::Json<req_pg<dial_page_input>>) -> Result<impl R
 pub async fn get(id: web::Path<u64>) -> Result<impl Responder> {
     
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
-    let sql = format!("select * from my_table where id = {}", id);
+    let sql = format!("select * from my_tb where id = {}", id);
     let rs = clk.query::<dial_record>(&sql).await.unwrap();
 
     Ok(web::Json(rs))
@@ -75,12 +75,18 @@ pub async fn rcd_opt(req:web::Json<dial_rcd_input>) -> Result<impl Responder> {
 
     let _now = chrono::Local::now().naive_local();
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
-    let mut sql = format!("insert into my_table values ({},'{}',{},'{}')", req.id, req.name, req.age, _now);
+    let mut sql = String::from(""); // req.id
     if req.id > 0 {
-        sql = format!("update my_table set name = '{}', age = {}, intime = '{}' where id = {}", req.name, req.age, _now, req.id);
+        sql = format!("update my_tb set name = '{}', age = {}, intime = '{}' where id = {}", req.name, req.age, _now, req.id);
+    } else {
+        let _id = clk.query::<i32>("select max(id) as id from my_tb").await.unwrap();
+        let rid = _id + 1;
+        sql = format!("insert into my_tb (id, name, age) values ({}, '{}', {})", rid, req.name, req.age);
     }
-    let rs = clk.insert::<dial_record>(&sql);
-    
+
+    println!("sql: {}", sql);
+    let rs = clk.insert::<dial_record>(&sql).await;
+
     match rs {
         Ok(_) => {
             let rs_obj = resmdl::succ(String::from("200"),String::from("succ"), true);
@@ -104,22 +110,23 @@ pub async fn rcd_opt(req:web::Json<dial_rcd_input>) -> Result<impl Responder> {
 #[post("/rcd/inserts")]
 pub async fn rcd_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Responder> {
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
-    let mut sql = "insert into my_table values ";
+    // let mut sql = "insert into my_tb (id,name,age) values";
     let mut rows = Vec::new();
+    // 使用time::OffsetDateTime::now_utc()获取当前时间
+    // let _now = OffsetDateTime::now_utc();
     // let _now = chrono::Local::now().naive_local();
-    let _now:DateTime<Utc> = Utc::now();
-    // let tm_str = _now.to_string();
-    // println!("tm_str: {}", tm_str);
+    // let _now = Local::now();
     for r in req.iter() {
         let row = dial_record {
             id: r.id,
             name: r.name.clone(),
-            age: r.age,
-            intime: _now
+            age: r.age
         };
         rows.push(row);
     }
-    let rs = clk.inserts::<dial_record>(sql, rows).await.unwrap();
+    
+    let rs = clk.add_batch::<dial_record>("my_tb", rows).await.unwrap();
+    // let rs = clk.inserts::<dial_record>("my_tb", rows).await.unwrap();
     Ok(web::Json(rs))
 }
 
@@ -133,7 +140,7 @@ pub async fn rcd_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Resp
 #[put("/rcd/del/{id}")]
 pub async fn rcd_del(id: web::Path<u64>) -> Result<impl Responder> {
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
-    let sql = format!("delete from my_table where id = {}", id);
+    let sql = format!("delete from my_tb where id = {}", id);
     let rs = clk.del(&sql).await.unwrap();
     Ok(web::Json(rs))
 }
