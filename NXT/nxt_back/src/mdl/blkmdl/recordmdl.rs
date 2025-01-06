@@ -27,15 +27,19 @@ pub struct dial_record_out {
 
 #[derive(Serialize, Deserialize, ToSchema)]
 pub struct dial_page_input {
+    #[schema(default = 0, example = 0)]  // 默认值和示例值 需要添加ToSchema
     pub id: u64,
     pub name: String,
+    #[schema(default = 0, example = 0)]
     pub age: i32,
     pub intime: String
 }
 
 #[derive(Serialize, Deserialize, ToSchema)]
 pub struct dial_rcd_input {
+    #[schema(default = 0, example = 0)]
     pub id: u64,
     pub name: String,
+    #[schema(default = 0, example = 0)]
     pub age: i32
 }

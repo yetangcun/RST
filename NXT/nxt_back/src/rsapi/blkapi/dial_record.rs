@@ -80,21 +80,20 @@ pub async fn rcd_opt(req:web::Json<dial_rcd_input>) -> Result<impl Responder> {
     .format("%Y-%m-%d %H:%M:%S")    // 这个格式是必须的,不然通过toDateTime()转换会变成1970-01-01 00:00:00
     .to_string();
 
-    println!("now: {}", _now);
+    // println!("now: {}", _now);
 
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
     let mut sql = String::from(""); // req.id
     if req.id > 0 {
-        sql = format!("update my_table set name = '{}', age = {}, intime = toDateTime('{}') where id = {}", req.name, req.age, _now, req.id);
+        // clickhouse中不支持直接更新PARTITION BY字段
+        sql = format!("ALTER TABLE my_table update name = '{}', age = {} where id = {}", req.name, req.age, req.id);  // 更新 , _now.clone(), intime = toDateTime('{}')
     } else {
         let _id = clk.query::<i32>("select max(id) as id from my_table").await.unwrap();
         let rid = _id + 1;
         sql = format!("insert into my_table (id, name, age, intime) values ({}, '{}', {}, toDateTime('{}'))", rid, req.name, req.age, _now);
+        
     }
-
-    println!("sql: {}", sql);
     let rs = clk.insert::<dial_record>(&sql).await;
-
     match rs {
         Ok(_) => {
             let rs_obj = resmdl::succ(String::from("200"),String::from("succ"), true);
@@ -149,7 +148,7 @@ pub async fn rcd_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Resp
         (status = 200, description = "succ", body = String),
         (status = 400, description = "fail"))
 )]
-#[post("/rcd/rcd_batch_inserts")]
+#[post("/rcd/batch_inserts")]
 pub async fn rcd_batch_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<impl Responder> {
 
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
@@ -183,7 +182,7 @@ pub async fn rcd_batch_inserts(req:web::Json<Vec<dial_rcd_input>>) -> Result<imp
 #[put("/rcd/del/{id}")]
 pub async fn rcd_del(id: web::Path<u64>) -> Result<impl Responder> {
     let clk: ClkHouseHdl = ClkHouseHdl::new(clk_url);
-    let sql = format!("delete from my_tb where id = {}", id);
+    let sql = format!("delete from my_table where id = {}", id);
     let rs = clk.del(&sql).await.unwrap();
     Ok(web::Json(rs))
 }

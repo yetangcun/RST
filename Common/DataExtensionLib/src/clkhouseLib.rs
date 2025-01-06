@@ -35,8 +35,15 @@ impl ClkHouseHdl {
     where T: Row,
     {
         // 直接执行SQL语句而不是使用insert builder
-        let _ = self.client.query(sql).execute().await?;
         println!("执行SQL: {}", sql);    
+        let _ = match self.client.query(sql).execute().await {
+            Ok(rst) => rst,
+            Err(e) => {
+                println!("插入失败: ({}), \r\n {} \r\n请检查URL是否正确,例如:http://default:xiaoxiao@", sql, e);
+                return Err(Box::new(e));
+            }
+        };
+
         Ok(())
     }
     

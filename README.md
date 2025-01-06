@@ -55,3 +55,8 @@ git branch -a 或 git branch -r
 mysql = "*"
 clickhouse_rs = "*"
 
+# Copilot 开启提问快捷键：问答：Ctrl+I， 聊天：Ctrl+Alt+I
+
+# 通义灵码快捷键：AI程序员：Ctrl+Shift+I，智能问答：Ctrl+Shift+L
+
+# Cursor 常用快捷键：Ctrl+L打开聊天界面  Ctrl+K调出咨询框
