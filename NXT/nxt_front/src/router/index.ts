@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import lg from '../views/lg.vue'
 import ai_routers from './mdl/ai_router'
 import sys_routers from './mdl/sys_router'
 import blk_routers from './mdl/blk_router'
@@ -13,7 +12,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'lg',
-      component: () => lg
+      component: () => import('../views/lg.vue')
     },
     {
       path: '/main',
