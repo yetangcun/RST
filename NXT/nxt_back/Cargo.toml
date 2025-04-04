@@ -3,6 +3,9 @@ name = "nxt_back"
 version = "0.1.0"
 edition = "2021"
 
+# [target.x86_64-unknown-linux-gnu]
+# linker = "x86_64-linux-gnu-gcc"
+
 [dependencies]
 actix-web = "4.9.0"
 chrono = {version="0.4.39", features = ["serde"]}
@@ -26,4 +29,3 @@ clickhouse = "0.13.1" # clickhouse driver
 # time = { version = "0.3.37", optional = true }
 # rand = { version = "0.8.5", features = ["small_rng"] }
 # time = { version = "0.3.37", features = ["macros", "rand"] }
-

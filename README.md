@@ -31,6 +31,24 @@ cargo new --lib libdemo
 # 编译打包
 cargo build --release
 
+# Debug 模式运行
+cargo run
+
+# Release 模式运行
+cargo run --release
+
+# 添加linux目标平台 步骤1
+rustup target add x86_64-unknown-linux-gnu
+rustup target add x86_64-linux-gnu-gcc
+
+# windows平台链接
+stable-x86_64-pc-windows-msvc
+stable-x86_64-pc-windows-gnu
+linux: rustup default stable-x86_64-pc-windows-gnu 或 windows: rustup default stable-x86_64-pc-windows-msvc  # 设置默认
+
+# 编译linux 目标平台的二进制Crate 步骤2
+cargo build --target=x86_64-unknown-linux-gnu --release
+
 # 创建本地分支
 git branch rstbase 或 git checkout -b rstbase
 
